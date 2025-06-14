@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +18,8 @@ import CropRecommendationInput from "./pages/CropRecommendationInput";
 import CropRecommendationResults from "./pages/CropRecommendationResults";
 import FertilizerRecommendationInput from "./pages/FertilizerRecommendationInput";
 import FertilizerRecommendationResults from "./pages/FertilizerRecommendationResults";
+import CropRecommendation from "./pages/CropRecommendation";
+import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 
 const queryClient = new QueryClient();
 
@@ -38,9 +39,9 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/crop-recommendation" element={<CropRecommendationInput />} />
+            <Route path="/crop-recommendation" element={<CropRecommendation />} />
             <Route path="/crop-recommendation/results" element={<CropRecommendationResults />} />
-            <Route path="/fertilizer-recommendation" element={<FertilizerRecommendationInput />} />
+            <Route path="/fertilizer-recommendation" element={<FertilizerRecommendation />} />
             <Route path="/fertilizer-recommendation/results" element={<FertilizerRecommendationResults />} />
             <Route path="/500" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
