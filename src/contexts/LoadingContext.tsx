@@ -1,32 +1,33 @@
+import React, { createContext, useContext, useState } from 'react';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface LoadingContextType {
-  hasSeenLoading: boolean;
-  setHasSeenLoading: (seen: boolean) => void;
-}
-
-const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
+const LoadingContext = createContext<{
+  isLoading: boolean;
+  completeLoading: () => void;
+}>({
+  isLoading: true,
+  completeLoading: () => {},
+});
 
 export const LoadingProvider = ({ children }: { children: React.ReactNode }) => {
-  const [hasSeenLoading, setHasSeenLoading] = useState(false);
-
-  useEffect(() => {
-    const seen = localStorage.getItem('seedsync-loading-seen');
-    if (seen) {
-      setHasSeenLoading(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return localStorage.getItem('seedsync-loading-seen') !== 'true';
+    } catch {
+      return true;
     }
-  }, []);
+  });
 
-  const updateSeenLoading = (seen: boolean) => {
-    setHasSeenLoading(seen);
-    if (seen) {
+  const completeLoading = () => {
+    setIsLoading(false);
+    try {
       localStorage.setItem('seedsync-loading-seen', 'true');
+    } catch (error) {
+      console.error('Failed to save loading state:', error);
     }
   };
 
   return (
-    <LoadingContext.Provider value={{ hasSeenLoading, setHasSeenLoading: updateSeenLoading }}>
+    <LoadingContext.Provider value={{ isLoading, completeLoading }}>
       {children}
     </LoadingContext.Provider>
   );

@@ -20,6 +20,8 @@ import FertilizerRecommendationInput from "./pages/FertilizerRecommendationInput
 import FertilizerRecommendationResults from "./pages/FertilizerRecommendationResults";
 import CropRecommendation from "./pages/CropRecommendation";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
+import YieldPrediction from "./pages/YieldPrediction";
+import CropRotationPlanner from "./pages/CropRotationPlanner";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
             <Route path="/crop-recommendation/results" element={<CropRecommendationResults />} />
             <Route path="/fertilizer-recommendation" element={<FertilizerRecommendation />} />
             <Route path="/fertilizer-recommendation/results" element={<FertilizerRecommendationResults />} />
+            <Route path="/yield-prediction" element={<YieldPrediction />} />
+            <Route path="/crop-rotation" element={<CropRotationPlanner />} />
             <Route path="/500" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
