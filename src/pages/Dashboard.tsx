@@ -4,14 +4,21 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { 
+  Sprout, 
+  User, 
+  MessageCircle, 
+  Info, 
+  Bug 
+} from 'lucide-react';
 
 const Dashboard = () => {
   const quickActions = [
-    { title: 'View Services', path: '/services', icon: '🌱' },
-    { title: 'Update Profile', path: '/profile', icon: '👤' },
-    { title: 'Contact Support', path: '/contact', icon: '💬' },
-    { title: 'About SeedSync', path: '/about', icon: 'ℹ️' },
-    { title: 'Pest & Disease', path: '/pest-disease', icon: '🐛' }
+    { title: 'View Services', path: '/services', icon: <Sprout className="w-10 h-10" /> },
+    { title: 'Update Profile', path: '/profile', icon: <User className="w-10 h-10" /> },
+    { title: 'Contact Support', path: '/contact', icon: <MessageCircle className="w-10 h-10" /> },
+    { title: 'About SeedSync', path: '/about', icon: <Info className="w-10 h-10" /> },
+    { title: 'Pest & Disease', path: '/pest-disease', icon: <Bug className="w-10 h-10" /> }
   ];
 
   return (
@@ -46,7 +53,9 @@ const Dashboard = () => {
                   <Link to={action.path}>
                     <Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-gray-100">
                       <CardContent className="p-6 text-center">
-                        <div className="text-4xl mb-4">{action.icon}</div>
+                        <div className="flex items-center justify-center w-full h-14 mb-4 text-gray-700">
+                          {action.icon}
+                        </div>
                         <h3 className="text-lg font-bold text-black">
                           {action.title}
                         </h3>

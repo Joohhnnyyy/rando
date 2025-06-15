@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,13 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { Link } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 
 const Contact = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <div className="pt-20">
+      <div className="pt-10">
         <motion.section 
           className="py-20 px-6"
           initial={{ opacity: 0 }}
@@ -21,13 +22,21 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <h1 className="text-5xl md:text-6xl font-bold text-black mb-8">
-                Get in Touch
-              </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Have questions about SeedSync? We'd love to hear from you.
-              </p>
+            <div className="flex items-center mb-16">
+              <Button asChild variant="ghost" className="w-fit">
+                <Link to="/dashboard" className="flex items-center text-black hover:text-gray-700">
+                  <ChevronLeft className="w-5 h-5 mr-1" />
+                  Back to Dashboard
+                </Link>
+              </Button>
+              <div className="flex-grow text-center">
+                <h1 className="text-5xl md:text-6xl font-bold text-black mb-8">
+                  Get in Touch
+                </h1>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  Have questions about SeedSync? We'd love to hear from you.
+                </p>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12">

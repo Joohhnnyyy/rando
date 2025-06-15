@@ -1,14 +1,15 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -16,27 +17,33 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: name,
+      });
+      
+      toast({
+        title: "Account Created Successfully!",
+        description: "Welcome to SeedSync! Your account has been created and you can now access all features.",
+      });
+      
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast({
+        title: "Signup Failed",
+        description: error.message || "Please try again with different credentials.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-      if (name && email && password) {
-        toast({
-          title: "Account Created Successfully!",
-          description: "Welcome to SeedSync! Your account has been created and you can now access all features.",
-        });
-      } else {
-        toast({
-          title: "Signup Failed",
-          description: "Please fill in all fields and try again.",
-          variant: "destructive",
-        });
-      }
-    }, 1000);
+    }
   };
 
   return (
@@ -66,6 +73,7 @@ const Signup = () => {
                   className="h-12"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </div>
               
@@ -78,6 +86,7 @@ const Signup = () => {
                   className="h-12"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </div>
               
@@ -90,6 +99,8 @@ const Signup = () => {
                   className="h-12"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
                 />
               </div>
               

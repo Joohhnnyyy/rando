@@ -1,41 +1,41 @@
-
 import { useState } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // Prevents page reload
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("User logged in:", userCredential.user);
+      navigate("/dashboard"); // Navigate to dashboard after successful login
+    } catch (error) {
+      console.error("Login failed:", error.message);
+      setError("Invalid email or password"); // Set error message for UI display
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      if (email && password) {
-        toast({
-          title: "Login Successful!",
-          description: "Welcome back to SeedSync. You've been successfully logged in.",
-        });
-      } else {
-        toast({
-          title: "Login Failed",
-          description: "Please check your email and password and try again.",
-          variant: "destructive",
-        });
-      }
-    }, 1000);
+    await handleLogin(e);
+    setIsLoading(false);
   };
 
   return (
@@ -51,41 +51,47 @@ const Login = () => {
         <Card className="w-full max-w-md shadow-2xl border-0">
           <CardHeader className="text-center pb-8">
             <CardTitle className="text-3xl font-bold text-black">Welcome Back</CardTitle>
-            <p className="text-gray-600 mt-2">Sign in to your SeedSync account</p>
+            <p className="text-gray-600 mt-2">Sign in to your account</p>
           </CardHeader>
           
           <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
+                <input
+                  type="email"
+                  id="email"
                   placeholder="Enter your email"
-                  className="h-12"
+                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12"
+                  required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
                 />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input 
-                  id="password" 
-                  type="password" 
+                <input
+                  type="password"
+                  id="password"
                   placeholder="Enter your password"
-                  className="h-12"
+                  className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12"
+                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
                 />
               </div>
+              
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               
               <Button 
                 type="submit" 
                 className="w-full h-12 bg-black text-white hover:bg-gray-800"
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing In...' : 'Sign In'}
+                {isLoading ? 'Signing in...' : 'Sign In'}
               </Button>
             </form>
             

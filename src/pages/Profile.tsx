@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -6,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { Link } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 
 const Profile = () => {
   return (
@@ -14,19 +15,27 @@ const Profile = () => {
       
       <div className="pt-20">
         <motion.section 
-          className="py-20 px-6"
+          className="py-10 px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-                Your Profile
-              </h1>
-              <p className="text-xl text-gray-600">
-                Manage your account information and preferences.
-              </p>
+            <div className="flex items-center mb-12">
+              <Button asChild variant="ghost" className="w-fit">
+                <Link to="/dashboard" className="flex items-center text-black hover:text-gray-700">
+                  <ChevronLeft className="w-5 h-5 mr-1" />
+                  Back to Dashboard
+                </Link>
+              </Button>
+              <div className="flex-grow text-center">
+                <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
+                  Your Profile
+                </h1>
+                <p className="text-xl text-gray-600">
+                  Manage your account information and preferences.
+                </p>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
