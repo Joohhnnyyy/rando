@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,8 @@ const Dashboard = () => {
     { title: 'View Services', path: '/services', icon: '🌱' },
     { title: 'Update Profile', path: '/profile', icon: '👤' },
     { title: 'Contact Support', path: '/contact', icon: '💬' },
-    { title: 'About SeedSync', path: '/about', icon: 'ℹ️' }
+    { title: 'About SeedSync', path: '/about', icon: 'ℹ️' },
+    { title: 'Pest & Disease', path: '/pest-disease', icon: '🐛' }
   ];
 
   return (

@@ -13,7 +13,7 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="h-screen bg-white">
         <LoadingPage onComplete={completeLoading} />
       </div>
     );
@@ -24,13 +24,15 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-white"
+      className="flex flex-col min-h-screen bg-white"
     >
       <Navigation />
-      <HeroSection />
-      <ServicesSection />
-      <MotivationSection />
-      <MakerSection />
+      <main className="flex-grow">
+        <HeroSection />
+        <ServicesSection />
+        <MotivationSection />
+        <MakerSection />
+      </main>
       <Footer />
     </motion.div>
   );

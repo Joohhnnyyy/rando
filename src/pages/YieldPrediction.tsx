@@ -252,9 +252,9 @@ const YieldPrediction = () => {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="md:col-span-2 flex justify-between items-center mt-8">
+              <div className="md:col-span-2 flex justify-between items-center mt-6">
                 <Button type="submit" className="bg-black text-white hover:bg-gray-800">
-                  Get Yield Prediction
+                  Predict Yield
                 </Button>
                 <Button variant="ghost" onClick={() => navigate('/services')}>
                   Back to Services

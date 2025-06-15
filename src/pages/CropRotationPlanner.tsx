@@ -361,9 +361,9 @@ const CropRotationPlanner = () => {
                 </ToggleGroup>
               </div>
 
-              <div className="lg:col-span-3 flex justify-between items-center mt-6">
-                <Button type="submit" className="bg-black text-white hover:bg-gray-800 transition-all duration-300 transform hover:scale-105">
-                  Get Crop Rotation Suggestion
+              <div className="md:col-span-2 lg:col-span-3 flex justify-between items-center mt-8">
+                <Button type="submit" className="bg-black text-white hover:bg-gray-800">
+                  Generate Rotation Plan
                 </Button>
                 <Button variant="ghost" onClick={() => navigate('/services')}>
                   Back to Services

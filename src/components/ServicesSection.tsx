@@ -1,9 +1,20 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { Leaf, Droplet, TrendingUp, RotateCw, Bug, Smartphone } from 'lucide-react';
+import { Leaf, Droplet, TrendingUp, RotateCw, Bug, Smartphone, Upload } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const services = [
+interface Service {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  image: string;
+  route: string;
+  hasSplineBackground?: boolean;
+  video?: string;
+}
+
+const services: Service[] = [
   {
     icon: Leaf,
     title: 'Crop Recommendation',
@@ -49,11 +60,10 @@ const services = [
     video: '/vid1.mp4'
   },
   {
-    icon: Smartphone,
+    icon: Upload,
     title: 'Image Upload',
-    description: 'Visual crop analysis and diagnostics.',
-    isUnderConstruction: true,
-    image: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop',
+    description: 'Upload crop images for AI-powered disease detection and analysis.',
+    image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop',
     route: '/image-upload'
   },
   {
@@ -68,15 +78,12 @@ const services = [
 const ServicesSection = () => {
   const navigate = useNavigate();
 
-  const handleServiceClick = (service: any) => {
-    if (service.isUnderConstruction) {
-      return; // Don't navigate for under construction services
-    }
+  const handleServiceClick = (service: Service) => {
     navigate(service.route);
   };
 
   return (
-    <section id="services" className="section-snap min-h-screen bg-white py-12 md:py-20">
+    <section id="services" className="bg-white py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <motion.div
           className="text-center mb-12 md:mb-16"
@@ -99,7 +106,7 @@ const ServicesSection = () => {
             return (
               <motion.div
                 key={service.title}
-                className={`relative overflow-hidden rounded-lg shadow-lg ${service.isUnderConstruction ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -117,8 +124,8 @@ const ServicesSection = () => {
                     Your browser does not support the video tag.
                   </video>
                 ) : (
-                  <img
-                    src={service.image}
+                  <img 
+                    src={service.image} 
                     alt={service.title}
                     className="w-full h-48 object-cover"
                   />

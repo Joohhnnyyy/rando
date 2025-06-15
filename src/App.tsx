@@ -21,7 +21,11 @@ import FertilizerRecommendationResults from "./pages/FertilizerRecommendationRes
 import CropRecommendation from "./pages/CropRecommendation";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 import YieldPrediction from "./pages/YieldPrediction";
+import PestDiseasePrediction from "./pages/PestDiseasePrediction";
 import CropRotationPlanner from "./pages/CropRotationPlanner";
+import IrrigationAdvice from "./pages/IrrigationAdvice";
+import GovernmentSchemes from "./pages/GovernmentSchemes";
+import ImageUpload from "./pages/ImageUpload";
 
 const queryClient = new QueryClient();
 
@@ -46,7 +50,11 @@ const App = () => (
             <Route path="/fertilizer-recommendation" element={<FertilizerRecommendation />} />
             <Route path="/fertilizer-recommendation/results" element={<FertilizerRecommendationResults />} />
             <Route path="/yield-prediction" element={<YieldPrediction />} />
+            <Route path="/pest-disease" element={<PestDiseasePrediction />} />
             <Route path="/crop-rotation" element={<CropRotationPlanner />} />
+            <Route path="/irrigation-advice" element={<IrrigationAdvice />} />
+            <Route path="/government-schemes" element={<GovernmentSchemes />} />
+            <Route path="/image-upload" element={<ImageUpload />} />
             <Route path="/500" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

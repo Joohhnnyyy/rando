@@ -1,10 +1,9 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 
 const MakerSection = () => {
   return (
-    <section className="section-snap min-h-screen bg-white flex items-center py-20">
+    <section className="bg-white flex items-center py-20">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
