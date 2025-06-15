@@ -41,7 +41,7 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
             <div className="space-y-2 text-gray-400 text-sm">
-              <p>Built with ❤️ by Ansh Johnson</p>
+              <p>Built by Ansh Johnson</p>
               <p>Empowering farmers worldwide</p>
             </div>
           </div>

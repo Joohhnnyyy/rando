@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const LoadingContext = createContext<{
   isLoading: boolean;
@@ -9,21 +9,21 @@ const LoadingContext = createContext<{
 });
 
 export const LoadingProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isLoading, setIsLoading] = useState(() => {
-    try {
-      return localStorage.getItem('seedsync-loading-seen') !== 'true';
-    } catch {
-      return true;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if this is the first visit
+    const hasVisited = localStorage.getItem('seedsync-first-visit');
+    if (!hasVisited) {
+      setIsLoading(true);
+      localStorage.setItem('seedsync-first-visit', 'true');
+    } else {
+      setIsLoading(false);
     }
-  });
+  }, []);
 
   const completeLoading = () => {
     setIsLoading(false);
-    try {
-      localStorage.setItem('seedsync-loading-seen', 'true');
-    } catch (error) {
-      console.error('Failed to save loading state:', error);
-    }
   };
 
   return (
