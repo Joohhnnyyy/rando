@@ -14,14 +14,61 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format } from 'date-fns';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { getWeatherData } from '@/utils/getWeather';
 
-// Mock weather data (replace with actual API call)
-const mockWeatherData = {
-  temperature: 28,
-  humidity: 65,
-  rainfallProbability: 20,
-  windSpeed: 12,
-};
+const locations = [
+  // North India
+  { value: 'Delhi', label: 'Delhi' },
+  { value: 'Noida', label: 'Noida' },
+  { value: 'Gurgaon', label: 'Gurgaon' },
+  { value: 'Lucknow', label: 'Lucknow' },
+  { value: 'Kanpur', label: 'Kanpur' },
+  { value: 'Agra', label: 'Agra' },
+  { value: 'Varanasi', label: 'Varanasi' },
+  { value: 'Chandigarh', label: 'Chandigarh' },
+  { value: 'Amritsar', label: 'Amritsar' },
+  { value: 'Jaipur', label: 'Jaipur' },
+  { value: 'Jodhpur', label: 'Jodhpur' },
+  { value: 'Udaipur', label: 'Udaipur' },
+  { value: 'Dehradun', label: 'Dehradun' },
+  { value: 'Shimla', label: 'Shimla' },
+  
+  // South India
+  { value: 'Bangalore', label: 'Bangalore' },
+  { value: 'Chennai', label: 'Chennai' },
+  { value: 'Hyderabad', label: 'Hyderabad' },
+  { value: 'Mysore', label: 'Mysore' },
+  { value: 'Coimbatore', label: 'Coimbatore' },
+  { value: 'Kochi', label: 'Kochi' },
+  { value: 'Thiruvananthapuram', label: 'Thiruvananthapuram' },
+  { value: 'Madurai', label: 'Madurai' },
+  { value: 'Vijayawada', label: 'Vijayawada' },
+  { value: 'Visakhapatnam', label: 'Visakhapatnam' },
+  
+  // West India
+  { value: 'Mumbai', label: 'Mumbai' },
+  { value: 'Pune', label: 'Pune' },
+  { value: 'Ahmedabad', label: 'Ahmedabad' },
+  { value: 'Surat', label: 'Surat' },
+  { value: 'Vadodara', label: 'Vadodara' },
+  { value: 'Nagpur', label: 'Nagpur' },
+  { value: 'Nashik', label: 'Nashik' },
+  { value: 'Goa', label: 'Goa' },
+  
+  // East India
+  { value: 'Kolkata', label: 'Kolkata' },
+  { value: 'Bhubaneswar', label: 'Bhubaneswar' },
+  { value: 'Patna', label: 'Patna' },
+  { value: 'Guwahati', label: 'Guwahati' },
+  { value: 'Ranchi', label: 'Ranchi' },
+  { value: 'Siliguri', label: 'Siliguri' },
+  
+  // Central India
+  { value: 'Bhopal', label: 'Bhopal' },
+  { value: 'Indore', label: 'Indore' },
+  { value: 'Raipur', label: 'Raipur' },
+  { value: 'Jabalpur', label: 'Jabalpur' },
+];
 
 const IrrigationAdvice = () => {
   const navigate = useNavigate();
@@ -49,6 +96,9 @@ const IrrigationAdvice = () => {
   } | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState('Noida');
+  const [weather, setWeather] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const cropOptions = ['Wheat', 'Rice', 'Maize', 'Cotton', 'Sugarcane', 'Vegetables', 'Fruits'];
   const soilOptions = ['Clay', 'Loam', 'Sandy', 'Silty', 'Peaty', 'Chalky'];
@@ -59,6 +109,9 @@ const IrrigationAdvice = () => {
       ...prev,
       [name]: value,
     }));
+    if (name === 'region') {
+      setSelectedLocation(value as string);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,34 +136,82 @@ const IrrigationAdvice = () => {
     }, 1500);
   };
 
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const data = await getWeatherData(selectedLocation);
+        if (data) {
+          setWeather(data);
+          setError(null); // Clear any previous errors
+        } else {
+          setError(`Unable to fetch weather data for ${selectedLocation}. Please try another location.`);
+        }
+      } catch (err) {
+        console.error('Error in weather fetch:', err);
+        setError(`Unable to fetch weather data for ${selectedLocation}. Please try another location.`);
+      }
+    };
+
+    fetchWeather();
+  }, [selectedLocation]);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="p-6 rounded-xl shadow-md bg-white max-w-md mx-auto mt-20">
+          <div className="text-red-500">{error}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      {/* Weather Banner - Add margin-top to prevent overlap with nav */}
+      {/* Weather Banner */}
       <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 mt-16">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
-            <div className="flex items-center">
-              <Thermometer className="h-5 w-5 mr-2" />
-              <span>{mockWeatherData.temperature}°C</span>
-            </div>
-            <div className="flex items-center">
-              <Droplet className="h-5 w-5 mr-2" />
-              <span>{mockWeatherData.humidity}%</span>
-            </div>
-            <div className="flex items-center">
-              <Cloud className="h-5 w-5 mr-2" />
-              <span>{mockWeatherData.rainfallProbability}%</span>
-            </div>
-            <div className="flex items-center">
-              <Wind className="h-5 w-5 mr-2" />
-              <span>{mockWeatherData.windSpeed} km/h</span>
-            </div>
+            {weather ? (
+              <>
+                <div className="flex items-center">
+                  <Thermometer className="h-5 w-5 mr-2" />
+                  <span>{weather.temperature}°C</span>
+                </div>
+                <div className="flex items-center">
+                  <Droplet className="h-5 w-5 mr-2" />
+                  <span>{weather.humidity}%</span>
+                </div>
+                <div className="flex items-center">
+                  <Cloud className="h-5 w-5 mr-2" />
+                  <span>{weather.description}</span>
+                </div>
+                <div className="flex items-center">
+                  <Wind className="h-5 w-5 mr-2" />
+                  <span>{weather.windSpeed} m/s</span>
+                </div>
+              </>
+            ) : error ? (
+              <div className="flex items-center text-white/90">
+                <Info className="h-5 w-5 mr-2" />
+                <span>{error}</span>
+              </div>
+            ) : (
+              <div className="animate-pulse flex items-center space-x-6">
+                <div className="h-5 w-20 bg-white/20 rounded"></div>
+                <div className="h-5 w-20 bg-white/20 rounded"></div>
+                <div className="h-5 w-20 bg-white/20 rounded"></div>
+                <div className="h-5 w-20 bg-white/20 rounded"></div>
+              </div>
+            )}
           </div>
-          <div className="text-sm">
-            Last updated: {new Date().toLocaleTimeString()}
-          </div>
+          {weather && (
+            <div className="text-sm">
+              Last updated: {weather.lastUpdated}
+            </div>
+          )}
         </div>
       </div>
 
@@ -154,8 +255,8 @@ const IrrigationAdvice = () => {
                         <SelectValue placeholder="Select crop type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {cropOptions.map(crop => (
-                          <SelectItem key={crop} value={crop.toLowerCase()}>
+                        {cropOptions.map((crop) => (
+                          <SelectItem key={crop} value={crop}>
                             {crop}
                           </SelectItem>
                         ))}
@@ -173,8 +274,8 @@ const IrrigationAdvice = () => {
                         <SelectValue placeholder="Select soil type" />
                       </SelectTrigger>
                       <SelectContent>
-                        {soilOptions.map(soil => (
-                          <SelectItem key={soil} value={soil.toLowerCase()}>
+                        {soilOptions.map((soil) => (
+                          <SelectItem key={soil} value={soil}>
                             {soil}
                           </SelectItem>
                         ))}
@@ -184,12 +285,21 @@ const IrrigationAdvice = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="region">Region / Location</Label>
-                    <Input
-                      id="region"
-                      placeholder="Enter your location"
+                    <Select
                       value={formData.region}
-                      onChange={(e) => handleChange('region', e.target.value)}
-                    />
+                      onValueChange={(value) => handleChange('region', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {locations.map((location) => (
+                          <SelectItem key={location.value} value={location.value}>
+                            {location.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="space-y-2">
@@ -202,8 +312,8 @@ const IrrigationAdvice = () => {
                         <SelectValue placeholder="Select growth stage" />
                       </SelectTrigger>
                       <SelectContent>
-                        {growthStageOptions.map(stage => (
-                          <SelectItem key={stage} value={stage.toLowerCase()}>
+                        {growthStageOptions.map((stage) => (
+                          <SelectItem key={stage} value={stage}>
                             {stage}
                           </SelectItem>
                         ))}
@@ -211,27 +321,19 @@ const IrrigationAdvice = () => {
                     </Select>
                   </div>
 
-                  <div className="space-y-4">
-                    <Label htmlFor="soilMoisture">
-                      Soil Moisture: {formData.soilMoisture}%
-                    </Label>
-                    <div className="relative">
-                      <Slider
-                        id="soilMoisture"
-                        min={0}
-                        max={100}
-                        step={1}
-                        value={[formData.soilMoisture]}
-                        onValueChange={(value) => handleChange('soilMoisture', value[0])}
-                        className="w-full"
-                      />
-                      <div className="absolute top-0 left-0 h-2 bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 rounded-full"
-                           style={{ width: `${formData.soilMoisture}%` }} />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="soilMoisture">Soil Moisture: {formData.soilMoisture}%</Label>
+                    <Slider
+                      value={[formData.soilMoisture]}
+                      onValueChange={(value) => handleChange('soilMoisture', value[0])}
+                      min={0}
+                      max={100}
+                      step={1}
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Last Irrigation Date</Label>
+                    <Label htmlFor="lastIrrigationDate">Last Irrigation Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -250,26 +352,15 @@ const IrrigationAdvice = () => {
                         <CalendarComponent
                           mode="single"
                           selected={formData.lastIrrigationDate}
-                          onSelect={(date) => date && handleChange('lastIrrigationDate', date)}
+                          onSelect={(date) => handleChange('lastIrrigationDate', date || new Date())}
                           initialFocus
                         />
                       </PopoverContent>
                     </Popover>
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <div className="flex items-center">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                        Generating Advice...
-                      </div>
-                    ) : (
-                      'Get Irrigation Advice'
-                    )}
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? 'Generating Advice...' : 'Get Irrigation Advice'}
                   </Button>
                 </form>
               </CardContent>
