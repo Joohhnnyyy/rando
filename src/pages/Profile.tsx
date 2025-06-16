@@ -5,10 +5,29 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import { signOut } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const confirmLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      handleLogout();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -135,6 +154,7 @@ const Profile = () => {
                       <Button 
                         variant="destructive" 
                         className="ml-auto"
+                        onClick={confirmLogout}
                       >
                         Logout
                       </Button>

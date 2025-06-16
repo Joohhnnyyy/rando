@@ -1,8 +1,10 @@
-
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft } from 'lucide-react';
 
 const About = () => {
   const features = [
@@ -28,9 +30,20 @@ const About = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <div className="pt-20">
+      <div className="pt-20 relative">
+        <Button
+          variant="ghost"
+          className="absolute top-2 left-4 z-10 flex items-center"
+          asChild
+        >
+          <Link to="/dashboard" className="flex items-center text-black hover:text-gray-700">
+            <ChevronLeft className="w-5 h-5 mr-1" />
+            Back
+          </Link>
+        </Button>
+
         <motion.section 
-          className="py-20 px-6"
+          className="pt-16 px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}

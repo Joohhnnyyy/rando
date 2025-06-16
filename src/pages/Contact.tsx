@@ -24,9 +24,9 @@ const Contact = () => {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center mb-16">
               <Button asChild variant="ghost" className="w-fit">
-                <Link to="/dashboard" className="flex items-center text-black hover:text-gray-700">
+                <Link to="/" className="flex items-center text-black hover:text-gray-700">
                   <ChevronLeft className="w-5 h-5 mr-1" />
-                  Back to Dashboard
+                  Back to Home
                 </Link>
               </Button>
               <div className="flex-grow text-center">

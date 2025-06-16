@@ -9,12 +9,17 @@ SeedSync Genesis is a modern web application designed to empower farmers with sm
 - **Real-time Results**: Get immediate feedback on crop health and potential issues
 - **Detailed Reports**: Comprehensive analysis reports with actionable insights
 
-### 2. Government Schemes & Subsidies
+### 2. Crop Recommendation
+- **AI-Powered Suggestions**: Get crop recommendations based on soil and climate parameters.
+- **Visual Feedback**: View images of recommended crops.
+- **Detailed Descriptions**: Understand crop requirements and suitability.
+
+### 3. Government Schemes & Subsidies
 - **Scheme Notifications**: Stay updated with the latest government agricultural schemes
 - **Subsidy Information**: Access detailed information about available subsidies
 - **Application Tracking**: Track your scheme applications and status
 
-### 3. Modern UI/UX
+### 4. Modern UI/UX
 - Responsive design that works on all devices
 - Smooth animations and transitions
 - Dark mode support
@@ -28,14 +33,18 @@ SeedSync Genesis is a modern web application designed to empower farmers with sm
 - **Icons**: Lucide React
 - **UI Components**: Custom components with Tailwind
 - **State Management**: React Context API
+- **Backend Framework**: FastAPI
+- **Machine Learning**: Scikit-learn, NumPy, Pandas
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
+- Python (v3.9 or higher)
+- pip
 
-### Installation
+### Frontend Installation & Run
 
 1. Clone the repository:
 ```bash
@@ -43,38 +52,88 @@ git clone https://github.com/yourusername/seed-sync-genesis.git
 cd seed-sync-genesis
 ```
 
-2. Install dependencies:
+2. Install frontend dependencies:
 ```bash
 npm install
 # or
 yarn install
 ```
 
-3. Start the development server:
+3. Start the frontend development server:
 ```bash
 npm run dev
 # or
 yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+4. Open [http://localhost:5173](http://localhost:5173) (or the port specified by your Vite dev server) in your browser.
+
+### Backend Setup & Run
+
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+
+2. Create a Python virtual environment and activate it:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+```
+
+3. Install backend dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Train the Machine Learning Model (required once to generate .pkl files):
+```bash
+python train_model.py
+```
+
+5. Start the backend API server:
+```bash
+uvicorn main:app --reload
+```
+
+The backend server will start at `http://localhost:8000`.
 
 ## Project Structure
 
 ```
-src/
-├── components/         # React components
-│   ├── HeroSection.tsx
-│   ├── ServicesSection.tsx
-│   ├── MotivationSection.tsx
-│   ├── MakerSection.tsx
-│   ├── SchemeNotifier.tsx
-│   └── ImageUpload.tsx
-├── styles/            # Global styles
-│   └── index.css
-├── types/            # TypeScript type definitions
-├── utils/            # Utility functions
-└── App.tsx          # Main application component
+SeedSync/
+├── public/                     # Static assets
+├── src/                        # Frontend source code
+│   ├── assets/
+│   │   └── crop_images/        # (Optional) Local crop images
+│   ├── components/             # Reusable React components
+│   │   └── CropPredictForm.jsx # (Note: Logic moved to CropRecommendation.tsx)
+│   ├── context/                # React Context APIs (e.g., AuthContext.tsx)
+│   ├── pages/                  # Main application pages
+│   │   └── CropRecommendation.tsx # Crop recommendation page
+│   ├── styles/                 # Global styles
+│   ├── utils/                  # Utility functions
+│   └── App.tsx                 # Main application component
+├── backend/                    # FastAPI Backend
+│   ├── models/                 # Trained ML models (.pkl files)
+│   │   ├── crop_model.pkl
+│   │   └── label_encoder.pkl
+│   ├── routes/                 # API route definitions
+│   │   └── crop_prediction.py  # Crop prediction endpoint
+│   ├── main.py                 # FastAPI application entry point
+│   ├── requirements.txt        # Python dependencies
+│   └── train_model.py          # Script to train and save ML model
+├── Crop_recommendation.csv     # Dataset for crop prediction model
+├── node_modules/
+├── package.json
+├── package-lock.json
+├── vite.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+├── postcss.config.js
+├── .gitignore
+├── README.md                   # This file
+└── ... other config files
 ```
 
 ## Component Details
@@ -110,6 +169,11 @@ src/
 - Analysis results display
 - Responsive design with drag-and-drop support
 
+### CropRecommendation (New/Updated)
+- Form for inputting soil and climate data.
+- Sends data to backend API for crop prediction.
+- Displays predicted crop name, image, and detailed description.
+
 ## Features in Detail
 
 ### Image Upload & Analysis
@@ -125,6 +189,11 @@ src/
 - Detailed scheme information
 - Application status tracking
 - Regular updates
+
+### Crop Recommendation (New)
+- Integrates with FastAPI backend for ML-powered predictions.
+- Provides data input fields for N, P, K, temperature, humidity, pH, and rainfall.
+- Fetches and displays a predicted crop name, a dynamic image, and a detailed description of the crop.
 
 ## Configuration
 

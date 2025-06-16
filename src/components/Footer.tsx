@@ -1,14 +1,26 @@
-
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Footer = () => {
+  const { user } = useAuth();
+
+  const scrollToMotivation = () => {
+    const motivationSection = document.getElementById('motivation-section');
+    if (motivationSection) {
+      motivationSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const footerLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
+    ...(user ? [
+      { name: 'Services', path: '/services' },
+      { name: 'Dashboard', path: '/dashboard' },
+      { name: 'Profile', path: '/profile' }
+    ] : []),
     { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Profile', path: '/profile' }
+    { name: 'Our Motivation', onClick: scrollToMotivation },
+    { name: 'Contact', path: '/contact' }
   ];
 
   return (
@@ -27,13 +39,23 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <div className="grid grid-cols-2 gap-2">
               {footerLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                >
-                  {link.name}
-                </Link>
+                link.onClick ? (
+                  <button
+                    key={link.name}
+                    onClick={link.onClick}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm text-left"
+                  >
+                    {link.name}
+                  </button>
+                ) : (
+                  <Link
+                    key={link.name}
+                    to={link.path}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+                  >
+                    {link.name}
+                  </Link>
+                )
               ))}
             </div>
           </div>

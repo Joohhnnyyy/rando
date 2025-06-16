@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Leaf, Droplet, TrendingUp, RotateCw, Bug, Smartphone, Upload } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Service {
   icon: LucideIcon;
@@ -77,8 +79,19 @@ const services: Service[] = [
 
 const ServicesSection = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
 
   const handleServiceClick = (service: Service) => {
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to access our services.",
+        variant: "destructive",
+      });
+      navigate('/login');
+      return;
+    }
     navigate(service.route);
   };
 
