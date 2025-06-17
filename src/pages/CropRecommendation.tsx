@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Leaf, Thermometer, CloudRain, Droplet, Sun, Sprout, Wind } from 'lucide-react';
+import { Leaf, Thermometer, CloudRain, Droplet, Sun, Sprout, Wind, FlaskConical, LandPlot, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import axios from 'axios';
@@ -77,19 +79,24 @@ const cropDescriptions = {
 
 const CropRecommendation = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     soilType: '',
-    pHLevel: '',
-    nitrogen: '',
-    phosphorus: '',
-    potassium: '',
-    temperature: '',
-    humidity: '',
-    rainfall: '',
+    pHLevel: 6.5,
+    nitrogen: 50,
+    phosphorus: 25,
+    potassium: 70,
+    temperature: 25,
+    humidity: 75,
+    rainfall: 120,
   });
   const [result, setResult] = useState("");
   const [cropImageUrl, setCropImageUrl] = useState("");
   const [cropDescription, setCropDescription] = useState("");
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [sliderActive, setSliderActive] = useState<string | null>(null);
+  // Store refs for each input field
+  const inputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -97,215 +104,256 @@ const CropRecommendation = () => {
       ...prev,
       [name]: value,
     }));
+    setFocusedField(name);
+  };
+
+  const handleBlur = () => {
+    setFocusedField(null);
+  };
+
+  const handleSliderChange = (name: string, value: number[]) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value[0],
+    }));
   };
 
   const handleSelectChange = (name: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData(prev => {
+      // Only soilType is a string, all others are numbers
+      if (name === 'soilType') {
+        return { ...prev, [name]: value };
+      } else {
+        return { ...prev, [name]: Number(value) };
+      }
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     setResult("");
     setCropImageUrl("");
     setCropDescription("");
 
     try {
       const res = await axios.post("http://localhost:8000/api/predict-crop", {
-        N: parseFloat(formData.nitrogen),
-        P: parseFloat(formData.phosphorus),
-        K: parseFloat(formData.potassium),
-        temperature: parseFloat(formData.temperature),
-        humidity: parseFloat(formData.humidity),
-        ph: parseFloat(formData.pHLevel),
-        rainfall: parseFloat(formData.rainfall),
+        N: parseFloat(formData.nitrogen.toString()),
+        P: parseFloat(formData.phosphorus.toString()),
+        K: parseFloat(formData.potassium.toString()),
+        temperature: parseFloat(formData.temperature.toString()),
+        humidity: parseFloat(formData.humidity.toString()),
+        ph: parseFloat(formData.pHLevel.toString()),
+        rainfall: parseFloat(formData.rainfall.toString()),
       });
       const predictedCrop = res.data.predicted_crop.toLowerCase();
       setResult(predictedCrop);
       setCropImageUrl(cropImages[predictedCrop] || "");
       setCropDescription(cropDescriptions[predictedCrop] || "");
-
     } catch (err) {
       alert("Prediction failed. Please ensure all fields are filled correctly and the backend server is running.");
       console.error("Prediction error:", err);
       setResult("");
       setCropImageUrl("");
       setCropDescription("");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
       <Navigation />
-      <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <Leaf className="mx-auto h-16 w-16 text-green-600 mb-4" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Crop Recommendation</h1>
-          <p className="text-gray-600 text-lg">Get AI-powered crop suggestions based on your soil and climate conditions</p>
+          <div className="flex items-center justify-center gap-3 mb-2">
+            <Leaf className="h-10 w-10 text-green-600" />
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Smart Crop Recommendation</h1>
+          </div>
+          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
+            Enter your soil and climate data to get a personalized crop suggestion powered by machine learning.
+          </p>
         </motion.div>
-
-        <Card className="w-full max-w-4xl shadow-xl rounded-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold flex items-center">
-              <Leaf className="mr-2" /> Soil & Climate Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Label htmlFor="soilType">Soil Type</Label>
-                  <Select name="soilType" onValueChange={(value) => handleSelectChange('soilType', value)}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select soil type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="loamy">Loamy</SelectItem>
-                      <SelectItem value="sandy">Sandy</SelectItem>
-                      <SelectItem value="clay">Clay</SelectItem>
-                      <SelectItem value="silty">Silty</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="pHLevel">pH Level (0-14)</Label>
-                  <Input
-                    type="number"
-                    id="pHLevel"
-                    name="pHLevel"
-                    value={formData.pHLevel}
-                    onChange={handleChange}
-                    placeholder="e.g., 6.5"
-                    min="0"
-                    max="14"
-                    step="0.1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="nitrogen">Nitrogen (N) - mg/kg</Label>
-                  <Input
-                    type="number"
-                    id="nitrogen"
-                    name="nitrogen"
-                    value={formData.nitrogen}
-                    onChange={handleChange}
-                    placeholder="e.g., 50"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phosphorus">Phosphorus (P) - mg/kg</Label>
-                  <Input
-                    type="number"
-                    id="phosphorus"
-                    name="phosphorus"
-                    value={formData.phosphorus}
-                    onChange={handleChange}
-                    placeholder="e.g., 25"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="potassium">Potassium (K) - mg/kg</Label>
-                  <Input
-                    type="number"
-                    id="potassium"
-                    name="potassium"
-                    value={formData.potassium}
-                    onChange={handleChange}
-                    placeholder="e.g., 70"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="temperature">Temperature (°C)</Label>
-                  <Input
-                    type="number"
-                    id="temperature"
-                    name="temperature"
-                    value={formData.temperature}
-                    onChange={handleChange}
-                    placeholder="e.g., 25"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="humidity">Humidity (%)</Label>
-                  <Input
-                    type="number"
-                    id="humidity"
-                    name="humidity"
-                    value={formData.humidity}
-                    onChange={handleChange}
-                    placeholder="e.g., 75"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="rainfall">Rainfall (mm)</Label>
-                  <Input
-                    type="number"
-                    id="rainfall"
-                    name="rainfall"
-                    value={formData.rainfall}
-                    onChange={handleChange}
-                    placeholder="e.g., 120"
-                    required
-                  />
-                </div>
-                <div className="md:col-span-2 flex justify-between items-center mt-6">
-                  <Button type="submit" className="bg-black text-white hover:bg-gray-800">
-                    Get Recommendations
-                  </Button>
-                  <Button variant="ghost" onClick={() => navigate('/services')}>
-                    Back to Services
-                  </Button>
-                </div>
-              </form>
-
-              <div className="flex flex-col items-center justify-center space-y-4">
-                {result && (
-                  <div className="text-center">
-                    <div className="mt-4 text-lg text-green-700">
-                      Recommended Crop: <strong className="text-green-900 capitalize">{result}</strong>
-                    </div>
-                    {cropImageUrl ? (
-                      <img
-                        src={cropImageUrl}
-                        alt={result}
-                        className="w-64 h-64 object-cover rounded-md shadow-md mt-4"
-                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src='https://via.placeholder.com/400x400?text=Image+Not+Available'; }}
-                      />
-                    ) : (
-                      <div className="mt-4 text-gray-500">No image available for this crop.</div>
-                    )}
-                    {cropDescription && (
-                      <p className="mt-4 text-gray-700 text-sm italic max-w-sm mx-auto">{cropDescription}</p>
-                    )}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Left: Input Form */}
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0">
+            <CardHeader>
+              <CardTitle className="text-xl font-bold flex items-center gap-2">
+                <LandPlot className="w-5 h-5 text-green-700" /> Soil & Climate Information
+              </CardTitle>
+              <p className="text-gray-500 text-sm mt-1">Fill in your field's details for a smart crop suggestion.</p>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit}>
+                {/* Soil Information */}
+                <div className="mb-6">
+                  <h3 className="font-semibold text-green-800 flex items-center gap-2 mb-4 mt-2">
+                    <LandPlot className="w-4 h-4" /> Soil Information
+                  </h3>
+                  <div className="mb-6">
+                    <Label htmlFor="soilType" className="font-semibold">Soil Type</Label>
+                    <Select name="soilType" value={formData.soilType || ''} onValueChange={value => handleSelectChange('soilType', value)}>
+                      <SelectTrigger className="w-full mt-1">
+                        <SelectValue placeholder="Select soil type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="loamy">Loamy</SelectItem>
+                        <SelectItem value="sandy">Sandy</SelectItem>
+                        <SelectItem value="clay">Clay</SelectItem>
+                        <SelectItem value="silty">Silty</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                )}
-                {!result && (
-                  <div className="text-gray-500 text-center">
-                    <p>Enter your soil and climate data to get a crop recommendation.</p>
-                    <img
-                      src="https://source.unsplash.com/400x400/?farm-field,agriculture"
-                      alt="Farm field placeholder"
-                      className="w-64 h-64 object-cover rounded-md shadow-md mt-4"
+                  <div className="mb-6">
+                    <Label htmlFor="pHLevel">pH Level (3.5-9.94): {formData.pHLevel}</Label>
+                    <Slider
+                      value={[formData.pHLevel]}
+                      onValueChange={value => handleSliderChange('pHLevel', value)}
+                      min={3.5}
+                      max={9.94}
+                      step={0.01}
                     />
                   </div>
+                  <div className="mb-6">
+                    <Label htmlFor="nitrogen">Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
+                    <Slider
+                      value={[formData.nitrogen]}
+                      onValueChange={value => handleSliderChange('nitrogen', value)}
+                      min={0}
+                      max={140}
+                      step={0.01}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <Label htmlFor="phosphorus">Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
+                    <Slider
+                      value={[formData.phosphorus]}
+                      onValueChange={value => handleSliderChange('phosphorus', value)}
+                      min={5}
+                      max={145}
+                      step={0.01}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <Label htmlFor="potassium">Potassium (K) - mg/kg: {formData.potassium}</Label>
+                    <Slider
+                      value={[formData.potassium]}
+                      onValueChange={value => handleSliderChange('potassium', value)}
+                      min={5}
+                      max={205}
+                      step={0.01}
+                    />
+                  </div>
+                </div>
+                {/* Climate Information */}
+                <div className="mb-8">
+                  <h3 className="font-semibold text-green-800 flex items-center gap-2 mb-4 mt-8">
+                    <Thermometer className="w-4 h-4" /> Climate Information
+                  </h3>
+                  <div className="mb-6">
+                    <Label htmlFor="temperature">Temperature (°C): {formData.temperature}</Label>
+                    <Slider
+                      value={[formData.temperature]}
+                      onValueChange={value => handleSliderChange('temperature', value)}
+                      min={8.83}
+                      max={43.68}
+                      step={0.01}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <Label htmlFor="humidity">Humidity (%): {formData.humidity}</Label>
+                    <Slider
+                      value={[formData.humidity]}
+                      onValueChange={value => handleSliderChange('humidity', value)}
+                      min={14.26}
+                      max={99.98}
+                      step={0.01}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <Label htmlFor="rainfall">Rainfall (mm): {formData.rainfall}</Label>
+                    <Slider
+                      value={[formData.rainfall]}
+                      onValueChange={value => handleSliderChange('rainfall', value)}
+                      min={20.21}
+                      max={298.56}
+                      step={0.01}
+                    />
+                  </div>
+                </div>
+                <Button type="submit" className="w-full bg-green-700 text-white hover:bg-green-800 mt-4" disabled={isLoading}>
+                  {isLoading ? 'Processing...' : 'Get Recommendation'}
+                </Button>
+                <Button type="button" variant="outline" className="w-full mt-2" onClick={() => navigate('/services')}>
+                  Back to Services
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+          {/* Right: Results/Placeholder */}
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 flex flex-col items-center justify-center min-h-[500px]">
+            {result ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="w-full text-center"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="inline-block bg-green-100 text-green-800 px-4 py-1 rounded-full font-semibold">Recommended Crop</span>
+                  <h2 className="text-3xl font-bold capitalize">{result}</h2>
+                  {cropImageUrl && (
+                    <img
+                      src={cropImageUrl}
+                      alt={result}
+                      className="w-80 h-80 object-cover rounded-lg shadow"
+                      onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/400x400?text=Image+Not+Available'; }}
+                    />
+                  )}
+                </div>
+                {cropDescription && (
+                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                    <h4 className="font-medium text-gray-900 mb-2">Crop Details</h4>
+                    <p className="text-gray-600 text-sm">{cropDescription}</p>
+                  </div>
                 )}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h4 className="font-medium text-gray-900 mb-2">Optimal Conditions</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      <li className="flex items-center gap-2"><Thermometer className="w-4 h-4" />Temperature: {formData.temperature}°C</li>
+                      <li className="flex items-center gap-2"><Droplet className="w-4 h-4" />Humidity: {formData.humidity}%</li>
+                      <li className="flex items-center gap-2"><CloudRain className="w-4 h-4" />Rainfall: {formData.rainfall}mm</li>
+                    </ul>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h4 className="font-medium text-gray-900 mb-2">Soil Requirements</h4>
+                    <ul className="text-sm text-gray-600 space-y-1">
+                      <li className="flex items-center gap-2"><FlaskConical className="w-4 h-4" />pH Level: {formData.pHLevel}</li>
+                      <li className="flex items-center gap-2"><Sprout className="w-4 h-4" />N-P-K: {formData.nitrogen}-{formData.phosphorus}-{formData.potassium}</li>
+                      <li className="flex items-center gap-2"><LandPlot className="w-4 h-4" />Type: {formData.soilType}</li>
+                    </ul>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full w-full py-12">
+                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <Leaf className="w-12 h-12 text-green-600" />
+                </div>
+                <h3 className="text-xl font-medium text-gray-900 mb-2">No recommendation yet</h3>
+                <p className="text-gray-600 max-w-sm mx-auto text-center">
+                  Enter your soil and climate data on the left and click <span className="font-semibold">Get Recommendation</span> to see the best crop for your field!
+                </p>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            )}
+          </Card>
+        </div>
       </div>
       <Footer />
     </div>

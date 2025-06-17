@@ -14,10 +14,6 @@ import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import NotFound from "./pages/NotFound";
 import ServerError from "./pages/ServerError";
-import CropRecommendationInput from "./pages/CropRecommendationInput";
-import CropRecommendationResults from "./pages/CropRecommendationResults";
-import FertilizerRecommendationInput from "./pages/FertilizerRecommendationInput";
-import FertilizerRecommendationResults from "./pages/FertilizerRecommendationResults";
 import CropRecommendation from "./pages/CropRecommendation";
 import FertilizerRecommendation from "./pages/FertilizerRecommendation";
 import YieldPrediction from "./pages/YieldPrediction";
@@ -46,9 +42,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/services" element={<Services />} />
             <Route path="/crop-recommendation" element={<CropRecommendation />} />
-            <Route path="/crop-recommendation/results" element={<CropRecommendationResults />} />
             <Route path="/fertilizer-recommendation" element={<FertilizerRecommendation />} />
-            <Route path="/fertilizer-recommendation/results" element={<FertilizerRecommendationResults />} />
             <Route path="/yield-prediction" element={<YieldPrediction />} />
             <Route path="/pest-disease" element={<PestDiseasePrediction />} />
             <Route path="/crop-rotation" element={<CropRotationPlanner />} />

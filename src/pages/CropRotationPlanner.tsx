@@ -12,6 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const CropRotationPlanner = () => {
   const navigate = useNavigate();
@@ -37,13 +38,6 @@ const CropRotationPlanner = () => {
     setFormData(prev => ({
       ...prev,
       [name]: value,
-    }));
-  };
-
-  const handleSliderChange = (name: string, value: number[]) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value[0],
     }));
   };
 
@@ -109,15 +103,6 @@ const CropRotationPlanner = () => {
     { value: 'match_market_demand', label: 'Match Market Demand' },
     { value: 'water_conservation', label: 'Water Conservation' },
   ];
-
-  // Helper to get color for sliders (simplified for example)
-  const getSliderColor = (value: number, min: number, max: number) => {
-    const range = max - min;
-    const percentage = (value - min) / range;
-    if (percentage < 0.3) return 'bg-red-500';
-    if (percentage < 0.7) return 'bg-yellow-500';
-    return 'bg-green-500';
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -202,65 +187,17 @@ const CropRotationPlanner = () => {
                 {/* Placeholder for visual description if needed */}
               </div>
 
-              <div className="space-y-4">
-                <Label htmlFor="nitrogen">Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
-                <Slider
-                  id="nitrogen"
-                  name="nitrogen"
-                  min={0}
-                  max={200}
-                  step={1}
-                  value={[formData.nitrogen]}
-                  onValueChange={(value) => handleSliderChange('nitrogen', value)}
-                  className="w-full"
-                />
-                <div className={`h-2 rounded-full ${getSliderColor(formData.nitrogen, 0, 200)}`} style={{ width: `${(formData.nitrogen / 200) * 100}%` }} />
-              </div>
+              <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
+              <Slider value={[formData.nitrogen]} onValueChange={val => setFormData(prev => ({ ...prev, nitrogen: val[0] }))} min={0} max={200} step={1} />
 
-              <div className="space-y-4">
-                <Label htmlFor="phosphorus">Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
-                <Slider
-                  id="phosphorus"
-                  name="phosphorus"
-                  min={0}
-                  max={100}
-                  step={1}
-                  value={[formData.phosphorus]}
-                  onValueChange={(value) => handleSliderChange('phosphorus', value)}
-                  className="w-full"
-                />
-                <div className={`h-2 rounded-full ${getSliderColor(formData.phosphorus, 0, 100)}`} style={{ width: `${(formData.phosphorus / 100) * 100}%` }} />
-              </div>
+              <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
+              <Slider value={[formData.phosphorus]} onValueChange={val => setFormData(prev => ({ ...prev, phosphorus: val[0] }))} min={0} max={100} step={1} />
 
-              <div className="space-y-4">
-                <Label htmlFor="potassium">Potassium (K) - mg/kg: {formData.potassium}</Label>
-                <Slider
-                  id="potassium"
-                  name="potassium"
-                  min={0}
-                  max={150}
-                  step={1}
-                  value={[formData.potassium]}
-                  onValueChange={(value) => handleSliderChange('potassium', value)}
-                  className="w-full"
-                />
-                <div className={`h-2 rounded-full ${getSliderColor(formData.potassium, 0, 150)}`} style={{ width: `${(formData.potassium / 150) * 100}%` }} />
-              </div>
+              <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
+              <Slider value={[formData.potassium]} onValueChange={val => setFormData(prev => ({ ...prev, potassium: val[0] }))} min={0} max={150} step={1} />
 
-              <div className="space-y-4">
-                <Label htmlFor="soilpH">Soil pH: {formData.soilpH}</Label>
-                <Slider
-                  id="soilpH"
-                  name="soilpH"
-                  min={0}
-                  max={14}
-                  step={0.1}
-                  value={[formData.soilpH]}
-                  onValueChange={(value) => handleSliderChange('soilpH', value)}
-                  className="w-full"
-                />
-                <div className={`h-2 rounded-full ${getSliderColor(formData.soilpH, 0, 14)}`} style={{ width: `${(formData.soilpH / 14) * 100}%` }} />
-              </div>
+              <Label>Soil pH: {formData.soilpH}</Label>
+              <Slider value={[formData.soilpH]} onValueChange={val => setFormData(prev => ({ ...prev, soilpH: val[0] }))} min={0} max={14} step={0.1} />
 
               <div className="space-y-2">
                 <Label htmlFor="climateZone">Climate Zone or Region</Label>

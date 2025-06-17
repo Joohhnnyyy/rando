@@ -48,12 +48,12 @@ const Profile = () => {
                 </Link>
               </Button>
               <div className="flex-grow text-center">
-                <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-                  Your Profile
-                </h1>
-                <p className="text-xl text-gray-600">
-                  Manage your account information and preferences.
-                </p>
+              <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
+                Your Profile
+              </h1>
+              <p className="text-xl text-gray-600">
+                Manage your account information and preferences.
+              </p>
               </div>
             </div>
 

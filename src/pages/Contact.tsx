@@ -30,12 +30,12 @@ const Contact = () => {
                 </Link>
               </Button>
               <div className="flex-grow text-center">
-                <h1 className="text-5xl md:text-6xl font-bold text-black mb-8">
-                  Get in Touch
-                </h1>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  Have questions about SeedSync? We'd love to hear from you.
-                </p>
+              <h1 className="text-5xl md:text-6xl font-bold text-black mb-8">
+                Get in Touch
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Have questions about SeedSync? We'd love to hear from you.
+              </p>
               </div>
             </div>
 

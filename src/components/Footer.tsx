@@ -14,7 +14,7 @@ const Footer = () => {
   const footerLinks = [
     { name: 'Home', path: '/' },
     ...(user ? [
-      { name: 'Services', path: '/services' },
+    { name: 'Services', path: '/services' },
       { name: 'Dashboard', path: '/dashboard' },
       { name: 'Profile', path: '/profile' }
     ] : []),
@@ -48,13 +48,13 @@ const Footer = () => {
                     {link.name}
                   </button>
                 ) : (
-                  <Link
-                    key={link.name}
-                    to={link.path}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
-                  >
-                    {link.name}
-                  </Link>
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className="text-gray-400 hover:text-white transition-colors duration-200 text-sm"
+                >
+                  {link.name}
+                </Link>
                 )
               ))}
             </div>

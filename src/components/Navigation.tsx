@@ -1,16 +1,33 @@
-
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '@/components/ui/use-toast';
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
   
+  const handleDashboardClick = (e: React.MouseEvent) => {
+    if (!user) {
+      e.preventDefault();
+      toast({
+        title: "Login Required",
+        description: "Please login to access the dashboard.",
+        variant: "destructive",
+      });
+      navigate('/login');
+    }
+  };
+
   const navItems = [
     { name: 'Home', path: '/' },
+    { name: 'Dashboard', path: '/dashboard', requiresAuth: true },
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
-    { name: 'Login', path: '/login' }
+    { name: user ? 'Profile' : 'Login', path: user ? '/profile' : '/login' }
   ];
 
   return (
@@ -31,6 +48,7 @@ const Navigation = () => {
               <Link
                 key={item.name}
                 to={item.path}
+                onClick={item.requiresAuth ? handleDashboardClick : undefined}
                 className={`text-sm font-medium transition-colors hover:text-gray-600 ${
                   location.pathname === item.path ? 'text-black' : 'text-gray-500'
                 }`}

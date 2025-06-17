@@ -29,21 +29,21 @@ const Signup = () => {
         displayName: name,
       });
       
-      toast({
-        title: "Account Created Successfully!",
-        description: "Welcome to SeedSync! Your account has been created and you can now access all features.",
-      });
+        toast({
+          title: "Account Created Successfully!",
+          description: "Welcome to SeedSync! Your account has been created and you can now access all features.",
+        });
       
       navigate('/dashboard');
     } catch (error: any) {
-      toast({
-        title: "Signup Failed",
+        toast({
+          title: "Signup Failed",
         description: error.message || "Please try again with different credentials.",
-        variant: "destructive",
-      });
+          variant: "destructive",
+        });
     } finally {
       setIsLoading(false);
-    }
+      }
   };
 
   return (

@@ -35,7 +35,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     await handleLogin(e);
-    setIsLoading(false);
+      setIsLoading(false);
   };
 
   return (
@@ -60,7 +60,7 @@ const Login = () => {
                 <Label htmlFor="email">Email</Label>
                 <input
                   type="email"
-                  id="email"
+                  id="email" 
                   placeholder="Enter your email"
                   className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12"
                   required
@@ -74,7 +74,7 @@ const Login = () => {
                 <Label htmlFor="password">Password</Label>
                 <input
                   type="password"
-                  id="password"
+                  id="password" 
                   placeholder="Enter your password"
                   className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12"
                   required
