@@ -13,19 +13,80 @@ import { Slider } from '@/components/ui/slider';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info } from 'lucide-react';
 
+// Import fertilizer images
+import defaultFertilizer from '@/assets/fertilizers/default.png';
+import urea from '@/assets/fertilizers/Urea.png';
+import tsp from '@/assets/fertilizers/TSP.png';
+import superphosphate from '@/assets/fertilizers/Superphosphate.png';
+import potassiumSulfate from '@/assets/fertilizers/Potassium sulfate.png';
+import potassiumChloride from '@/assets/fertilizers/Potassium chloride.png';
+import dap from '@/assets/fertilizers/DAP.png';
+import fertilizer2828 from '@/assets/fertilizers/28-28.png';
+import fertilizer2020 from '@/assets/fertilizers/20-20.png';
+import fertilizer171717 from '@/assets/fertilizers/17-17-17.png';
+import fertilizer151515 from '@/assets/fertilizers/15-15-15.png';
+import fertilizer143514 from '@/assets/fertilizers/14-35-14.png';
+import fertilizer102626 from '@/assets/fertilizers/10-26-26.png';
+import fertilizer101010 from '@/assets/fertilizers/10-10-10.png';
+
+// Create a mapping of fertilizer names to their images
+const fertilizerImages: { [key: string]: string } = {
+  'Urea': urea,
+  'TSP': tsp,
+  'Superphosphate': superphosphate,
+  'Potassium sulfate': potassiumSulfate,
+  'Potassium chloride': potassiumChloride,
+  'DAP': dap,
+  '28-28': fertilizer2828,
+  '20-20': fertilizer2020,
+  '17-17-17': fertilizer171717,
+  '15-15-15': fertilizer151515,
+  '14-35-14': fertilizer143514,
+  '10-26-26': fertilizer102626,
+  '10-10-10': fertilizer101010,
+};
+
 const FertilizerRecommendation = () => {
   const navigate = useNavigate();
+  
+  // Add crop type mapping
+  const cropTypeMap: { [key: string]: number } = {
+    'barley': 0,
+    'cotton': 1,
+    'groundnuts': 2,
+    'maizemillets': 3,
+    'oilseeds': 4,
+    'paddy': 5,
+    'pulses': 6,
+    'sugarcane': 7,
+    'tobacco': 8,
+    'wheat': 9,
+    'coffee': 10,
+    'kidneybeans': 11,
+    'orange': 12,
+    'pomegranate': 13,
+    'rice': 14,
+    'watermelon': 15
+  };
+
   const [formData, setFormData] = useState({
     cropType: '',
     nitrogen: 0,
     phosphorus: 0,
     potassium: 0,
-    soilpHLevel: 0,
     temperature: 0,
     moisture: 0,
     humidity: 0,
+    soilType: '',
   });
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<{
+    fertilizer: string;
+    confidence: number;
+    description: string;
+    tips: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,10 +110,52 @@ const FertilizerRecommendation = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setResult('No recommendation yet'); // Placeholder for now
-    // Here you would typically send this data to an API
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Validate required fields
+      if (!formData.cropType || !formData.soilType) {
+        throw new Error('Please select both crop type and soil type');
+      }
+
+      const response = await fetch('http://localhost:8002/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          temperature: parseFloat(formData.temperature.toString()),
+          humidity: parseFloat(formData.humidity.toString()),
+          moisture: parseFloat(formData.moisture.toString()),
+          soil_type: parseInt(formData.soilType),
+          crop_type: cropTypeMap[formData.cropType],
+          nitrogen: parseFloat(formData.nitrogen.toString()),
+          potassium: parseFloat(formData.potassium.toString()),
+          phosphorous: parseFloat(formData.phosphorus.toString()),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to get fertilizer recommendation');
+      }
+
+      const data = await response.json();
+      setResult({
+        fertilizer: data.recommended_fertilizer,
+        confidence: data.confidence,
+        description: data.description,
+        tips: data.tips,
+      });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -110,14 +213,18 @@ const FertilizerRecommendation = () => {
                     </Select>
                   </div>
                   <div className="mb-6">
-                    <Label htmlFor="soilpHLevel">Soil pH Level: {formData.soilpHLevel}</Label>
-                    <Slider
-                      value={[formData.soilpHLevel]}
-                      onValueChange={value => handleSliderChange('soilpHLevel', value)}
-                      min={0}
-                      max={14}
-                      step={0.1}
-                    />
+                    <Label htmlFor="soilType" className="font-semibold">Soil Type</Label>
+                    <Select name="soilType" onValueChange={(value) => handleSelectChange('soilType', value)}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select soil type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="0">Loamy</SelectItem>
+                        <SelectItem value="1">Sandy</SelectItem>
+                        <SelectItem value="2">Clayey</SelectItem>
+                        <SelectItem value="3">Black</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="mb-6">
                     <Label htmlFor="nitrogen">Nitrogen (N): {formData.nitrogen} mg/kg</Label>
@@ -185,10 +292,19 @@ const FertilizerRecommendation = () => {
                   </div>
                 </div>
                 <div className="flex justify-between items-center mt-6">
-                  <Button type="submit" className="bg-black text-white hover:bg-gray-800 w-full">
-                    Get Fertilizer Recommendation
+                  <Button 
+                    type="submit" 
+                    className="bg-black text-white hover:bg-gray-800 w-full"
+                    disabled={loading}
+                  >
+                    {loading ? 'Getting Recommendation...' : 'Get Fertilizer Recommendation'}
                   </Button>
-                  <Button type="button" variant="outline" className="w-full mt-2" onClick={() => navigate('/services')}>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="w-full mt-2" 
+                    onClick={() => navigate('/services')}
+                  >
                     Back to Services
                   </Button>
                 </div>
@@ -196,23 +312,61 @@ const FertilizerRecommendation = () => {
             </CardContent>
           </Card>
           {/* Right: Result Panel */}
-          <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-lg shadow-xl p-8">
-            {!result || result === 'No recommendation yet' ? (
-              <div className="flex flex-col items-center">
-                <Leaf className="h-16 w-16 text-green-400 mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">No recommendation yet</h2>
-                <p className="text-gray-500 text-center max-w-xs">
-                  Enter your soil and climate data on the left and click <span className="font-semibold">Get Fertilizer Recommendation</span> to see the best fertilizer for your field!
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                {/* Replace this with actual recommendation result UI */}
-                <h2 className="text-2xl font-semibold mb-2">Recommended Fertilizer</h2>
-                <p className="text-gray-700">{result}</p>
-              </div>
-            )}
-          </div>
+          <Card className="shadow-xl rounded-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold flex items-center">
+                <FlaskConical className="mr-2" /> Fertilizer Recommendation
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Your personalized fertilizer recommendation will appear here.</p>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                  <p className="text-gray-600">Getting your recommendation...</p>
+                </div>
+              ) : error ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px] text-red-600">
+                  <h2 className="text-2xl font-semibold mb-2">Error</h2>
+                  <p>{error}</p>
+                </div>
+              ) : !result ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <Leaf className="h-16 w-16 text-green-400 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2">No recommendation yet</h2>
+                  <p className="text-gray-500 text-center max-w-xs">
+                    Enter your soil and climate data on the left and click <span className="font-semibold">Get Fertilizer Recommendation</span> to see the best fertilizer for your field!
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <div className="relative w-72 h-96 mb-8 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+                    <img 
+                      src={fertilizerImages[result.fertilizer] || defaultFertilizer} 
+                      alt={result.fertilizer}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.05]"
+                    />
+                    <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-0.5 rounded-full text-xs font-medium shadow-sm">
+                      {Math.round(result.confidence * 100)}% Confidence
+                    </div>
+                  </div>
+                  <div className="w-full space-y-6">
+                    <div className="text-center">
+                      <h3 className="text-3xl font-bold text-gray-900 mb-3">{result.fertilizer}</h3>
+                      <p className="text-gray-600 text-lg leading-relaxed">{result.description}</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                      <h4 className="text-xl font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Usage Tips</h4>
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-green-500"></div>
+                        <p className="text-gray-600 leading-relaxed">{result.tips}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
       <Footer />
