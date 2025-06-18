@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { RotateCw, Leaf, Thermometer, CloudRain, Droplet, Sprout, Bug, Target, Info, Download, Mail } from 'lucide-react';
+import { RotateCw, Leaf, Thermometer, CloudRain, Droplet, Sprout, Bug, Target, Info, Download, Mail, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -108,6 +108,16 @@ const CropRotationPlanner = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+        <div className="w-full max-w-5xl mb-4">
+          <Button
+            variant="ghost"
+            className="flex items-center text-gray-600 hover:text-gray-900"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

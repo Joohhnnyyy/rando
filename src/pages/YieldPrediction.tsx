@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { TrendingUp, Leaf, Thermometer, CloudRain, Droplet, Sprout, CalendarDays, FlaskConical, Bug } from 'lucide-react';
+import { TrendingUp, Leaf, Thermometer, CloudRain, Droplet, Sprout, CalendarDays, FlaskConical, Bug, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -61,9 +61,17 @@ const YieldPrediction = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
       <Navigation />
-      <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <Button
+          variant="ghost"
+          className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

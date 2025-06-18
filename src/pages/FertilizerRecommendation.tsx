@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FlaskConical, Leaf, Thermometer, Droplet, CloudRain, LandPlot } from 'lucide-react';
+import { FlaskConical, Leaf, Thermometer, Droplet, CloudRain, LandPlot, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -162,6 +162,16 @@ const FertilizerRecommendation = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+        <div className="w-full max-w-6xl">
+          <Button
+            variant="ghost"
+            className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -232,7 +242,7 @@ const FertilizerRecommendation = () => {
                       value={[formData.nitrogen]}
                       onValueChange={value => handleSliderChange('nitrogen', value)}
                       min={0}
-                      max={200}
+                      max={176}
                       step={1}
                     />
                   </div>
@@ -242,7 +252,7 @@ const FertilizerRecommendation = () => {
                       value={[formData.phosphorus]}
                       onValueChange={value => handleSliderChange('phosphorus', value)}
                       min={0}
-                      max={200}
+                      max={104}
                       step={1}
                     />
                   </div>
@@ -252,7 +262,7 @@ const FertilizerRecommendation = () => {
                       value={[formData.potassium]}
                       onValueChange={value => handleSliderChange('potassium', value)}
                       min={0}
-                      max={200}
+                      max={109}
                       step={1}
                     />
                   </div>
@@ -266,7 +276,7 @@ const FertilizerRecommendation = () => {
                       value={[formData.temperature]}
                       onValueChange={value => handleSliderChange('temperature', value)}
                       min={0}
-                      max={50}
+                      max={38}
                       step={0.1}
                     />
                   </div>
@@ -275,8 +285,8 @@ const FertilizerRecommendation = () => {
                     <Slider
                       value={[formData.moisture]}
                       onValueChange={value => handleSliderChange('moisture', value)}
-                      min={0}
-                      max={100}
+                      min={25}
+                      max={115}
                       step={0.1}
                     />
                   </div>
@@ -285,8 +295,8 @@ const FertilizerRecommendation = () => {
                     <Slider
                       value={[formData.humidity]}
                       onValueChange={value => handleSliderChange('humidity', value)}
-                      min={0}
-                      max={100}
+                      min={50}
+                      max={145}
                       step={0.1}
                     />
                   </div>

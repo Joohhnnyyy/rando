@@ -12,7 +12,17 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  HelpCircle
+  HelpCircle,
+  Leaf,
+  Thermometer,
+  CloudRain,
+  Droplet,
+  Sun,
+  Sprout,
+  Wind,
+  FlaskConical,
+  LandPlot,
+  Info
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -94,7 +104,7 @@ const GovernmentSchemes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
       <Navigation />
       
       {/* Page Header */}
