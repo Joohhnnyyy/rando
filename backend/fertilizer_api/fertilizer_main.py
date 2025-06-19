@@ -2,28 +2,23 @@
 Fertilizer recommendation API main file.
 """
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import numpy as np
 import tensorflow as tf
 import joblib
+import os
 
-app = FastAPI()
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite's default port
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+router = APIRouter()
 
 # ---------- Load model and utils ----------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "model", "a1_fertilizer_model.h5")
+UTILS_PATH = os.path.join(BASE_DIR, "model", "a1_fertilizer_utils.pkl")
+
 try:
-    model = tf.keras.models.load_model("model/a1_fertilizer_model.h5")
-    utils = joblib.load("model/a1_fertilizer_utils.pkl")
+    model = tf.keras.models.load_model(MODEL_PATH)
+    utils = joblib.load(UTILS_PATH)
     scaler = utils["scaler"]
     fertilizer_encoder = utils["fertilizer_encoder"]
 except Exception as e:
@@ -101,11 +96,11 @@ class FertilizerInput(BaseModel):
     phosphorous: float
 
 # ---------- Routes ----------
-@app.get("/")
+@router.get("/")
 def index():
     return {"msg": "Fertilizer Recommendation API"}
 
-@app.post("/predict")
+@router.post("/predict")
 def predict(data: FertilizerInput):
     try:
         input_data = np.array([[data.temperature, data.humidity, data.moisture,

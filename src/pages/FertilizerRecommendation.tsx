@@ -26,6 +26,7 @@ import fertilizer2020 from '@/assets/fertilizers/20-20.png';
 import fertilizer171717 from '@/assets/fertilizers/17-17-17.png';
 import fertilizer151515 from '@/assets/fertilizers/15-15-15.png';
 import fertilizer143514 from '@/assets/fertilizers/14-35-14.png';
+import fertilizer141414 from '@/assets/fertilizers/14-14-14.png';
 import fertilizer102626 from '@/assets/fertilizers/10-26-26.png';
 import fertilizer101010 from '@/assets/fertilizers/10-10-10.png';
 
@@ -42,6 +43,7 @@ const fertilizerImages: { [key: string]: string } = {
   '17-17-17': fertilizer171717,
   '15-15-15': fertilizer151515,
   '14-35-14': fertilizer143514,
+  '14-14-14': fertilizer141414,
   '10-26-26': fertilizer102626,
   '10-10-10': fertilizer101010,
 };
@@ -84,6 +86,7 @@ const FertilizerRecommendation = () => {
     confidence: number;
     description: string;
     tips: string;
+    geminiTip?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -121,7 +124,7 @@ const FertilizerRecommendation = () => {
         throw new Error('Please select both crop type and soil type');
       }
 
-      const response = await fetch('http://localhost:8002/predict', {
+      const response = await fetch('http://localhost:8000/api/fertilizer/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,6 +152,7 @@ const FertilizerRecommendation = () => {
         confidence: data.confidence,
         description: data.description,
         tips: data.tips,
+        geminiTip: data.gemini_tip,
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -301,10 +305,10 @@ const FertilizerRecommendation = () => {
                     />
                   </div>
                 </div>
-                <div className="flex justify-between items-center mt-6">
+                <div className="flex flex-col md:flex-row gap-2 mt-6">
                   <Button 
                     type="submit" 
-                    className="bg-black text-white hover:bg-gray-800 w-full"
+                    className="bg-black text-white hover:bg-gray-800 w-full md:w-auto"
                     disabled={loading}
                   >
                     {loading ? 'Getting Recommendation...' : 'Get Fertilizer Recommendation'}
@@ -312,7 +316,7 @@ const FertilizerRecommendation = () => {
                   <Button 
                     type="button" 
                     variant="outline" 
-                    className="w-full mt-2" 
+                    className="w-full md:w-auto"
                     onClick={() => navigate('/services')}
                   >
                     Back to Services
@@ -369,7 +373,9 @@ const FertilizerRecommendation = () => {
                       <h4 className="text-xl font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Usage Tips</h4>
                       <div className="flex items-start space-x-3">
                         <div className="flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full bg-green-500"></div>
-                        <p className="text-gray-600 leading-relaxed">{result.tips}</p>
+                        <div>
+                          <p className="text-gray-600 leading-relaxed">{result.tips}</p>
+                        </div>
                       </div>
                     </div>
                   </div>

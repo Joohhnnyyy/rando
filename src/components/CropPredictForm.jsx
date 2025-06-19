@@ -14,7 +14,7 @@ export default function CropPredictForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/predict-crop", {
+      const res = await axios.post("http://localhost:8000/api/crop/predict-crop", {
         ...formData,
         N: parseFloat(formData.N),
         P: parseFloat(formData.P),

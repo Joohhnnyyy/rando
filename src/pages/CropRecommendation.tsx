@@ -137,7 +137,7 @@ const CropRecommendation = () => {
     setCropDescription("");
 
     try {
-      const res = await axios.post("http://localhost:8000/api/predict-crop", {
+      const res = await axios.post("http://localhost:8000/api/crop/predict-crop", {
         N: parseFloat(formData.nitrogen.toString()),
         P: parseFloat(formData.phosphorus.toString()),
         K: parseFloat(formData.potassium.toString()),
@@ -190,11 +190,11 @@ const CropRecommendation = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left: Input Form */}
           <Card className="flex-1 max-w-xl mx-auto lg:mx-0">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold flex items-center gap-2">
-                <LandPlot className="w-5 h-5 text-green-700" /> Soil & Climate Information
+            <CardHeader className="flex flex-col space-y-1.5 p-6">
+              <CardTitle className="text-2xl font-bold flex items-center tracking-tight">
+                <LandPlot className="h-7 w-7 text-green-700" /> Soil & Climate Information
               </CardTitle>
-              <p className="text-gray-500 text-sm mt-1">Fill in your field's details for a smart crop suggestion.</p>
+              <p className="text-gray-500 text-base mt-2">Fill in your field's details for a smart crop suggestion.</p>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
@@ -304,62 +304,76 @@ const CropRecommendation = () => {
             </CardContent>
           </Card>
           {/* Right: Results/Placeholder */}
-          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 flex flex-col items-center justify-center min-h-[500px]">
-            {result ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="w-full text-center"
-              >
-                <div className="flex flex-col items-center">
-                  <span className="inline-block bg-green-100 text-green-800 px-4 py-1 rounded-full font-semibold">Recommended Crop</span>
-                  <h2 className="text-3xl font-bold capitalize">{result}</h2>
-                  {cropImageUrl && (
-                    <img
-                      src={cropImageUrl}
-                      alt={result}
-                      className="w-80 h-80 object-cover rounded-lg shadow"
-                      onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/400x400?text=Image+Not+Available'; }}
-                    />
-                  )}
-                </div>
-                {cropDescription && (
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                    <h4 className="font-medium text-gray-900 mb-2">Crop Details</h4>
-                    <p className="text-gray-600 text-sm">{cropDescription}</p>
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 min-h-[500px]">
+            <CardHeader className="flex flex-col space-y-1.5 p-6">
+              <CardTitle className="text-2xl font-bold flex items-center tracking-tight">
+                <Sprout className="h-7 w-7 text-green-700" /> Crop Recommendation
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Your personalized crop recommendation will appear here.</p>
+            </CardHeader>
+            <CardContent>
+              {result ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full text-center"
+                >
+                  <div className="flex flex-col items-center">
+                    <div className="relative w-80 h-96 mb-4 rounded-lg overflow-hidden shadow-1xl transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0px_20px_rgb(0,0,0)]">
+                      {cropImageUrl && (
+                        <>
+                          <img
+                            src={cropImageUrl}
+                            alt={result}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-[1.05]"
+                            onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = 'https://via.placeholder.com/400x400?text=Image+Not+Available'; }}
+                          />
+                          <div className="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded-full font-semibold text-sm shadow">
+                            Recommended Crop
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <h2 className="text-3xl font-bold capitalize">{result}</h2>
+                    {cropDescription && (
+                      <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h4 className="font-medium text-gray-900 mb-2">Crop Details</h4>
+                        <p className="text-gray-600 text-sm">{cropDescription}</p>
+                      </div>
+                    )}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-gray-900 mb-2">Optimal Conditions</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li className="flex items-center gap-2"><Thermometer className="w-4 h-4" />Temperature: {formData.temperature}°C</li>
+                          <li className="flex items-center gap-2"><Droplet className="w-4 h-4" />Humidity: {formData.humidity}%</li>
+                          <li className="flex items-center gap-2"><CloudRain className="w-4 h-4" />Rainfall: {formData.rainfall}mm</li>
+                        </ul>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <h4 className="font-medium text-gray-900 mb-2">Soil Requirements</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          <li className="flex items-center gap-2"><FlaskConical className="w-4 h-4" />pH Level: {formData.pHLevel}</li>
+                          <li className="flex items-center gap-2"><Sprout className="w-4 h-4" />N-P-K: {formData.nitrogen}-{formData.phosphorus}-{formData.potassium}</li>
+                          <li className="flex items-center gap-2"><LandPlot className="w-4 h-4" />Type: {formData.soilType}</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
-                )}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-900 mb-2">Optimal Conditions</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      <li className="flex items-center gap-2"><Thermometer className="w-4 h-4" />Temperature: {formData.temperature}°C</li>
-                      <li className="flex items-center gap-2"><Droplet className="w-4 h-4" />Humidity: {formData.humidity}%</li>
-                      <li className="flex items-center gap-2"><CloudRain className="w-4 h-4" />Rainfall: {formData.rainfall}mm</li>
-                    </ul>
+                </motion.div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full w-full py-12">
+                  <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                    <Leaf className="w-12 h-12 text-green-600" />
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h4 className="font-medium text-gray-900 mb-2">Soil Requirements</h4>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      <li className="flex items-center gap-2"><FlaskConical className="w-4 h-4" />pH Level: {formData.pHLevel}</li>
-                      <li className="flex items-center gap-2"><Sprout className="w-4 h-4" />N-P-K: {formData.nitrogen}-{formData.phosphorus}-{formData.potassium}</li>
-                      <li className="flex items-center gap-2"><LandPlot className="w-4 h-4" />Type: {formData.soilType}</li>
-                    </ul>
-                  </div>
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">No recommendation yet</h3>
+                  <p className="text-gray-600 max-w-sm mx-auto text-center">
+                    Enter your soil and climate data on the left and click <span className="font-semibold">Get Recommendation</span> to see the best crop for your field!
+                  </p>
                 </div>
-              </motion.div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full w-full py-12">
-                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <Leaf className="w-12 h-12 text-green-600" />
-                </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-2">No recommendation yet</h3>
-                <p className="text-gray-600 max-w-sm mx-auto text-center">
-                  Enter your soil and climate data on the left and click <span className="font-semibold">Get Recommendation</span> to see the best crop for your field!
-                </p>
-              </div>
-            )}
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
