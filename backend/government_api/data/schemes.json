@@ -1,0 +1,250 @@
+[
+  {
+    "id": "pmkisan",
+    "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+    "description": "A Central Sector Scheme to provide income support to all landholding farmers' families in the country to supplement their financial needs for procuring various inputs related to agriculture and allied activities as well as domestic needs.",
+    "type": "Subsidy",
+    "eligibility": "All land holding eligible farmer families, except:\n- Institutional Land holders\n- Constitutional post holders (former/present)\n- Ministers and MPs/MLAs (former/present)\n- Mayors and District Panchayat Chairpersons (former/present)\n- Government employees (except Class IV/Group D)\n- Pensioners with monthly pension ≥Rs.10,000\n- Income Tax payers\n- Registered professionals (Doctors, Engineers, Lawyers, CAs, Architects)",
+    "benefits": "Financial benefit of Rs. 6,000 per annum per family, payable in three equal installments of Rs. 2,000 each, every four months.",
+    "how_to_apply": "1. Apply through village Patwaris or designated revenue officials\n2. Visit nearest Common Service Centres (CSCs) for registration\n3. Self-register through Farmers Corner at official PM-KISAN portal: https://pmkisan.gov.in\n\nRequired documents:\n- Name, Age, Gender, Category(SC/ST)\n- Aadhaar Number or Enrollment Number\n- Bank Account Number\n- Mobile Number\n- Alternative ID (if needed): Driving License, Voter ID, NREGA Job Card, etc.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "pmfby",
+    "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+    "description": "Comprehensive crop insurance scheme providing insurance protection for food crops, oilseeds and annual horticultural/commercial crops notified by state government. Coverage is compulsory for loanee farmers and voluntary for non-loanee farmers.",
+    "type": "Insurance",
+    "eligibility": "All farmers growing notified crops in notified areas, with:\n- Compulsory coverage for loanee farmers\n- Voluntary coverage for non-loanee farmers",
+    "benefits": "1. Uniform Maximum Premium Rates:\n- Kharif season: 2% of sum insured\n- Rabi Season: 1.5% of sum insured\n- Annual commercial/horticultural crops: 5% of sum insured\n\n2. Coverage Benefits:\n- Full Sum Insured (SI) claims without capping\n- Up to 25% of sum insured for prevented sowing/planting risk\n- Claims for yield shortfall below guaranteed yield\n- Mid-season adversity: 25% advance payment for likely claims\n- Individual farm level assessment for inundation, hailstorm, landslide\n- Post-harvest losses coverage up to 14 days\n\n3. Technology Integration:\n- Remote sensing and drones for faster claim settlement\n- State-selected implementing agency through bidding",
+    "how_to_apply": "Contact:\n- Nearest bank branches\n- PACS/Cooperative Banks\n- Empanelled General Insurance Companies\n- District Agriculture Officer\n- Block Development Officer\n\nOr visit the Crop Insurance portal online",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "wbcis",
+    "name": "Weather Based Crop Insurance Scheme (WBCIS)",
+    "description": "Insurance protection based on weather parameters for notified food crops, oilseeds and horticultural/commercial crops.",
+    "type": "Insurance",
+    "eligibility": "All farmers growing notified crops in notified areas, with same terms as PMFBY (compulsory for loanee farmers, voluntary for non-loanee farmers).",
+    "benefits": "1. Premium Rates:\n- Kharif season: 2% of sum insured\n- Rabi Season: 1.5% of sum insured\n- Commercial/horticultural crops: 5% of sum insured\n\n2. Coverage:\n- Claims based on weather indices deviation (rainfall/temperature/humidity/wind speed)\n- Individual farm level assessment for hailstorm and cloud burst\n- Premium subsidy shared equally by Centre and State",
+    "how_to_apply": "Contact nearest bank branch, insurance company, or district agriculture office.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "cpis",
+    "name": "Coconut Palm Insurance Scheme (CPIS)",
+    "description": "Specialized insurance protection scheme for Coconut Palm growers.",
+    "type": "Insurance",
+    "eligibility": "All coconut palm growers in notified areas.",
+    "benefits": "1. Premium Rates:\n- Rs. 9.00 per palm (age 4-15 years)\n- Rs. 14.00 per palm (age 16-60 years)\n\n2. Coverage:\n- 50-75% premium subsidy for all farmers\n- Claim payment equal to input cost loss damage",
+    "how_to_apply": "Contact local agriculture department or authorized insurance providers.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "upis",
+    "name": "Unified Package Insurance Scheme (UPIS)",
+    "description": "Comprehensive insurance package providing financial protection for crops, assets, life, and student safety to farmers (Pilot in 45 districts).",
+    "type": "Insurance",
+    "eligibility": "Farmers in pilot districts.",
+    "benefits": "Seven sections coverage:\n1. Crop Insurance (PMFBY/WBCIS)\n2. Life Insurance (PMJJBY)\n3. Accident Insurance (PMSBY)\n4. Student Safety\n5. Household Insurance\n6. Agriculture Implements\n7. Tractor Insurance\n\nFeatures:\n- Crop insurance is compulsory\n- Must choose at least 2 additional sections\n- Single window processing\n- Individual claim processing",
+    "how_to_apply": "Single window application through authorized centers in pilot districts.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "pmkmy",
+    "name": "Pradhan Mantri Kisan Maan Dhan Yojana (PM-KMY)",
+    "description": "Launched on 12.9.2019, PM-KMY provides social security to Small and Marginal Farmers in their old age when they have no means of livelihood and minimal or no savings. The Life Insurance Corporation (LIC) manages the pension fund.",
+    "type": "Pension",
+    "eligibility": "Primary Eligibility:\n- Small and Marginal Farmer (SMF) owning up to 2 hectare cultivable land\n- Age between 18-40 years\n\nNot Eligible:\n- SMFs covered under NPS, ESIC, EPF schemes\n- Participants of PM-SYM or PM-LVM schemes\n- Institutional Land holders\n- Constitutional post holders (former/present)\n- Ministers and MPs/MLAs (former/present)\n- Government employees (except Class IV/Group D)\n- Income Tax payers\n- Registered professionals (Doctors, Engineers, Lawyers, CAs, Architects)",
+    "benefits": "1. Minimum Assured Pension: Rs. 3,000 per month after age 60\n2. Family Pension: 50% (Rs. 1,500) for spouse if subscriber dies\n3. PM-KISAN Integration: Can use PM-KISAN benefits for contributions\n4. Government Contribution: Equal contribution by Central Government\n5. Monthly Contributions: Rs. 55 to Rs. 200 based on entry age\n\nExit Provisions:\n- Before 10 years: Return of contribution with savings bank interest\n- After 10 years but before 60: Return of contribution with higher of fund interest or savings bank rate\n- Death during contribution: Spouse can continue or exit with accumulated benefits",
+    "how_to_apply": "Free enrollment options:\n1. Visit nearest Common Service Center (CSC)\n2. Contact State/UT Nodal Officer (PM-Kisan)\n3. Online self-registration\n\nRequired Documents:\n- Farmer's/Spouse's name and DOB\n- Bank account number\n- IFSC/MICR Code\n- Mobile Number\n- Aadhaar Number\n\nNote: CSCs charge Rs.30 per enrollment (borne by Government)",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "farmer-credit",
+    "name": "Credit Facility for Farmers",
+    "description": "Loan facility is available through a large network of Commercial Banks, Regional Rural Banks and Cooperative Credit Institutions in the country to fulfill the crop loan and term loan needs of the farmers.",
+    "type": "Loan",
+    "benefits": "1. Interest Assistance & Collateral-free Loans:\n- Crop loan up to Rs.3 lakhs at 7% interest rate\n- Interest reduces to 4% with timely repayment (3% interest subvention)\n- Collateral-free loans up to Rs 1.6 lakh\n\n2. Kisan Credit Card:\n- Credit limit based on crop and cultivation area\n- Valid for 3-5 years\n- Includes accidental death/disability coverage\n- Crop loans covered under Crop Insurance Scheme\n\n3. Investment Loan:\nAvailable for:\n- Irrigation\n- Agricultural Mechanization\n- Land Development\n- Plantation\n- Horticulture\n- Post-Harvest Management",
+    "eligibility": "All farmers are eligible to apply through their nearest bank.",
+    "how_to_apply": "Contact your nearest bank (Commercial Banks, Regional Rural Banks, or Cooperative Credit Institutions) to access the scheme.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "pmksy",
+    "name": "Pradhan Mantri Krishi Sinchai Yojana (PMKSY)",
+    "description": "Launched on 1st July 2015 with the motto of 'Har Khet ko Pani' for providing end-to-end solutions in irrigation supply chain, viz., water resources, distribution network, farm level applications and improving water use efficiency. Micro irrigation (MI) is being popularized to ensure 'Per Drop – More Crop' (PDMC).",
+    "type": "Infrastructure",
+    "benefits": "1. Water Carrying Pipes:\n- 50% subsidy with limits:\n  * HDPE pipes: Rs. 50/meter\n  * PVC pipes: Rs. 35/meter\n  * HDPE laminated tubes: Rs. 20/meter\n  * Maximum ceiling: Rs. 15,000 per farmer\n\n2. Water Storage & Harvesting:\n- Community Tanks (100m x 100m x 3m):\n  * Plains: Rs. 20 lakhs per unit\n  * Hilly areas: Rs. 25 lakhs per unit\n  * 500 micron plastic/RCC lining\n- Individual Farm Ponds (20m x 20m x 3m):\n  * Plains: Rs. 1.50 lakhs\n  * Hilly areas: Rs. 1.80 lakhs\n  * 300 micron lining\n\n3. Irrigation Equipment:\n- Sprinkler Sets: Rs. 10,000/ha or 50% cost\n- Pump Sets (up to 10 HP): Rs. 10,000 or 50% cost\n- Mobile Rain Guns: Rs. 15,000 or 50% cost\n\n4. Well Construction:\n- Borewells: 50% cost up to Rs. 25,000\n- Dug Wells: 100% cost up to Rs. 30,000\n- Shallow Tube Wells: 100% cost up to Rs. 12,000\n\n5. Modern Irrigation Systems:\n- Drip Irrigation:\n  * 55% subsidy for small/marginal farmers\n  * 45% for other farmers\n  * Cost range: Rs. 21,643 to Rs. 112,237/ha\n- Sprinkler Irrigation:\n  * 55% subsidy for small/marginal farmers\n  * 45% for other farmers\n  * Cost range: Rs. 19,542 to Rs. 94,028/ha\n\n6. Additional Components under NMSA:\n- Tank/Pond Lining: 50% cost up to Rs. 25,000\n- Distribution Systems: 50% cost up to Rs. 10,000/ha\n- Water Lifting Devices:\n  * Electric/Diesel: Rs. 15,000 subsidy\n  * Solar/Wind: Rs. 50,000 subsidy",
+    "eligibility": "All farmers are eligible, with special benefits for small and marginal farmers. Some restrictions apply in critical, semi-critical and over-exploited groundwater zones.",
+    "how_to_apply": "Contact any of the following officials:\n- District Agriculture Officer\n- District Soil Conservation Officer\n- Project Director, ATMA\n- District Horticulture Officer",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "dairy-interest-subvention",
+    "name": "Interest Subvention for Dairy Sector",
+    "description": "A scheme to offset the economic impact of Covid-19 on the Dairy Sector by providing interest subvention on working capital loans for dairy cooperatives and farmer producer organizations.",
+    "type": "Subsidy",
+    "implementation": "- Implementation period: 2021-22 to 2025-26\n- Total outlay: Rs. 500 Crore\n- Implementing agency: National Dairy Development Board (NDDB), Anand",
+    "eligibility": "- Dairy Cooperatives\n- Farmer owned milk producer companies\n- Milk Unions\n- Milk Federations",
+    "benefits": "Interest Benefits:\n1. Base subvention: 2% per annum\n2. Additional incentive: 2% per annum for prompt repayment\n3. Purpose: Working capital loans for\n   - Conversion of milk into conserved commodities\n   - Other milk products",
+    "how_to_apply": "Contact nearest bank or NDDB for details and application process",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "farmer-support-package-2023",
+    "name": "Unique Package for Farmers 2023",
+    "description": "A comprehensive package approved by CCEA with total outlay of Rs. 3,70,128.7 crore, focusing on sustainable agriculture, farmers' wellbeing, and economic betterment through various innovative schemes.",
+    "type": "Subsidy",
+    "components": {
+      "urea_subsidy": {
+        "name": "Urea Subsidy Scheme",
+        "outlay": "Rs. 3,68,676.7 Crore (2022-23 to 2024-25)",
+        "benefits": "- Fixed MRP: Rs. 242 per 45 kg bag\n- Actual cost covered: ~Rs. 2,200 per bag\n- Additional: Rs. 38,000 Crore for Nutrient Based Subsidy",
+        "initiatives": "1. Nano Urea Ecosystem:\n- 8 plants by 2025-26\n- Production: 44 Crore bottles\n- Equivalent to 195 LMT conventional urea\n\n2. Indigenous Production:\n- Current: 284 LMT (2022-23)\n- Target: Self-sufficiency by 2025-26"
+      },
+      "pm_pranam": {
+        "name": "PM-PRANAM (Programme for Restoration, Awareness, Nourishment and Amelioration of Mother Earth)",
+        "features": "- Promotes alternative/organic fertilizers\n- Incentivizes balanced chemical fertilizer use\n- Supports Gobardhan plants\n- Market Development Assistance: Rs. 1,500 per MT for organic fertilizers",
+        "innovations": "- Introduction of Sulphur coated Urea (Urea Gold)\n- Establishment of PMKSKs (one lakh centers)\n- Support for natural/organic farming"
+      }
+    },
+    "benefits": "1. Economic Benefits:\n- Reduced input costs\n- Affordable urea prices\n- Income enhancement opportunities\n\n2. Environmental Benefits:\n- Improved soil health\n- Reduced pollution\n- Sustainable farming practices\n\n3. Infrastructure Support:\n- One-stop solution through PMKSKs\n- Waste to wealth conversion\n- Enhanced production facilities",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "tea-development-scheme",
+    "name": "Tea Development & Promotion Scheme",
+    "description": "A comprehensive scheme for improving production, productivity, and quality of Indian teas to maintain global competitiveness, implemented by the Tea Board.",
+    "type": "Development",
+    "duration": "12.11.2021 to 31.03.2026",
+    "components": "1. Plantation Development for small tea growers\n2. Sector Specific Action Plan for NITI Forum for North East\n3. Market Promotion\n4. Welfare of Workers\n5. Research and Development\n6. Regulatory Functions & Auction Reforms\n7. Establishment expenses",
+    "financial_support": {
+      "small_growers": "Eligibility: Tea area up to 10.12 ha\n\nSupport Types:\n1. Mechanization:\n- 25% subsidy on equipment cost\n- Support for SHGs and FPOs\n- Revolving corpus up to Rs. 5,00,000\n\n2. Factory Setup:\n- 40% cost for FPO factories (max Rs. 2.00 cr)\n- 40% for mini factories (max Rs. 0.33 cr)\n\n3. Additional Support:\n- Annual awards by region\n- Organic certification\n- Soil testing\n- Training and workshops"
+    },
+    "how_to_apply": "Contact Tea Board regional offices for application process and details",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "organic-farming-assistance",
+    "name": "Financial Assistance for Organic Farmers",
+    "description": "A comprehensive support system for promoting organic farming through various schemes including PM-PRANAM, Market Development Assistance, and Paramparagat Krishi Vikas Yojana.",
+    "type": "Subsidy",
+    "schemes": {
+      "pm_pranam": {
+        "benefits": "50% of fertilizer subsidy saved shared with states promoting organic farming",
+        "focus": "Promotion of alternative fertilizers and soil health improvement"
+      },
+      "market_assistance": {
+        "support": "Rs. 1,500/MT for Fermented Organic Manure",
+        "coverage": "Includes liquid and solid organic fertilizers"
+      },
+      "pkvy": {
+        "assistance": "Rs. 31,500 per ha for three years",
+        "components": "- Training & Capacity Building\n- Data Management\n- PGS-India Certification\n- Value addition\n- Marketing\n- Direct farmer support: Rs. 15,000/ha",
+        "region_specific": "Special provisions for North Eastern Region:\n- Rs. 46,500/ha for 3 years\n- Enhanced support for FPOs\n- Additional planting material support"
+      }
+    },
+    "training_support": "Training Centers:\n1. National Center of Organic and Natural Farming\n2. Regional Centers at:\n- Ghaziabad\n- Nagpur\n- Bangalore\n- Imphal\n- Bhubaneswar\n\nPrograms:\n- One-day farmer training\n- Two-day extension officer training\n- 30-day certificate courses\n- Online awareness campaigns\n- Krishi Vigyan Kendra programs",
+    "how_to_apply": "Contact local agriculture department or nearest Krishi Vigyan Kendra",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "fishermen-welfare",
+    "name": "National Scheme of Welfare of Fishermen",
+    "description": "A comprehensive welfare scheme for marine and inland fishers, providing financial support during ban/lean periods and insurance coverage.",
+    "type": "Welfare",
+    "eligibility": "Criteria for selection:\n- Member of functional local fishers cooperative society/Federation/registered body\n- Below Poverty Line (BPL)\n- Age between 18 and 60 years\n- Must save Rs. 1500 over 9 months during fishing season",
+    "benefits": "1. Livelihood Support:\n- Rs. 4,500 per fisher for ban/lean period\n  * Government contribution: Rs. 3,000\n  * Beneficiary contribution: Rs. 1,500\n\n2. Insurance Coverage:\n- Accidental death/permanent total disability: Rs. 5,00,000\n- Permanent partial disability: Rs. 2,50,000\n- Hospitalization coverage: Rs. 25,000",
+    "how_to_apply": "Apply through respective State/UT Department of Fisheries. Contact Department of Animal Husbandries, Dairying and Fisheries of your state.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "agriculture-infrastructure-fund",
+    "name": "Agriculture Infrastructure Fund",
+    "description": "A pan India Central Sector Scheme providing medium-long term debt financing for post-harvest management Infrastructure and community farming assets through interest subvention and financial support. Duration: FY2020 to FY2032.",
+    "type": "Infrastructure",
+    "eligibility": "Eligible entities include:\n- Farmers, FPOs, PACS, Marketing Cooperatives\n- Self Help Groups and their Federations\n- Joint Liability Groups, Multipurpose Cooperatives\n- Agri-entrepreneurs, Startups\n- Central/State Agency sponsored PPP Projects\n- Agricultural Produce Market Committees",
+    "benefits": "1. Financial Support:\n- Interest subvention: 3% per annum\n- Maximum loan limit: Rs. 2 crore\n- Subvention period: up to 7 years\n\n2. Credit Guarantee:\n- Coverage under CGTMSE scheme\n- Government pays guarantee fee\n- Special coverage for FPOs\n\n3. Repayment:\n- Moratorium: 6 months to 2 years",
+    "eligible_projects": "1. Individual Projects:\n- Organic inputs production\n- Bio stimulant production\n- Nursery and tissue culture\n- Smart farming infrastructure\n- Cold storage and supply chain\n- Warehouses and silos\n\n2. Community Farming Assets:\n- Hydroponic/Aeroponic farming\n- Mushroom farming\n- Vertical farming\n- Poly house/Greenhouse\n- Logistics facilities",
+    "how_to_apply": "Online application process:\n1. Visit AIF portal\n2. Submit required documents:\n- Bank loan application\n- KYC documents\n- Project report\n- Land ownership records\n- Income proof\n- Registration certificates",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "krishi-udan",
+    "name": "Krishi UDAN 2.0",
+    "description": "Launched in August 2020, Krishi UDAN aims to assist farmers in transporting agricultural products via air to improve value realization. The scheme ensures seamless, cost-effective, time-bound air transportation and logistics for all Agri-produce, especially from Northeast, hilly and tribal regions.",
+    "type": "Logistics",
+    "objectives": "1. Increase air transportation share for Agri-produce\n2. Improve supply chain competitiveness\n3. Enhance air connectivity for agriculture products\n4. Improve cargo processing infrastructure\n5. Special focus on NER, Tribal and Hilly Districts\n6. Better mapping of production centers with markets\n7. Promote regulatory compliance\n8. Enable paperless operations through digitization",
+    "benefits": "1. Infrastructure Benefits:\n- Full waiver of Landing, Parking, TNLC and RNFC charges\n- Hub and spoke model development\n- Cargo terminals at strategic locations\n\n2. Focus Routes & Products:\n- Amritsar-Dubai: Babycorn\n- Darbhanga-Rest of India: Lichis\n- Sikkim-Rest of India: Organic produce\n- Chennai/Vizag/Kolkata-Far East: Seafood\n- Agartala-Delhi/Dubai: Pineapple\n- Dibrugarh-Delhi/Dubai: Mandarin & Oranges\n- Guwahati-Hong Kong: Pulses, fruits & vegetables\n\n3. Technology Platform:\n- E-KUSHAL (Krishi Udaan for Sustainable Holistic Agri-Logistics)\n- Integration with e-NAM\n- Digital information dissemination",
+    "implementation": "Coverage: 58 airports across India\n\nTimeline:\n2021-2022: 12 airports including Agartala, Srinagar, Dibrugarh\n2022-2023: 8 airports including Ahmedabad, Kozhikode\n2023-2024: 10 airports including Agra, Shimla\n2024-2025: Holangi, Salem",
+    "how_to_apply": "Contact implementing agencies:\n- AAI Cargo Logistics and Allied Services Company Limited (AAICLAS)\n- Invest India\n- Ministry of Commerce and Industry",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "kcc-animal-husbandry",
+    "name": "Kisan Credit Card for Animal Husbandry and Fisheries",
+    "description": "A single window credit support system for farmers engaged in Animal Husbandry and Fisheries activities, providing adequate and timely credit support.",
+    "type": "Loan",
+    "eligibility": "Open to:\n- Farmers\n- Dairy/Poultry farmers\n- Fishers and Fish Farmers\n- Individual or joint borrowers\n- Joint Liability Groups\n- Self Help Groups\n- Tenant farmers\n\nQualifying Activities:\n- Rearing dairy animals/sheep/goats/pigs/poultry/birds/rabbit\n- Owning/renting/leasing animal sheds\n- Owning/leasing registered fishing vessels\n- Possessing fishing licenses\n- Fish farming/mariculture activities\n- State-specific fisheries activities",
+    "benefits": "1. Credit Limits:\n- General limit without collateral: Rs. 1.6 lakh\n- Enhanced limit for milk union farmers: Rs. 3 lakh\n- Existing KCC holders can enhance limit\n\n2. Interest Benefits:\n- Base subvention: 2% per annum\n- Prompt repayment incentive: Additional 3%\n- Total benefit: Up to 5% on timely repayment\n\n3. Coverage:\n- Working capital for animal husbandry\n- Fisheries activities\n- Allied agricultural operations",
+    "how_to_apply": "Apply through:\n- Local bank branches\n- Regional Rural Banks\n- Cooperative Banks\n\nRequired Documents:\n- Identity proof\n- Activity proof\n- Land/Lease documents\n- Relevant licenses for fishing activities",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "fishermen-insurance",
+    "name": "Group Accident Insurance Scheme for Fishermen (GAIS)",
+    "description": "Part of the Pradhan Mantri Matsya Sampada Yojana (PMMSY), this scheme provides comprehensive insurance coverage to fishers across India, implemented by National Fisheries Development Board (NFDB) through Oriental Insurance Company Limited (OICL).",
+    "type": "Insurance",
+    "eligibility": "- Fish workers, fish farmers, and persons directly involved in fishing activities\n- Age group: 18 to 70 years\n- Both men and women fishers eligible",
+    "benefits": "Insurance Coverage:\n1. Death or permanent total disability: Rs. 5.00 lakh\n2. Permanent partial disability: Rs. 2.50 lakh\n3. Accidental hospitalization: Rs. 25,000\n\nPremium Benefits:\n- No beneficiary contribution required\n- Premium shared between Center and State as per PMMSY funding pattern",
+    "how_to_apply": "Contact your state Fisheries department for enrollment in the scheme.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "pacs",
+    "name": "Primary Agricultural Credit Societies (PACS)",
+    "description": "PACS are grassroots-level cooperative societies providing credit and other agricultural services to farmers. The scheme aims to establish viable PACS in uncovered areas and strengthen existing ones through convergence of various government schemes.",
+    "type": "Cooperative",
+    "coverage": "Current Status:\n- 98,995 PACS with 13 crore members\n- 1,99,182 dairy cooperatives with 1.5 crore members\n- 25,297 fishery cooperatives with 38 lakh members\n\nExpansion Plan:\n- Target to establish 2 lakh new PACS/Dairy/Fishery cooperatives in 5 years\n- Focus on covering 1.6 lakh Panchayats without PACS\n- Coverage for 2 lakh Panchayats without dairy cooperative society",
+    "benefits": "1. Services Offered:\n- Short-term and medium-term credit\n- Input services (seeds, fertilizers, pesticides)\n- Marketing facilities\n- Forward and backward linkages\n\n2. Business Activities (25+):\n- Dairy and fishery operations\n- Godown operations\n- Procurement services\n- Custom hiring centers\n- Common service centers\n- Fair Price Shops\n- Community irrigation\n- Business Correspondent activities\n\n3. Infrastructure Support:\n- Milk testing laboratories\n- Bulk milk coolers\n- Processing units\n- Biofloc ponds\n- Fish kiosks\n- Hatcheries\n- Deep sea fishing vessels",
+    "implementation": "Implementation Partners:\n- NABARD\n- National Dairy Development Board (NDDB)\n- National Fishery Development Board (NFDB)\n\nConverged Schemes:\n1. Dairy Sector:\n- National Programme for Dairy Development\n- Dairy Processing & Infrastructure Development Fund\n\n2. Fisheries Sector:\n- Pradhan Mantri Matsya Sampada Yojana\n- Fisheries and Aquaculture Infrastructure Development",
+    "how_to_apply": "Contact your local PACS or District Central Cooperative Bank (DCCB) for membership and services.",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "ahidf",
+    "name": "Animal Husbandry Infrastructure Development Fund (AHIDF)",
+    "description": "A comprehensive fund with an outlay of Rs. 29,610.25 crore (until 2025-26) to incentivize investments in dairy processing, meat processing, animal feed plants, breed multiplication farms, and veterinary infrastructure.",
+    "type": "Infrastructure",
+    "objectives": "1. Increase milk and meat processing capacity\n2. Improve price realization for producers\n3. Ensure quality products for domestic consumers\n4. Address protein requirements and malnutrition\n5. Generate employment\n6. Promote exports\n7. Provide quality animal feed at affordable prices",
+    "eligible_activities": "1. Dairy processing and value-added products\n2. Meat processing facilities\n3. Animal Feed Plants\n4. Breed improvement and multiplication farms\n5. Veterinary vaccine and drug production\n6. Animal waste to wealth management",
+    "eligible_entities": "- Individual entrepreneurs\n- Farmer Producer Organizations (FPOs)\n- Dairy Cooperatives\n- MSMEs\n- Section 8 companies\n- Private companies",
+    "benefits": "Financial Support:\n1. Loan Coverage:\n- Up to 90% of project cost\n- No ceiling on loan amount\n- 8-year repayment period (including 2-year moratorium)\n\n2. Beneficiary Contribution:\n- 10% for Micro and Small units\n- 15% for Medium Enterprises\n- Up to 25% for other categories\n\n3. Interest Benefits:\n- 3% interest subvention for all eligible entities\n- Credit Guarantee Fund of Rs. 750 crore managed by NABARD\n- Up to 25% credit facility for MSMEs and Dairy Cooperatives",
+    "how_to_apply": "1. Online Application:\n- Apply through AHIDF portal\n- Submit required documentation\n- Project proposal evaluation\n\n2. Documentation Required:\n- Business plan\n- Financial statements\n- Land ownership/lease documents\n- Necessary permits and licenses",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "mission-amrit-sarovar",
+    "name": "Mission Amrit Sarovar",
+    "description": "Launched on 24th April 2022, Mission Amrit Sarovar aims to develop and rejuvenate 75 water bodies in each district of the country as part of Azadi ka Amrit Mahotsav celebration, focusing on water conservation for future generations.",
+    "type": "Infrastructure",
+    "coverage": "- All rural districts\n- Target: 75 Amrit Sarovars per district\n- Total target: 50,000 Amrit Sarovars nationwide",
+    "implementation": "Phase 1:\n- Duration: Until 15th August 2023\n- Target: 50,000 Amrit Sarovars\n\nPhase 2:\n- Started: September 2023\n- Focus: Water availability through community participation\n- Goals: Climate resilience and ecological balance",
+    "specifications": "Water Body Requirements:\n- Minimum land area: 1 acre\n- Water holding capacity: 10,000 cubic meters\n- Site approval: Through special Gram Sabha\n- Supervision: Designated Panchayat Pratinidhi",
+    "funding_sources": "Resources can be accessed from:\n- Mahatma Gandhi NREGS\n- XV Finance Commission Grants (tied and untied)\n- PMKSY-WDC\n- PMKSY-HKKP-RRR\n- Similar State/Central Government schemes\n- Combination of multiple schemes possible",
+    "alternative_options": "If unable to create new water bodies:\n- Districts may undertake rejuvenation of existing structures\n- Focus on restoring ecological utility\n- Emphasis on productive utility restoration",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  },
+  {
+    "id": "natural-farming-mission",
+    "name": "National Mission on Natural Farming (NMNF)",
+    "description": "A Centrally Sponsored Scheme launched in November 2024 under the Ministry of Agriculture & Farmers' Welfare, promoting chemical-free farming based on desi cow and locally available resources. The scheme runs from 2023-2026, upscaling from the Bhartiya Prakritik Krishi Paddati (BPKP).",
+    "type": "Development",
+    "objectives": "1. Promote alternative farming system free from external purchased inputs\n2. Reduce costs and increase farmer income\n3. Popularize integrated agriculture-animal husbandry models\n4. Document and validate natural farming practices\n5. Create awareness and build capacity\n6. Establish standards and certification for natural farming products",
+    "implementation": "Coverage:\n- 15,000 clusters in Gram Panchayats\n- Target: 1 crore farmers\n- Area: 7.5 lakh Ha\n- 10,000 Bio-input Resource Centres (BRCs)\n\nPreference Areas:\n- Existing natural farming practitioners\n- SRLM/PACS/FPOs presence\n- Gangetic belt (5 Km Corridor)",
+    "benefits": "Financial Assistance:\n1. Infrastructure Support:\n- Rs. 15,000 per hectare\n- Distributed as Rs. 5,000/ha/year for 3 years\n\n2. Training Support:\n- 6 one-day village-level trainings\n- Rs. 50 per farmer per training\n- Total Rs. 30,000 per batch of 50 farmers\n\n3. Organizational Support:\n- 100 FPOs in Gangetic belt\n- 400 FPOs in rest of country\n- Farmer Field Schools in first year",
+    "farming_approach": "Key Components:\n1. Chemical-free farming\n2. Based on desi cow resources\n3. Local resource utilization\n4. On-farm biomass recycling\n5. Biomass mulching\n6. Natural pest management\n7. Soil organic matter enhancement\n8. Climate change resilience\n9. Carbon sequestration focus",
+    "how_to_apply": "Contact local agriculture department or visit https://naturalfarming.dac.gov.in/",
+    "source": "https://pmkisan.gov.in/homenew.aspx"
+  }
+] 

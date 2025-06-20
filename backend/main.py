@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Import routers
 from crop_api.routes.crop_prediction import router as crop_router
 from fertilizer_api.fertilizer_main import router as fertilizer_router
+from government_api.routes.schemes import router as government_router
 
 app = FastAPI()
 
@@ -19,6 +20,7 @@ app.add_middleware(
 # Include routers
 app.include_router(crop_router, prefix="/api/crop", tags=["crop"])
 app.include_router(fertilizer_router, prefix="/api/fertilizer", tags=["fertilizer"])
+app.include_router(government_router, prefix="/api", tags=["government"])
 
 @app.get("/")
 async def root():

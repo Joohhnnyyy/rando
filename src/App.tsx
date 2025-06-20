@@ -22,6 +22,7 @@ import PestDiseasePrediction from "./pages/PestDiseasePrediction";
 import CropRotationPlanner from "./pages/CropRotationPlanner";
 import IrrigationAdvice from "./pages/IrrigationAdvice";
 import GovernmentSchemes from "./pages/GovernmentSchemes";
+import SchemeDetails from "./pages/SchemeDetails";
 import ImageUpload from "./pages/ImageUpload";
 import ScrollToTop from '@/components/ScrollToTop';
 
@@ -51,6 +52,7 @@ const App = () => (
             <Route path="/crop-rotation" element={<CropRotationPlanner />} />
             <Route path="/irrigation-advice" element={<IrrigationAdvice />} />
             <Route path="/government-schemes" element={<GovernmentSchemes />} />
+            <Route path="/schemes/:schemeId" element={<SchemeDetails />} />
             <Route path="/image-upload" element={<ImageUpload />} />
             <Route path="/500" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
