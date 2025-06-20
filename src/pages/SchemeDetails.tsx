@@ -179,7 +179,7 @@ const SchemeDetails = () => {
                       {scheme.name}
                     </CardTitle>
                     {scheme.type && (
-                      <Badge variant="secondary" className="mt-2">
+                      <Badge className="mt-2 bg-green-500 text-white rounded-full px-3 py-1 text-sm font-semibold">
                         {scheme.type}
                       </Badge>
                     )}
