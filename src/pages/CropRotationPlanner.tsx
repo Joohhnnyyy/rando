@@ -417,11 +417,11 @@ const CropRotationPlanner = () => {
                       <DialogTrigger asChild>
                         <Button variant="outline" size="sm" className="flex items-center"><Info className="mr-2 h-4 w-4" />Details</Button>
                       </DialogTrigger>
-                      <DialogContent>
+                      <DialogContent className="sm:max-w-2xl">
                         <DialogHeader>
                           <DialogTitle>Justification for {recommendation.nextCrop}</DialogTitle>
                         </DialogHeader>
-                        <div className="py-4 space-y-4">
+                        <div className="py-4 space-y-4 max-h-[70vh] overflow-y-auto">
                           <p>{recommendation.justification}</p>
                           <h4 className="text-lg font-semibold">Detailed Advantages:</h4>
                           <ul className="list-disc list-inside ml-4">
