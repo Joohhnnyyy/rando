@@ -24,6 +24,7 @@ import IrrigationAdvice from "./pages/IrrigationAdvice";
 import GovernmentSchemes from "./pages/GovernmentSchemes";
 import SchemeDetails from "./pages/SchemeDetails";
 import ImageUpload from "./pages/ImageUpload";
+import ReportIssue from "./pages/ReportIssue";
 import ScrollToTop from '@/components/ScrollToTop';
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/government-schemes" element={<GovernmentSchemes />} />
             <Route path="/schemes/:schemeId" element={<SchemeDetails />} />
             <Route path="/image-upload" element={<ImageUpload />} />
+            <Route path="/report-issue" element={<ReportIssue />} />
             <Route path="/500" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
