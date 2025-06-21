@@ -54,25 +54,25 @@ def format_disease_name(disease_name):
 
 @router.post("/predict_disease")
 async def predict_disease(file: UploadFile = File(...)):
-    print("✅ Request received for disease prediction.")
+    print("Request received for disease prediction.")
     
     image_data = await file.read()
-    print("✅ Image data read.")
+    print("Image data read.")
     
     processed_img = preprocess_image(image_data)
-    print("✅ Image preprocessed.")
+    print("Image preprocessed.")
 
-    print("⏳ Running model prediction...")
+    print("Running model prediction...")
     prediction = model.predict(processed_img)
     predicted_index = np.argmax(prediction)
     raw_disease_name = class_names[predicted_index]
     formatted_disease_name = format_disease_name(raw_disease_name)
     confidence = float(np.max(prediction))
-    print(f"✅ Model prediction complete. Disease: {formatted_disease_name}, Confidence: {confidence}")
+    print(f"Model prediction complete. Disease: {formatted_disease_name}, Confidence: {confidence}")
 
-    print("⏳ Getting prevention tips from Gemini...")
+    print("Getting prevention tips from Gemini...")
     tips = get_disease_prevention_tips(formatted_disease_name)
-    print("✅ Prevention tips received.")
+    print("Prevention tips received.")
 
     # Parse and structure the tips for better frontend display
     structured_tips = parse_disease_tips(tips, formatted_disease_name)
@@ -85,7 +85,7 @@ async def predict_disease(file: UploadFile = File(...)):
         "structured_info": structured_tips
     }
     
-    print("✅ Sending response.")
+    print("Sending response.")
     return JSONResponse(response_data)
 
 def parse_disease_tips(tips_text, disease_name):
