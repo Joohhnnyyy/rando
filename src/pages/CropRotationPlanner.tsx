@@ -198,16 +198,16 @@ const CropRotationPlanner = () => {
               </div>
 
               <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
-              <Slider value={[formData.nitrogen]} onValueChange={val => setFormData(prev => ({ ...prev, nitrogen: val[0] }))} min={0} max={200} step={1} />
+              <Slider value={[formData.nitrogen]} onValueChange={val => setFormData(prev => ({ ...prev, nitrogen: val[0] }))} min={0} max={200} step={1} className="[&>span]:bg-gray-200"/>
 
               <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
-              <Slider value={[formData.phosphorus]} onValueChange={val => setFormData(prev => ({ ...prev, phosphorus: val[0] }))} min={0} max={100} step={1} />
+              <Slider value={[formData.phosphorus]} onValueChange={val => setFormData(prev => ({ ...prev, phosphorus: val[0] }))} min={0} max={100} step={1} className="[&>span]:bg-gray-200"/>
 
               <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
-              <Slider value={[formData.potassium]} onValueChange={val => setFormData(prev => ({ ...prev, potassium: val[0] }))} min={0} max={150} step={1} />
+              <Slider value={[formData.potassium]} onValueChange={val => setFormData(prev => ({ ...prev, potassium: val[0] }))} min={0} max={150} step={1} className="[&>span]:bg-gray-200"/>
 
               <Label>Soil pH: {formData.soilpH}</Label>
-              <Slider value={[formData.soilpH]} onValueChange={val => setFormData(prev => ({ ...prev, soilpH: val[0] }))} min={0} max={14} step={0.1} />
+              <Slider value={[formData.soilpH]} onValueChange={val => setFormData(prev => ({ ...prev, soilpH: val[0] }))} min={0} max={14} step={0.1} className="[&>span]:bg-gray-200"/>
 
               <div className="space-y-2">
                 <Label htmlFor="climateZone">Climate Zone or Region</Label>

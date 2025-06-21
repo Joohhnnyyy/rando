@@ -268,6 +268,7 @@ const YieldPrediction = () => {
                       min={300.30}
                       max={6560.70}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -278,6 +279,7 @@ const YieldPrediction = () => {
                       min={94}
                       max={190}
                       step={1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -288,6 +290,7 @@ const YieldPrediction = () => {
                       min={0.1}
                       max={0.38}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                 </div>

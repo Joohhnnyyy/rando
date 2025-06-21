@@ -225,6 +225,7 @@ const CropRecommendation = () => {
                       min={3.5}
                       max={9.94}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -235,6 +236,7 @@ const CropRecommendation = () => {
                       min={0}
                       max={140}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -245,6 +247,7 @@ const CropRecommendation = () => {
                       min={5}
                       max={145}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -255,6 +258,7 @@ const CropRecommendation = () => {
                       min={5}
                       max={205}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                 </div>
@@ -271,6 +275,7 @@ const CropRecommendation = () => {
                       min={8.83}
                       max={43.68}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -281,6 +286,7 @@ const CropRecommendation = () => {
                       min={14.26}
                       max={99.98}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -291,6 +297,7 @@ const CropRecommendation = () => {
                       min={20.21}
                       max={298.56}
                       step={0.01}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                 </div>

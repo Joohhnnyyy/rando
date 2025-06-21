@@ -72,14 +72,14 @@ const FertilizerRecommendation = () => {
   };
 
   const [formData, setFormData] = useState({
-    cropType: '',
-    nitrogen: 0,
-    phosphorus: 0,
-    potassium: 0,
-    temperature: 0,
-    moisture: 0,
-    humidity: 0,
-    soilType: '',
+    cropType: 'wheat',
+    nitrogen: 50,
+    phosphorus: 25,
+    potassium: 70,
+    temperature: 25,
+    moisture: 60,
+    humidity: 80,
+    soilType: '0', // Corresponds to Loamy
   });
   const [result, setResult] = useState<{
     fertilizer: string;
@@ -87,6 +87,7 @@ const FertilizerRecommendation = () => {
     description: string;
     tips: string;
     geminiTip?: string;
+    note?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -124,7 +125,7 @@ const FertilizerRecommendation = () => {
         throw new Error('Please select both crop type and soil type');
       }
 
-      const response = await fetch('http://localhost:8000/api/fertilizer/predict', {
+      const response = await fetch('/api/fertilizer/predict', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -142,8 +143,7 @@ const FertilizerRecommendation = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to get fertilizer recommendation');
+        throw new Error('API request failed'); // Will be caught and will trigger mock
       }
 
       const data = await response.json();
@@ -153,10 +153,20 @@ const FertilizerRecommendation = () => {
         description: data.description,
         tips: data.tips,
         geminiTip: data.gemini_tip,
+        note: data.note,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      setResult(null);
+      console.warn("API call failed, using mock data for fertilizer recommendation.", err);
+      // Mock response
+      const mockFertilizers = Object.keys(fertilizerImages);
+      const randomFertilizer = mockFertilizers[Math.floor(Math.random() * mockFertilizers.length)];
+      setResult({
+        fertilizer: randomFertilizer,
+        confidence: Math.random() * (0.98 - 0.85) + 0.85,
+        description: `A mock description for ${randomFertilizer}. It is a balanced fertilizer suitable for a wide range of crops and soil types.`,
+        tips: "Apply as per the recommended dosage during the appropriate growth stage of the crop. Ensure even distribution and mix well with the soil.",
+        note: "This is a mock recommendation for UI testing as the backend is not running."
+      });
     } finally {
       setLoading(false);
     }
@@ -248,6 +258,7 @@ const FertilizerRecommendation = () => {
                       min={0}
                       max={176}
                       step={1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -258,6 +269,7 @@ const FertilizerRecommendation = () => {
                       min={0}
                       max={104}
                       step={1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -268,6 +280,7 @@ const FertilizerRecommendation = () => {
                       min={0}
                       max={109}
                       step={1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                 </div>
@@ -282,6 +295,7 @@ const FertilizerRecommendation = () => {
                       min={0}
                       max={38}
                       step={0.1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -292,6 +306,7 @@ const FertilizerRecommendation = () => {
                       min={25}
                       max={115}
                       step={0.1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                   <div className="mb-6">
@@ -302,6 +317,7 @@ const FertilizerRecommendation = () => {
                       min={50}
                       max={145}
                       step={0.1}
+                      className="[&>span:first-child]:bg-gray-200"
                     />
                   </div>
                 </div>
@@ -354,6 +370,12 @@ const FertilizerRecommendation = () => {
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
+                  {result.note && (
+                    <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-r-lg" role="alert">
+                      <p className="font-bold">Developer Note</p>
+                      <p>{result.note}</p>
+                    </div>
+                  )}
                   <div className="relative w-72 h-96 mb-8 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
                     <img 
                       src={fertilizerImages[result.fertilizer] || defaultFertilizer} 
