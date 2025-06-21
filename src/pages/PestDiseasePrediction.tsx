@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Leaf, MapPin, Calendar, Droplet, Bug, Upload, Download, Share2, AlertTriangle, CheckCircle2, XCircle } from 'lucide-react';
@@ -8,11 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Switch } from '@/components/ui/switch';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
@@ -28,7 +25,6 @@ const PestDiseasePrediction = () => {
     potassium: 70,
     soilpH: 6.5,
     previousIssues: [] as string[],
-    noHistory: false,
     images: [] as File[],
   });
 
@@ -46,20 +42,22 @@ const PestDiseasePrediction = () => {
       riskDistribution: { [key: string]: number };
     };
   } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const cropOptions = [
-    { value: 'rice', label: 'Rice', icon: '🌾' },
-    { value: 'maize', label: 'Maize', icon: '🌽' },
-    { value: 'tomato', label: 'Tomato', icon: '🍅' },
-    { value: 'wheat', label: 'Wheat', icon: '🌾' },
-    { value: 'cotton', label: 'Cotton', icon: '🧶' },
+    { value: 'rice', label: 'Rice' },
+    { value: 'maize', label: 'Maize' },
+    { value: 'tomato', label: 'Tomato' },
+    { value: 'wheat', label: 'Wheat' },
+    { value: 'cotton', label: 'Cotton' },
   ];
 
   const soilTypes = [
-    { value: 'loamy', label: 'Loamy', description: 'Well-balanced soil with good drainage' },
-    { value: 'sandy', label: 'Sandy', description: 'Light and well-draining' },
-    { value: 'clayey', label: 'Clayey', description: 'Heavy and moisture-retaining' },
-    { value: 'silty', label: 'Silty', description: 'Fertile and moisture-retaining' },
+    { value: 'loamy', label: 'Loamy' },
+    { value: 'sandy', label: 'Sandy' },
+    { value: 'clayey', label: 'Clayey' },
+    { value: 'silty', label: 'Silty' },
   ];
 
   const pestDiseaseOptions = [
@@ -79,6 +77,30 @@ const PestDiseasePrediction = () => {
       [name]: value,
     }));
   };
+  
+  const handleMultiSelectChange = (name: string, value: string) => {
+    setFormData(prev => {
+      const currentArray = (prev as any)[name] as string[];
+      if (currentArray.includes(value)) {
+        return {
+          ...prev,
+          [name]: currentArray.filter(item => item !== value),
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: [...currentArray, value],
+        };
+      }
+    });
+  };
+
+  const handleRemoveTag = (name: string, tagToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: (prev as any)[name].filter((item: string) => item !== tagToRemove),
+    }));
+  };
 
   const handleSliderChange = (name: string, value: number[]) => {
     setFormData(prev => ({
@@ -92,7 +114,7 @@ const PestDiseasePrediction = () => {
       const newImages = Array.from(e.target.files);
       setFormData(prev => ({
         ...prev,
-        images: [...prev.images, ...newImages],
+        images: [...prev.images, ...newImages].slice(0, 5), // Limit to 5 images
       }));
     }
   };
@@ -106,79 +128,88 @@ const PestDiseasePrediction = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setPredictions(null);
+
     // Simulate API call and prediction
-    setPredictions({
-      risks: [
-        {
-          name: 'Leaf Blight',
-          riskLevel: 'High',
-          confidence: 85,
-          symptoms: 'Brown lesions on leaves, yellowing of leaf margins',
-          prevention: [
-            'Use disease-resistant varieties',
-            'Maintain proper plant spacing',
-            'Avoid overhead irrigation',
+    setTimeout(() => {
+      try {
+        setPredictions({
+          risks: [
+            {
+              name: 'Leaf Blight',
+              riskLevel: 'High',
+              confidence: 85,
+              symptoms: 'Brown lesions on leaves, yellowing of leaf margins.',
+              prevention: [
+                'Use disease-resistant crop varieties.',
+                'Ensure proper plant spacing for good air circulation.',
+                'Avoid overhead irrigation to keep foliage dry.',
+              ],
+              treatment: [
+                'Apply copper-based fungicides at first sign of disease.',
+                'Remove and destroy infected plant parts immediately.',
+                'Improve air circulation through pruning.',
+              ],
+            },
+            {
+              name: 'Aphids',
+              riskLevel: 'Medium',
+              confidence: 75,
+              symptoms: 'Curled or yellowing leaves, sticky "honeydew" residue.',
+              prevention: [
+                'Introduce beneficial insects like ladybugs.',
+                'Use reflective mulches to deter aphids.',
+                'Conduct regular plant inspections.',
+              ],
+              treatment: [
+                'Apply neem oil or insecticidal soap.',
+                'Use a strong jet of water to dislodge them.',
+                'Encourage natural predators in the area.',
+              ],
+            },
           ],
-          treatment: [
-            'Apply copper-based fungicides',
-            'Remove and destroy infected plant parts',
-            'Improve air circulation',
-          ],
-        },
-        {
-          name: 'Aphids',
-          riskLevel: 'Medium',
-          confidence: 75,
-          symptoms: 'Curled leaves, sticky residue on leaves',
-          prevention: [
-            'Introduce beneficial insects',
-            'Use reflective mulches',
-            'Regular monitoring',
-          ],
-          treatment: [
-            'Apply neem oil',
-            'Use insecticidal soap',
-            'Introduce ladybugs',
-          ],
-        },
-      ],
-      summary: {
-        totalRisks: 2,
-        riskDistribution: {
-          'High Risk': 1,
-          'Medium Risk': 1,
-          'Low Risk': 0,
-        },
-      },
-    });
+          summary: {
+            totalRisks: 2,
+            riskDistribution: {
+              'High Risk': 1,
+              'Medium Risk': 1,
+              'Low Risk': 0,
+            },
+          },
+        });
+      } catch (err) {
+        setError('Failed to get predictions. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }, 1500);
   };
 
-  const getRiskColor = (level: string) => {
+  const getRiskBadgeVariant = (level: string): "destructive" | "warning" | "success" | "default" => {
     switch (level) {
-      case 'High':
-        return 'bg-red-500';
-      case 'Medium':
-        return 'bg-yellow-500';
-      case 'Low':
-        return 'bg-green-500';
-      default:
-        return 'bg-gray-500';
+      case 'High': return 'destructive';
+      case 'Medium': return 'warning';
+      case 'Low': return 'success';
+      default: return 'default';
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8">
-        <Button
-          variant="ghost"
-          className="mb-6"
-          onClick={() => navigate(-1)}
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-
+      <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+        <div className="w-full max-w-6xl">
+          <Button
+            variant="ghost"
+            className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+        </div>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,324 +221,229 @@ const PestDiseasePrediction = () => {
           <p className="text-gray-600 text-lg">Analyze your crops for potential threats and get preventive measures.</p>
         </motion.div>
 
-        {!predictions ? (
-          <Card className="w-full max-w-5xl mx-auto shadow-xl rounded-lg">
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left: Form */}
+          <Card className="shadow-xl rounded-lg">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">Input Parameters</CardTitle>
+              <CardTitle className="text-2xl font-bold flex items-center">
+                <Leaf className="mr-2" /> Input Parameters
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Provide details about your crop and field conditions.</p>
             </CardHeader>
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Crop Selection */}
-                <div className="space-y-4">
-                  <Label>Crop Selection</Label>
-                  <Select onValueChange={(value) => handleChange('crop', value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a crop" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {cropOptions.map(crop => (
-                        <SelectItem key={crop.value} value={crop.value}>
-                          <span className="flex items-center">
-                            <span className="mr-2">{crop.icon}</span>
-                            {crop.label}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Region & Season */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <Label>Region</Label>
-                    <div className="flex">
-                      <Input
-                        placeholder="Enter location"
-                        value={formData.region}
-                        onChange={(e) => handleChange('region', e.target.value)}
-                      />
-                      <Button variant="outline" className="ml-2">
-                        <MapPin className="h-4 w-4" />
-                      </Button>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-8 mt-6">
+                {/* Crop & Location */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4">Crop & Location</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="crop">Crop Type</Label>
+                      <Select name="crop" onValueChange={(value) => handleChange('crop', value)}>
+                        <SelectTrigger><SelectValue placeholder="Select a crop" /></SelectTrigger>
+                        <SelectContent>
+                          {cropOptions.map(c => <SelectItem key={c.value} value={c.value}>{c.label}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
-                  </div>
-                  <div className="space-y-4">
-                    <Label>Season</Label>
-                    <Select onValueChange={(value) => handleChange('season', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select season" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="kharif">Kharif</SelectItem>
-                        <SelectItem value="rabi">Rabi</SelectItem>
-                        <SelectItem value="zaid">Zaid</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="space-y-2">
+                      <Label htmlFor="region">Region/Location</Label>
+                      <Input name="region" placeholder="e.g., Punjab, India" value={formData.region} onChange={(e) => handleChange('region', e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="season">Season</Label>
+                      <Select name="season" onValueChange={(value) => handleChange('season', value)}>
+                        <SelectTrigger><SelectValue placeholder="Select season" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="kharif">Kharif</SelectItem>
+                          <SelectItem value="rabi">Rabi</SelectItem>
+                          <SelectItem value="zaid">Zaid</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="soilType">Soil Type</Label>
+                      <Select name="soilType" onValueChange={(value) => handleChange('soilType', value)}>
+                        <SelectTrigger><SelectValue placeholder="Select soil type" /></SelectTrigger>
+                        <SelectContent>
+                          {soilTypes.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </div>
 
                 {/* Soil Nutrients */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-4">
-                  <div className="space-y-3">
-                    <Label htmlFor="nitrogen" className="font-medium">Nitrogen (N) - (kg/ha)</Label>
-                    <Slider
-                      id="nitrogen"
-                      value={[formData.nitrogen]}
-                      onValueChange={(value) => handleSliderChange('nitrogen', value)}
-                      min={0}
-                      max={200}
-                      step={1}
-                      className="[&>span]:bg-gray-200"
-                    />
-                    <div className="text-right text-sm text-gray-600">{formData.nitrogen} kg/ha</div>
-                  </div>
-                  <div className="space-y-3">
-                    <Label htmlFor="phosphorus" className="font-medium">Phosphorus (P) - (kg/ha)</Label>
-                    <Slider
-                      id="phosphorus"
-                      value={[formData.phosphorus]}
-                      onValueChange={(value) => handleSliderChange('phosphorus', value)}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="[&>span]:bg-gray-200"
-                    />
-                    <div className="text-right text-sm text-gray-600">{formData.phosphorus} kg/ha</div>
-                  </div>
-                  <div className="space-y-3">
-                    <Label htmlFor="potassium" className="font-medium">Potassium (K) - (kg/ha)</Label>
-                    <Slider
-                      id="potassium"
-                      value={[formData.potassium]}
-                      onValueChange={(value) => handleSliderChange('potassium', value)}
-                      min={0}
-                      max={150}
-                      step={1}
-                      className="[&>span]:bg-gray-200"
-                    />
-                    <div className="text-right text-sm text-gray-600">{formData.potassium} kg/ha</div>
-                  </div>
-                  <div className="space-y-3">
-                    <Label htmlFor="soilpH" className="font-medium">Soil pH</Label>
-                    <Slider
-                      id="soilpH"
-                      value={[formData.soilpH]}
-                      onValueChange={(value) => handleSliderChange('soilpH', value)}
-                      min={0}
-                      max={14}
-                      step={0.1}
-                      className="[&>span]:bg-gray-200"
-                    />
-                    <div className="text-right text-sm text-gray-600">{formData.soilpH}</div>
-                  </div>
-                </div>
-
-                {/* Soil Type Cards */}
-                <div className="space-y-4">
-                  <Label>Soil Type</Label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {soilTypes.map(soil => (
-                      <Card
-                        key={soil.value}
-                        className={`cursor-pointer transition-all ${
-                          formData.soilType === soil.value ? 'ring-2 ring-emerald-500' : ''
-                        }`}
-                        onClick={() => handleChange('soilType', soil.value)}
-                      >
-                        <CardContent className="p-4">
-                          <h3 className="font-semibold">{soil.label}</h3>
-                          <p className="text-sm text-gray-500">{soil.description}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Previous Issues */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Label>Previous Pest/Disease Issues</Label>
-                    <div className="flex items-center space-x-2">
-                      <Switch
-                        id="no-history-switch"
-                        checked={formData.noHistory}
-                        onCheckedChange={(checked) => handleChange('noHistory', checked)}
-                      />
-                      <Label htmlFor="no-history-switch">No History</Label>
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4 mt-6">Soil Nutrients</h2>
+                  <div className="space-y-6">
+                    <div>
+                      <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
+                      <Slider value={[formData.nitrogen]} onValueChange={v => handleSliderChange('nitrogen', v)} min={0} max={200} step={1} className="[&>span]:bg-gray-200" />
+                    </div>
+                    <div>
+                      <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
+                      <Slider value={[formData.phosphorus]} onValueChange={v => handleSliderChange('phosphorus', v)} min={0} max={100} step={1} className="[&>span]:bg-gray-200" />
+                    </div>
+                    <div>
+                      <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
+                      <Slider value={[formData.potassium]} onValueChange={v => handleSliderChange('potassium', v)} min={0} max={150} step={1} className="[&>span]:bg-gray-200" />
+                    </div>
+                    <div>
+                      <Label>Soil pH: {formData.soilpH}</Label>
+                      <Slider value={[formData.soilpH]} onValueChange={v => handleSliderChange('soilpH', v)} min={0} max={14} step={0.1} className="[&>span]:bg-gray-200" />
                     </div>
                   </div>
-                  <Select
-                    onValueChange={(value) => {
-                      if (!formData.previousIssues.includes(value)) {
-                        handleChange('previousIssues', [...formData.previousIssues, value]);
-                      }
-                    }}
-                    disabled={formData.noHistory}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select previous issues..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {pestDiseaseOptions.map(option => (
-                        <SelectItem key={option} value={option}>{option}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {formData.previousIssues.map((issue, index) => (
-                      <Badge key={index} variant="secondary" className="flex items-center">
-                        {issue}
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="ml-1 h-auto p-0"
-                          onClick={() => {
-                            const updatedIssues = formData.previousIssues.filter((_, i) => i !== index);
-                            handleChange('previousIssues', updatedIssues);
-                          }}
-                        >
-                          <XCircle className="h-4 w-4" />
-                        </Button>
-                      </Badge>
-                    ))}
-                  </div>
                 </div>
 
-                {/* Image Upload */}
-                <div className="space-y-4">
-                  <Label>Upload Crop Images (Optional)</Label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-sm text-gray-600">Drag & drop files here, or click to browse</p>
-                    <Input
-                      id="image-upload"
-                      type="file"
-                      multiple
-                      className="hidden"
-                      onChange={handleImageUpload}
-                    />
-                    <Button variant="outline" className="mt-4" onClick={() => document.getElementById('image-upload')?.click()}>
-                      Browse Files
-                    </Button>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-                    {formData.images.map((file, index) => (
-                      <div key={index} className="relative">
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`upload-preview-${index}`}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          className="absolute top-1 right-1 h-6 w-6"
-                          onClick={() => removeImage(index)}
-                        >
-                          <XCircle className="h-4 w-4" />
-                        </Button>
+                {/* History & Image Upload */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4 mt-6">History & Observations</h2>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="previousIssues">Previous Pest/Disease Issues (Optional)</Label>
+                      <Select name="previousIssues" onValueChange={(value) => handleMultiSelectChange('previousIssues', value)}>
+                        <SelectTrigger><SelectValue placeholder="Select past issues" /></SelectTrigger>
+                        <SelectContent>
+                          {pestDiseaseOptions.map(p => <SelectItem key={p} value={p.toLowerCase()}>{p}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {formData.previousIssues.map(item => (
+                          <span key={item} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            <Bug className="h-4 w-4 mr-1.5" />
+                            {item}
+                            <button type="button" className="ml-2 text-gray-500 hover:text-red-500" onClick={() => handleRemoveTag('previousIssues', item)}>&times;</button>
+                          </span>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="images">Upload Crop Images (Optional)</Label>
+                      <div className="flex items-center justify-center w-full">
+                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                <Upload className="w-8 h-8 mb-2 text-gray-500" />
+                                <p className="mb-1 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p className="text-xs text-gray-500">PNG, JPG, or JPEG (MAX. 5 images)</p>
+                            </div>
+                            <Input id="dropzone-file" type="file" className="hidden" multiple onChange={handleImageUpload} accept="image/png, image/jpeg, image/jpg" />
+                        </label>
+                      </div>
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {formData.images.map((file, index) => (
+                          <div key={index} className="relative">
+                            <img src={URL.createObjectURL(file)} alt={`upload-${index}`} className="h-16 w-16 rounded-md object-cover" />
+                            <button type="button" onClick={() => removeImage(index)} className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-0.5 w-4 h-4 flex items-center justify-center text-xs">&times;</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex justify-end">
-                  <Button type="submit" size="lg" className="bg-emerald-600 hover:bg-emerald-700">
-                    <Bug className="mr-2 h-5 w-5" />
-                    Predict Risks
+                <div className="flex flex-col md:flex-row gap-2 pt-4">
+                  <Button type="submit" className="bg-black text-white hover:bg-gray-800 w-full md:w-auto" disabled={loading}>
+                    {loading ? 'Analyzing...' : 'Get Predictions'}
+                  </Button>
+                  <Button variant="outline" type="button" onClick={() => navigate('/services')} className="w-full md:w-auto">
+                    Back to Services
                   </Button>
                 </div>
               </form>
             </CardContent>
           </Card>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="w-full max-w-5xl mx-auto shadow-xl rounded-lg">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="text-2xl font-bold">Prediction Results</CardTitle>
-                  <CardDescription>Based on your input, here are the potential risks.</CardDescription>
+
+          {/* Right: Result Panel */}
+          <Card className="shadow-xl rounded-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold flex items-center">
+                <Bug className="mr-2" /> Prediction Results
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Potential risks and recommendations will appear here.</p>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                  <p className="text-gray-600">Analyzing data and making predictions...</p>
                 </div>
-                <div className="flex space-x-2">
-                  <Button variant="outline">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Report
-                  </Button>
-                  <Button variant="outline">
-                    <Share2 className="mr-2 h-4 w-4" />
-                    Share
-                  </Button>
+              ) : error ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px] text-red-600">
+                  <AlertTriangle className="h-16 w-16 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2">Analysis Failed</h2>
+                  <p>{error}</p>
                 </div>
-              </CardHeader>
-              <CardContent className="p-8 space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                  <Card>
+              ) : !predictions ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <Leaf className="h-16 w-16 text-green-400 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2">No predictions yet</h2>
+                  <p className="text-gray-500 text-center max-w-xs">
+                    Enter your field data on the left and click <span className="font-semibold">Get Predictions</span> to see potential risks.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <Card className="bg-gray-50 border-gray-200">
                     <CardHeader>
-                      <CardTitle>Total Risks</CardTitle>
+                      <CardTitle className="text-lg">Analysis Summary</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-4xl font-bold">{predictions.summary.totalRisks}</p>
+                    <CardContent className="flex justify-around items-center text-center">
+                      <div>
+                        <p className="text-3xl font-bold">{predictions.summary.totalRisks}</p>
+                        <p className="text-sm text-gray-500">Total Risks</p>
+                      </div>
+                      {Object.entries(predictions.summary.riskDistribution).map(([level, count]) => (
+                        <div key={level}>
+                          <p className="text-3xl font-bold">{count}</p>
+                          <p className="text-sm text-gray-500">{level}</p>
+                        </div>
+                      ))}
                     </CardContent>
                   </Card>
-                  {Object.entries(predictions.summary.riskDistribution).map(([level, count]) => (
-                    <Card key={level}>
-                      <CardHeader>
-                        <CardTitle>{level}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-4xl font-bold">{count}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
 
-                <Accordion type="single" collapsible className="w-full">
-                  {predictions.risks.map((risk, index) => (
-                    <AccordionItem key={index} value={`item-${index}`}>
-                      <AccordionTrigger className="text-lg font-semibold">
-                        <div className="flex items-center">
-                          <Badge className={`${getRiskColor(risk.riskLevel)} mr-4`}>{risk.riskLevel}</Badge>
-                          {risk.name}
-                          <span className="ml-2 text-sm text-gray-500">(Confidence: {risk.confidence}%)</span>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent className="space-y-4 px-4">
-                        <div>
-                          <h4 className="font-semibold text-md">Symptoms</h4>
-                          <p className="text-gray-700">{risk.symptoms}</p>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-md">Prevention</h4>
-                          <ul className="list-disc list-inside text-gray-700">
-                            {risk.prevention.map((tip, i) => <li key={i}>{tip}</li>)}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-md">Treatment</h4>
-                          <ul className="list-disc list-inside text-gray-700">
-                            {risk.treatment.map((tip, i) => <li key={i}>{tip}</li>)}
-                          </ul>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
+                  <Accordion type="single" collapsible className="w-full">
+                    {predictions.risks.map((risk, index) => (
+                      <AccordionItem value={`item-${index}`} key={index}>
+                        <AccordionTrigger>
+                          <div className="flex items-center justify-between w-full">
+                            <span className="font-semibold text-lg">{risk.name}</span>
+                            <div className="flex items-center gap-2">
+                                <Badge variant={getRiskBadgeVariant(risk.riskLevel)}>{risk.riskLevel} Risk</Badge>
+                                <Badge variant="outline">{risk.confidence}% Conf.</Badge>
+                            </div>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="space-y-4">
+                          <div>
+                            <h4 className="font-semibold mb-1">Symptoms to Watch For:</h4>
+                            <p className="text-gray-600">{risk.symptoms}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-1 text-green-700">Prevention Measures:</h4>
+                            <ul className="list-disc list-inside text-gray-600 space-y-1">
+                              {risk.prevention.map((p, i) => <li key={i}>{p}</li>)}
+                            </ul>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold mb-1 text-red-700">Treatment Options:</h4>
+                            <ul className="list-disc list-inside text-gray-600 space-y-1">
+                              {risk.treatment.map((t, i) => <li key={i}>{t}</li>)}
+                            </ul>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
 
-                <div className="text-center pt-6">
-                  <Button onClick={() => setPredictions(null)}>
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Form
-                  </Button>
+                  <div className="pt-4 border-t border-gray-200 flex flex-wrap gap-2 justify-start">
+                    <Button variant="outline" size="sm" className="flex items-center"><Download className="mr-2 h-4 w-4" />Download Report</Button>
+                    <Button variant="outline" size="sm" className="flex items-center"><Share2 className="mr-2 h-4 w-4" />Share Results</Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <Footer />
     </div>

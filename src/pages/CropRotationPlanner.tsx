@@ -32,6 +32,8 @@ const CropRotationPlanner = () => {
     targetGoal: '',
   });
   const [recommendation, setRecommendation] = useState<{ nextCrop: string; justification: string; advantages: string[]; rotationPlan?: string[] } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,21 +74,35 @@ const CropRotationPlanner = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Crop Rotation Planner Form Data:', formData);
-    // Simulate a recommendation
-    setRecommendation({
-      nextCrop: 'Pulses',
-      justification: 'Pulses are excellent for nitrogen fixation, improving soil fertility for subsequent crops, especially after cereal crops like Wheat or Maize. They also help in breaking pest and disease cycles common to cereals.',
-      advantages: [
-        'Nitrogen fixation: Naturally enriches soil with nitrogen, reducing fertilizer needs.',
-        'Pest & Disease break: Disrupts life cycles of pests and diseases specific to previous crops.',
-        'Soil health improvement: Enhances soil structure and microbial activity.',
-        'Increased biodiversity: Contributes to a more balanced farm ecosystem.',
-      ],
-      rotationPlan: ['Season 1 (Rabi): Wheat', 'Season 2 (Kharif): Pulses', 'Season 3 (Rabi): Mustard'],
-    });
+    setLoading(true);
+    setError(null);
+    setRecommendation(null);
+
+    try {
+      const response = await fetch('/api/rotation/generate-advice', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to generate recommendation.');
+      }
+
+      const data = await response.json();
+      setRecommendation(data);
+
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred. Please try again.');
+      console.error("API call failed:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const cropOptions = ['Wheat', 'Rice', 'Maize', 'Barley', 'Pulses', 'Mustard', 'Soybean', 'Cotton'];
@@ -108,10 +124,10 @@ const CropRotationPlanner = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <div className="w-full max-w-5xl mb-4">
+        <div className="w-full max-w-6xl">
           <Button
             variant="ghost"
-            className="flex items-center text-gray-600 hover:text-gray-900"
+            className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
             onClick={() => navigate(-1)}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -129,267 +145,312 @@ const CropRotationPlanner = () => {
           <p className="text-gray-600 text-lg">Plan your crop rotations for sustainable farming and improved productivity.</p>
         </motion.div>
 
-        <Card className="w-full max-w-5xl shadow-xl rounded-lg mb-8">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold flex items-center">
-              <Leaf className="mr-2" /> Rotation Parameters
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
-              {/* Section 1: Previous Crop History */}
-              <div className="space-y-2 lg:col-span-1">
-                <Label htmlFor="currentCrop">Current Crop</Label>
-                <Select name="currentCrop" onValueChange={(value) => handleSelectChange('currentCrop', value)} value={formData.currentCrop}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select current crop" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cropOptions.map(crop => <SelectItem key={crop} value={crop.toLowerCase()}>{crop}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Left: Form */}
+          <Card className="shadow-xl rounded-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold flex items-center">
+                <Leaf className="mr-2" /> Rotation Parameters
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Fill in your field's details for a smart rotation plan.</p>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-8 mt-6">
+                {/* Section 1: Previous Crop History */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4">Crop History</h2>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="currentCrop">Current Crop</Label>
+                      <Select name="currentCrop" onValueChange={(value) => handleSelectChange('currentCrop', value)} value={formData.currentCrop}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select current crop" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cropOptions.map(crop => <SelectItem key={crop} value={crop.toLowerCase()}>{crop}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-              <div className="space-y-2 lg:col-span-2">
-                <Label htmlFor="previousCrops">Previous Crop(s)</Label>
-                <Select name="previousCrops" onValueChange={(value) => handleMultiSelectChange('previousCrops', value)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select previous crop(s)" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {cropOptions.map(crop => (
-                      <SelectItem key={crop} value={crop.toLowerCase()}>
-                        {crop}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {formData.previousCrops.map(crop => (
-                    <span key={crop} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm flex items-center">
-                      {/* Add dynamic icon based on crop type if available, otherwise generic leaf */}
-                      <Leaf className="h-4 w-4 mr-1" />
-                      {crop}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="ml-1 h-auto p-0 text-gray-500 hover:text-red-500"
-                        onClick={() => handleRemoveTag('previousCrops', crop)}
-                      >
-                        x
-                      </Button>
-                    </span>
-                  ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="previousCrops">Previous Crop(s)</Label>
+                      <Select name="previousCrops" onValueChange={(value) => handleMultiSelectChange('previousCrops', value)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select previous crop(s)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cropOptions.map(crop => (
+                            <SelectItem key={crop} value={crop.toLowerCase()}>
+                              {crop}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {formData.previousCrops.map(crop => (
+                          <span key={crop} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            <Leaf className="h-4 w-4 mr-1.5" />
+                            {crop}
+                            <button
+                              type="button"
+                              className="ml-2 text-gray-500 hover:text-red-500"
+                              onClick={() => handleRemoveTag('previousCrops', crop)}
+                            >
+                              &times;
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Section 2: Soil and Field Details */}
-              <div className="space-y-2">
-                <Label htmlFor="soilType">Soil Type</Label>
-                <Select name="soilType" onValueChange={(value) => handleSelectChange('soilType', value)} value={formData.soilType}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select soil type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {soilOptions.map(type => <SelectItem key={type} value={type.toLowerCase()}>{type}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                {/* Placeholder for visual description if needed */}
-              </div>
+                {/* Section 2: Soil and Field Details */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4 mt-6">Soil, Climate & Water</h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="soilType">Soil Type</Label>
+                      <Select name="soilType" onValueChange={(value) => handleSelectChange('soilType', value)} value={formData.soilType}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select soil type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {soilOptions.map(type => <SelectItem key={type} value={type.toLowerCase()}>{type}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-              <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
-              <Slider value={[formData.nitrogen]} onValueChange={val => setFormData(prev => ({ ...prev, nitrogen: val[0] }))} min={0} max={200} step={1} className="[&>span]:bg-gray-200"/>
+                    <div className="space-y-2">
+                      <Label htmlFor="climateZone">Climate Zone</Label>
+                      <Select name="climateZone" onValueChange={(value) => handleSelectChange('climateZone', value)} value={formData.climateZone}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select climate zone" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {climateOptions.map(zone => <SelectItem key={zone} value={zone.toLowerCase()}>{zone}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-              <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
-              <Slider value={[formData.phosphorus]} onValueChange={val => setFormData(prev => ({ ...prev, phosphorus: val[0] }))} min={0} max={100} step={1} className="[&>span]:bg-gray-200"/>
+                    <div className="space-y-2">
+                      <Label htmlFor="season">Season</Label>
+                      <Select name="season" onValueChange={(value) => handleSelectChange('season', value)} value={formData.season}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select season" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {seasonOptions.map(season => <SelectItem key={season} value={season.toLowerCase()}>{season}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-              <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
-              <Slider value={[formData.potassium]} onValueChange={val => setFormData(prev => ({ ...prev, potassium: val[0] }))} min={0} max={150} step={1} className="[&>span]:bg-gray-200"/>
-
-              <Label>Soil pH: {formData.soilpH}</Label>
-              <Slider value={[formData.soilpH]} onValueChange={val => setFormData(prev => ({ ...prev, soilpH: val[0] }))} min={0} max={14} step={0.1} className="[&>span]:bg-gray-200"/>
-
-              <div className="space-y-2">
-                <Label htmlFor="climateZone">Climate Zone or Region</Label>
-                <Select name="climateZone" onValueChange={(value) => handleSelectChange('climateZone', value)} value={formData.climateZone}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select climate zone" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {climateOptions.map(zone => <SelectItem key={zone} value={zone.toLowerCase()}>{zone}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                {/* Placeholder for location autocomplete */}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="season">Season</Label>
-                <Select name="season" onValueChange={(value) => handleSelectChange('season', value)} value={formData.season}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select season" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {seasonOptions.map(season => <SelectItem key={season} value={season.toLowerCase()}>{season}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="waterAvailability">Water Availability</Label>
-                <Select name="waterAvailability" onValueChange={(value) => handleSelectChange('waterAvailability', value)} value={formData.waterAvailability}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select water availability" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {waterAvailabilityOptions.map(water => <SelectItem key={water} value={water.toLowerCase()}>{water}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="irrigationType">Irrigation Type</Label>
-                <Select name="irrigationType" onValueChange={(value) => handleSelectChange('irrigationType', value)} value={formData.irrigationType}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select irrigation type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {irrigationTypeOptions.map(type => <SelectItem key={type} value={type.toLowerCase()}>{type}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2 lg:col-span-2">
-                <Label htmlFor="pestDiseaseHistory">Pest or Disease History (Optional)</Label>
-                <Select name="pestDiseaseHistory" onValueChange={(value) => handleMultiSelectChange('pestDiseaseHistory', value)}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select history (optional)" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {pestDiseaseOptions.map(history => (
-                      <SelectItem key={history} value={history.toLowerCase()}>
-                        {history}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {formData.pestDiseaseHistory.map(item => (
-                    <span key={item} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm flex items-center">
-                      {/* Add dynamic icon based on crop type if available, otherwise generic leaf */}
-                      <Bug className="h-4 w-4 mr-1" />
-                      {item}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="ml-1 h-auto p-0 text-gray-500 hover:text-red-500"
-                        onClick={() => handleRemoveTag('pestDiseaseHistory', item)}
-                      >
-                        x
-                      </Button>
-                    </span>
-                  ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="waterAvailability">Water Availability</Label>
+                      <Select name="waterAvailability" onValueChange={(value) => handleSelectChange('waterAvailability', value)} value={formData.waterAvailability}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select water availability" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {waterAvailabilityOptions.map(water => <SelectItem key={water} value={water.toLowerCase()}>{water}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Section 3: Farming Goals */}
-              <div className="space-y-2 lg:col-span-3">
-                <Label htmlFor="targetGoal">Target Goal</Label>
-                <ToggleGroup type="single" value={formData.targetGoal} onValueChange={(value: string) => handleSelectChange('targetGoal', value)} className="flex flex-wrap gap-2">
-                  {targetGoalOptions.map(goal => (
-                    <ToggleGroupItem
-                      key={goal.value}
-                      value={goal.value}
-                      aria-label={goal.label}
-                      className="bg-white text-gray-700 data-[state=on]:bg-black data-[state=on]:text-white hover:bg-gray-200 hover:text-gray-900 transition-colors"
-                    >
-                      {goal.label}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
-              </div>
+                {/* Section 3: Nutrient Levels */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4 mt-6">Nutrient Levels</h2>
+                  <div className="space-y-6">
+                    <div>
+                      <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
+                      <Slider value={[formData.nitrogen]} onValueChange={val => setFormData(prev => ({ ...prev, nitrogen: val[0] }))} min={0} max={200} step={1} className="[&>span]:bg-gray-200"/>
+                    </div>
+                    <div>
+                      <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
+                      <Slider value={[formData.phosphorus]} onValueChange={val => setFormData(prev => ({ ...prev, phosphorus: val[0] }))} min={0} max={100} step={1} className="[&>span]:bg-gray-200"/>
+                    </div>
+                    <div>
+                      <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
+                      <Slider value={[formData.potassium]} onValueChange={val => setFormData(prev => ({ ...prev, potassium: val[0] }))} min={0} max={150} step={1} className="[&>span]:bg-gray-200"/>
+                    </div>
+                    <div>
+                      <Label>Soil pH: {formData.soilpH}</Label>
+                      <Slider value={[formData.soilpH]} onValueChange={val => setFormData(prev => ({ ...prev, soilpH: val[0] }))} min={0} max={14} step={0.1} className="[&>span]:bg-gray-200"/>
+                    </div>
+                  </div>
+                </div>
 
-              <div className="md:col-span-2 lg:col-span-3 flex justify-between items-center mt-8">
-                <Button type="submit" className="bg-black text-white hover:bg-gray-800">
-                  Generate Rotation Plan
-                </Button>
-                <Button variant="ghost" onClick={() => navigate('/services')}>
-                  Back to Services
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                {/* Section 4: Pest History & Goals */}
+                <div>
+                  <h2 className="text-lg font-semibold text-green-700 mb-4 mt-6">History & Goals</h2>
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="pestDiseaseHistory">Pest or Disease History (Optional)</Label>
+                      <Select name="pestDiseaseHistory" onValueChange={(value) => handleMultiSelectChange('pestDiseaseHistory', value)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select history (optional)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {pestDiseaseOptions.map(history => (
+                            <SelectItem key={history} value={history.toLowerCase()}>
+                              {history}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {formData.pestDiseaseHistory.map(item => (
+                          <span key={item} className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm flex items-center">
+                            <Bug className="h-4 w-4 mr-1.5" />
+                            {item}
+                            <button
+                              type="button"
+                              className="ml-2 text-gray-500 hover:text-red-500"
+                              onClick={() => handleRemoveTag('pestDiseaseHistory', item)}
+                            >
+                              &times;
+                            </button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="targetGoal">Primary Farming Goal</Label>
+                      <ToggleGroup type="single" value={formData.targetGoal} onValueChange={(value: string) => handleSelectChange('targetGoal', value)} className="flex flex-wrap justify-start gap-2">
+                        {targetGoalOptions.map(goal => (
+                          <ToggleGroupItem
+                            key={goal.value}
+                            value={goal.value}
+                            aria-label={goal.label}
+                            className="bg-white border border-gray-300 text-gray-700 data-[state=on]:bg-black data-[state=on]:text-white hover:bg-gray-100 transition-colors"
+                          >
+                            {goal.label}
+                          </ToggleGroupItem>
+                        ))}
+                      </ToggleGroup>
+                    </div>
+                  </div>
+                </div>
 
-        {recommendation && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="w-full max-w-5xl bg-blue-50 border border-blue-200 text-blue-800 p-8 rounded-lg shadow-md"
-          >
-            <h3 className="text-2xl font-bold mb-4 flex items-center">
-              <Leaf className="mr-2 h-6 w-6" /> Recommended Next Crop: <span className="text-blue-700 ml-2">{recommendation.nextCrop}</span>
-            </h3>
-            <p className="text-lg mb-2"><strong>Justification:</strong> {recommendation.justification}</p>
-            <h4 className="text-lg font-semibold mt-4">Advantages:</h4>
-            <ul className="list-disc list-inside ml-4 mb-4">
-              {recommendation.advantages.map((advantage, index) => (
-                <li key={index}>{advantage}</li>
-              ))}
-            </ul>
+                <div className="flex flex-col md:flex-row gap-2 pt-4">
+                  <Button type="submit" className="bg-black text-white hover:bg-gray-800 w-full md:w-auto" disabled={loading}>
+                    {loading ? 'Generating Plan...' : 'Generate Rotation Plan'}
+                  </Button>
+                  <Button variant="outline" type="button" onClick={() => navigate('/services')} className="w-full md:w-auto">
+                    Back to Services
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
 
-            {recommendation.rotationPlan && (
-              <div>
-                <h4 className="text-lg font-semibold mt-4">Suggested Rotation Plan:</h4>
-                <ul className="list-disc list-inside ml-4">
-                  {recommendation.rotationPlan.map((step, index) => (
-                    <li key={index}>{step}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
+          {/* Right: Result Panel */}
+          <Card className="shadow-xl rounded-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold flex items-center">
+                <Sprout className="mr-2" /> Rotation Recommendation
+              </CardTitle>
+              <p className="text-gray-500 text-base mt-2">Your personalized rotation plan will appear here.</p>
+            </CardHeader>
+            <CardContent>
+              {loading ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                  <p className="text-gray-600">Generating your rotation plan...</p>
+                </div>
+              ) : error ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px] text-red-600">
+                  <h2 className="text-2xl font-semibold mb-2">Error</h2>
+                  <p>{error}</p>
+                </div>
+              ) : !recommendation ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px]">
+                  <Leaf className="h-16 w-16 text-green-400 mb-4" />
+                  <h2 className="text-2xl font-semibold mb-2">No recommendation yet</h2>
+                  <p className="text-gray-500 text-center max-w-xs">
+                    Enter your field data on the left and click <span className="font-semibold">Generate Rotation Plan</span> to see a suggestion.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-500">Recommended Next Crop</h3>
+                    <p className="text-3xl font-bold text-emerald-600">{recommendation.nextCrop}</p>
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h4 className="text-lg font-semibold text-gray-800 mb-2">Justification</h4>
+                    <p className="text-gray-600">{recommendation.justification}</p>
+                  </div>
 
-            <div className="mt-6 flex justify-end space-x-4">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="flex items-center"><Info className="mr-2 h-4 w-4" />Why this crop?</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Justification for {recommendation.nextCrop}</DialogTitle>
-                  </DialogHeader>
-                  <div className="py-4">
-                    <p>{recommendation.justification}</p>
-                    <h4 className="text-lg font-semibold mt-4">Detailed Advantages:</h4>
-                    <ul className="list-disc list-inside ml-4">
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-800 mb-2">Key Advantages</h4>
+                    <ul className="space-y-2">
                       {recommendation.advantages.map((advantage, index) => (
-                        <li key={index}>{advantage}</li>
+                        <li key={index} className="flex items-start">
+                          <div className="flex-shrink-0 w-2 h-2 mt-1.5 mr-3 rounded-full bg-emerald-500"></div>
+                          <span className="text-gray-700">{advantage}</span>
+                        </li>
                       ))}
                     </ul>
-                    {recommendation.rotationPlan && (
-                      <div className="mt-4">
-                        <h4 className="text-lg font-semibold">Rotation Plan Context:</h4>
-                        <ul className="list-disc list-inside ml-4">
-                          {recommendation.rotationPlan.map((step, index) => (
-                            <li key={index}>{step}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
                   </div>
-                </DialogContent>
-              </Dialog>
-              <Button variant="outline" className="flex items-center"><Download className="mr-2 h-4 w-4" />Download Plan</Button>
-              <Button variant="outline" className="flex items-center"><Mail className="mr-2 h-4 w-4" />Send via Email</Button>
-            </div>
 
-            {/* Placeholder for Crop Timeline */}
-            <div className="mt-8 p-4 bg-gray-100 rounded-lg text-gray-700 text-center">
-              <h4 className="text-lg font-semibold mb-2">Crop Timeline Placeholder</h4>
-              <p>Integrate a horizontal timeline or calendar view here showing past, current, and future rotation paths.</p>
-            </div>
-          </motion.div>
-        )}
+                  {recommendation.rotationPlan && (
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-800 mb-2">Suggested 3-Season Plan</h4>
+                       <ol className="relative border-l border-gray-200 dark:border-gray-700 ml-2">                  
+                        {recommendation.rotationPlan.map((step, index) => (
+                          <li key={index} className="mb-6 ml-4">
+                            <div className="absolute w-3 h-3 bg-gray-300 rounded-full mt-1.5 -left-1.5 border border-white"></div>
+                            <time className="mb-1 text-sm font-normal leading-none text-gray-500">Season {index + 1}</time>
+                            <h3 className="text-lg font-semibold text-gray-900">{step}</h3>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+
+                  <div className="pt-4 border-t border-gray-200 flex flex-wrap gap-2 justify-start">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm" className="flex items-center"><Info className="mr-2 h-4 w-4" />Details</Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Justification for {recommendation.nextCrop}</DialogTitle>
+                        </DialogHeader>
+                        <div className="py-4 space-y-4">
+                          <p>{recommendation.justification}</p>
+                          <h4 className="text-lg font-semibold">Detailed Advantages:</h4>
+                          <ul className="list-disc list-inside ml-4">
+                            {recommendation.advantages.map((advantage, index) => (
+                              <li key={index}>{advantage}</li>
+                            ))}
+                          </ul>
+                          {recommendation.rotationPlan && (
+                            <div>
+                              <h4 className="text-lg font-semibold">Rotation Plan Context:</h4>
+                              <p className="text-sm text-gray-600">This plan ensures diversity and long-term soil health.</p>
+                              <ul className="list-disc list-inside ml-4 mt-2">
+                                {recommendation.rotationPlan.map((step, index) => (
+                                  <li key={index}>{step}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                    <Button variant="outline" size="sm" className="flex items-center"><Download className="mr-2 h-4 w-4" />Download</Button>
+                    <Button variant="outline" size="sm" className="flex items-center"><Mail className="mr-2 h-4 w-4" />Email</Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <Footer />
     </div>

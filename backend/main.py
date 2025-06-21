@@ -7,6 +7,7 @@ from .fertilizer_api.fertilizer_main import router as fertilizer_router
 from .government_api.routes.schemes import router as government_router
 from .yield_api.yield_main import router as yield_router
 from .disease_api.routes.disease_prediction import router as disease_router
+from .crop_rotation_api.routes.crop_rotation import router as rotation_router
 
 app = FastAPI()
 
@@ -25,6 +26,7 @@ app.include_router(fertilizer_router, prefix="/api/fertilizer", tags=["fertilize
 app.include_router(government_router, prefix="/api", tags=["government"])
 app.include_router(yield_router, prefix="/api/yield", tags=["yield"])
 app.include_router(disease_router, prefix="/api/disease", tags=["disease"])
+app.include_router(rotation_router, prefix="/api/rotation", tags=["rotation"])
 
 @app.get("/")
 async def root():
