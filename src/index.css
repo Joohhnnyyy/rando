@@ -92,6 +92,11 @@
   body {
     @apply bg-background text-foreground font-telegraf;
     scroll-behavior: smooth;
+    background: #fff !important;
+  }
+
+  html {
+    background: #fff !important;
   }
 }
 
