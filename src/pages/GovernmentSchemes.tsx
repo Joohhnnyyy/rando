@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
-  Search,
+  Search, 
   FileText,
   Loader2
 } from 'lucide-react';
@@ -135,7 +135,7 @@ const GovernmentSchemes = () => {
       [name]: value
     }));
   };
-  
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -145,11 +145,11 @@ const GovernmentSchemes = () => {
           <Button variant="ghost" onClick={() => navigate(-1)} className="mb-4 -ml-4">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
-          </Button>
+            </Button>
           <h1 className="text-3xl font-bold text-gray-900">Schemes for Farmers</h1>
           <p className="text-gray-500 mt-1">
             Browse and find relevant government schemes and subsidies.
-          </p>
+              </p>
         </div>
       </div>
 
@@ -166,38 +166,38 @@ const GovernmentSchemes = () => {
                 className="pl-10"
               />
             </div>
-          </div>
+                </div>
           <div className="flex items-center gap-4 w-full md:w-auto">
-            <Select onValueChange={(value) => handleFilterChange('schemeType', value)}>
+                  <Select onValueChange={(value) => handleFilterChange('schemeType', value)}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Scheme Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                {allSchemeTypes.map((type) => (
-                  <SelectItem key={type} value={type.toLowerCase()}>{type}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Types</SelectItem>
+                      {allSchemeTypes.map((type) => (
+                        <SelectItem key={type} value={type.toLowerCase()}>{type}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-full md:w-[180px]">
                 <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
+                    </SelectTrigger>
+                    <SelectContent>
                 <SelectItem value="name-asc">Sort by Name (A-Z)</SelectItem>
                 <SelectItem value="name-desc">Sort by Name (Z-A)</SelectItem>
-              </SelectContent>
-            </Select>
+                    </SelectContent>
+                  </Select>
+                </div>
           </div>
-        </div>
 
-        {/* Main Content */}
+          {/* Main Content */}
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
              {[...Array(8)].map((_, i) => (
               <Card key={i}><CardContent className="p-6"><Skeleton className="h-24 w-full" /></CardContent></Card>
             ))}
-          </div>
+              </div>
         ) : error ? (
           <Alert variant="destructive">
             <AlertDescription>
@@ -217,33 +217,33 @@ const GovernmentSchemes = () => {
                     <FileText className="h-8 w-8 mb-4 text-blue-500" />
                     <h3 className="text-lg font-semibold mb-2 truncate" title={scheme.name}>{scheme.name}</h3>
                     <p className="text-sm text-gray-600 line-clamp-3">{scheme.description}</p>
-                  </CardContent>
-                </Card>
+                        </CardContent>
+                      </Card>
               ))}
-            </div>
+                </div>
 
-            {totalSchemes > ITEMS_PER_PAGE && (
-              <div className="flex items-center justify-center space-x-2 mt-8">
-                <Button
-                  variant="outline"
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                >
-                  Previous
-                </Button>
-                <span className="text-sm text-gray-600">
-                  Page {page} of {Math.ceil(totalSchemes / ITEMS_PER_PAGE)}
-                </span>
-                <Button
-                  variant="outline"
-                  onClick={() => setPage(p => p + 1)}
-                  disabled={page >= Math.ceil(totalSchemes / ITEMS_PER_PAGE)}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-          </>
+                {totalSchemes > ITEMS_PER_PAGE && (
+                  <div className="flex items-center justify-center space-x-2 mt-8">
+                    <Button
+                      variant="outline"
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={page === 1}
+                    >
+                      Previous
+                    </Button>
+                    <span className="text-sm text-gray-600">
+                      Page {page} of {Math.ceil(totalSchemes / ITEMS_PER_PAGE)}
+                    </span>
+                    <Button
+                      variant="outline"
+                      onClick={() => setPage(p => p + 1)}
+                      disabled={page >= Math.ceil(totalSchemes / ITEMS_PER_PAGE)}
+                    >
+                      Next
+                    </Button>
+                  </div>
+                )}
+              </>
         ) : (
           <Card>
             <CardContent className="p-10 text-center text-gray-500">
