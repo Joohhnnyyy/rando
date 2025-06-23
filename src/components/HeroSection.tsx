@@ -10,7 +10,7 @@ const HeroSection = () => {
 
   return (
     <motion.section 
-      className="section-snap min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-50 pt-20"
+      className="section-snap min-h-screen flex items-center justify-center bg-white pt-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
