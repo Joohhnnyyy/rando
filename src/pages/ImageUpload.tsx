@@ -396,7 +396,7 @@ const ImageUpload = () => {
           </TabsList>
 
           <TabsContent value="upload">
-            <Card>
+            <Card className="shadow-lg bg-white">
               <CardHeader>
                 <CardTitle>Upload or Capture Image</CardTitle>
                 <CardDescription>
@@ -479,7 +479,7 @@ const ImageUpload = () => {
           </TabsContent>
 
           <TabsContent value="preview">
-            <Card>
+            <Card className="shadow-lg bg-white">
               <CardHeader>
                 <CardTitle>Preview & Confirm</CardTitle>
                 <CardDescription>
@@ -534,7 +534,7 @@ const ImageUpload = () => {
           <TabsContent value="results">
             <AnimatePresence>
               {isAnalyzing ? (
-                <Card>
+                <Card className="shadow-lg bg-white">
                   <CardContent className="p-8">
                     <div className="text-center">
                       <RefreshCw className="mx-auto h-12 w-12 text-blue-500 animate-spin mb-4" />
@@ -551,7 +551,7 @@ const ImageUpload = () => {
                   exit={{ opacity: 0, y: -20 }}
                   className="space-y-6"
                 >
-                  <Card>
+                  <Card className="shadow-lg bg-white">
                     <CardHeader>
                       <div className="flex items-center justify-between">
                         <div>
@@ -613,7 +613,7 @@ const ImageUpload = () => {
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="shadow-lg bg-white">
                     <CardHeader>
                       <CardTitle>Disease Information</CardTitle>
                     </CardHeader>
@@ -641,7 +641,7 @@ const ImageUpload = () => {
                     </CardContent>
                   </Card>
 
-                  <Card>
+                  <Card className="shadow-lg bg-white">
                     <CardHeader>
                       <CardTitle>Recommendations</CardTitle>
                     </CardHeader>

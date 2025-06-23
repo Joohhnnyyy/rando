@@ -163,7 +163,7 @@ const PestDiseasePredictionNew = () => {
 
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left: Form */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center"><Leaf className="mr-2" /> Input Parameters</CardTitle>
               <p className="text-gray-500 text-base mt-2">Provide details about your crop and field conditions.</p>
@@ -278,7 +278,7 @@ const PestDiseasePredictionNew = () => {
           </Card>
 
           {/* Right: Result Panel */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 min-h-[500px] bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center"><Sprout className="mr-2" /> Prediction Results</CardTitle>
               <p className="text-gray-500 text-base mt-2">Potential risks and recommendations will appear here.</p>

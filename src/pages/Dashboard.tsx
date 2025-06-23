@@ -51,7 +51,7 @@ const Dashboard = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
                   <Link to={action.path}>
-                    <Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-gray-100">
+                    <Card className="h-full hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 border-gray-100 bg-white">
                       <CardContent className="p-6 text-center">
                         <div className="flex items-center justify-center w-full h-14 mb-4 text-gray-700">
                           {action.icon}
@@ -72,7 +72,7 @@ const Dashboard = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <Card className="border-0 shadow-lg">
+                <Card className="border-0 shadow-lg bg-white">
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-black">
                       Recent Activity
@@ -93,7 +93,7 @@ const Dashboard = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <Card className="border-0 shadow-lg">
+                <Card className="border-0 shadow-lg bg-white">
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-black">
                       Getting Started

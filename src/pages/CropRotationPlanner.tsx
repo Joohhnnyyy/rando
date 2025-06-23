@@ -147,7 +147,7 @@ const CropRotationPlanner = () => {
 
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left: Form */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="shadow-xl rounded-lg bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center">
                 <Leaf className="mr-2" /> Rotation Parameters
@@ -347,7 +347,7 @@ const CropRotationPlanner = () => {
           </Card>
 
           {/* Right: Result Panel */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="shadow-xl rounded-lg bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center">
                 <Sprout className="mr-2" /> Rotation Recommendation

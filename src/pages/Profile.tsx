@@ -362,7 +362,7 @@ const Profile = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                <Card className="border-0 shadow-lg text-center">
+                <Card className="border-0 shadow-lg text-center bg-white">
                   <CardContent className="p-8">
                     <div className="relative w-24 h-24 mx-auto mb-4">
                       {profileImage && !imageLoadError ? (
@@ -445,7 +445,7 @@ const Profile = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <Card className="border-0 shadow-lg">
+                <Card className="border-0 shadow-lg bg-white">
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-black">
                       Account Information

@@ -60,7 +60,7 @@ const About = () => {
           </div>
         </motion.section>
 
-        <section className="py-20 bg-gray-50 px-6">
+        <section className="py-20 bg-white px-6">
           <div className="max-w-6xl mx-auto">
             <motion.h2 
               className="text-4xl font-bold text-center text-black mb-16"
@@ -81,7 +81,7 @@ const About = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
                     <CardContent className="p-8">
                       <h3 className="text-2xl font-bold text-black mb-4">
                         {feature.title}
@@ -97,7 +97,7 @@ const About = () => {
           </div>
         </section>
 
-        <section className="py-20 px-6">
+        <section className="py-20 bg-white px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 50 }}

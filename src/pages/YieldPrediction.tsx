@@ -123,7 +123,7 @@ const YieldPrediction = () => {
         </motion.div>
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left: Form */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center">
                 <Leaf className="mr-2" /> Crop & Climate Information
@@ -315,7 +315,7 @@ const YieldPrediction = () => {
             </CardContent>
           </Card>
           {/* Right: Result Panel */}
-          <Card className="shadow-xl rounded-lg">
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 min-h-[500px] bg-white">
             <CardHeader>
               <CardTitle className="text-2xl font-bold flex items-center">
                 <TrendingUp className="mr-2" /> Yield Prediction
