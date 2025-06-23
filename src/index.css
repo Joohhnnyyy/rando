@@ -98,6 +98,11 @@
   html {
     background: #fff !important;
   }
+
+  /* Ensure all slider thumbs are circular */
+  [data-radix-slider-thumb] {
+    border-radius: 50% !important;
+  }
 }
 
 @layer utilities {

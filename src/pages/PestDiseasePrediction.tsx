@@ -227,19 +227,19 @@ const PestDiseasePredictionNew = () => {
                     </div>
                     <div>
                       <Label>Nitrogen (N) - mg/kg: {formData.nitrogen}</Label>
-                      <Slider value={[formData.nitrogen]} onValueChange={v => handleSliderChange('nitrogen', v)} min={0} max={200} step={1} className="[&>span]:bg-gray-200" />
+                      <Slider value={[formData.nitrogen]} onValueChange={v => handleSliderChange('nitrogen', v)} min={0} max={200} step={1} className="[&_[data-radix-slider-thumb]]:bg-gray-200 [&_[data-radix-slider-thumb]]:rounded-full" />
                     </div>
                     <div>
                       <Label>Phosphorus (P) - mg/kg: {formData.phosphorus}</Label>
-                      <Slider value={[formData.phosphorus]} onValueChange={v => handleSliderChange('phosphorus', v)} min={0} max={100} step={1} className="[&>span]:bg-gray-200" />
+                      <Slider value={[formData.phosphorus]} onValueChange={v => handleSliderChange('phosphorus', v)} min={0} max={100} step={1} className="[&_[data-radix-slider-thumb]]:bg-gray-200 [&_[data-radix-slider-thumb]]:rounded-full" />
                     </div>
                     <div>
                       <Label>Potassium (K) - mg/kg: {formData.potassium}</Label>
-                      <Slider value={[formData.potassium]} onValueChange={v => handleSliderChange('potassium', v)} min={0} max={150} step={1} className="[&>span]:bg-gray-200" />
+                      <Slider value={[formData.potassium]} onValueChange={v => handleSliderChange('potassium', v)} min={0} max={150} step={1} className="[&_[data-radix-slider-thumb]]:bg-gray-200 [&_[data-radix-slider-thumb]]:rounded-full" />
                     </div>
                     <div>
                       <Label>Soil pH: {formData.soilpH}</Label>
-                      <Slider value={[formData.soilpH]} onValueChange={v => handleSliderChange('soilpH', v)} min={0} max={14} step={0.1} className="[&>span]:bg-gray-200" />
+                      <Slider value={[formData.soilpH]} onValueChange={v => handleSliderChange('soilpH', v)} min={0} max={14} step={0.1} className="[&_[data-radix-slider-thumb]]:bg-gray-200 [&_[data-radix-slider-thumb]]:rounded-full" />
                     </div>
                   </div>
                 </div>
