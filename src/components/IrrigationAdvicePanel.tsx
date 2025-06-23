@@ -314,9 +314,9 @@ export const IrrigationAdvicePanel = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       {/* Weather Banner */}
-      <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-6 mt-16">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-6">
+      <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-4 px-3 sm:px-6 mt-16">
+        <div className="max-w-7xl mx-auto flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             {weather ? (
               <>
                 <div className="flex items-center">
