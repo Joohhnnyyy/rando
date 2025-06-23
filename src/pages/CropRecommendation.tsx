@@ -187,7 +187,7 @@ const CropRecommendation = () => {
             Enter your soil and climate data to get a personalized crop suggestion powered by machine learning.
           </p>
         </motion.div>
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 bg-white">
           {/* Left: Input Form */}
           <Card className="flex-1 max-w-xl mx-auto lg:mx-0">
             <CardHeader className="flex flex-col space-y-1.5 p-6">
