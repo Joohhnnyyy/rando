@@ -2,12 +2,17 @@ import { motion } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '@/components/ui/use-toast';
+import { Menu, MenuButton, MenuContent, MenuItem, MenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { Menu as MenuIcon } from 'lucide-react';
+import { useState } from 'react';
 
 const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const handleDashboardClick = (e: React.MouseEvent) => {
     if (!user) {
@@ -43,6 +48,7 @@ const Navigation = () => {
             SeedSync
           </Link>
           
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
@@ -56,6 +62,38 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <Menu open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <MenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="p-2">
+                  <MenuIcon className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </MenuTrigger>
+              <MenuContent align="end" className="w-48">
+                {navItems.map((item) => (
+                  <MenuItem key={item.name} asChild>
+                    <Link
+                      to={item.path}
+                      onClick={(e) => {
+                        if (item.requiresAuth) {
+                          handleDashboardClick(e);
+                        }
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full text-left ${
+                        location.pathname === item.path ? 'text-black font-medium' : 'text-gray-600'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </MenuItem>
+                ))}
+              </MenuContent>
+            </Menu>
           </div>
         </div>
       </div>
