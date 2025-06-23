@@ -54,3 +54,65 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Node/Vite/React
+node_modules/
+dist/
+build/
+.vite/
+*.log
+
+# Python/FastAPI
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.pkl
+*.h5
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# Test/coverage
+coverage/
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# Misc
+*.pem
+*.lockb
+
+# Uploaded files (if not tracked)
+backend/uploads/
+uploads/
+public/uploads/
+
+# Supabase migrations (if you want to ignore generated SQL)
+supabase/migrations/*.sql
+
+# Output video/media
+*.mp4
+*.avi
+*.mov
+
+# Ignore local config
+*.local
+
+# Ignore bun
+bun.lockb
