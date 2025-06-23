@@ -354,7 +354,7 @@ const ImageUpload = () => {
       {/* Page Header */}
       <div className="pt-20 pb-8 px-4 sm:px-6 lg:px-8 bg-white border-b">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <div className="flex items-center">
               <Button
                 variant="ghost"
@@ -364,7 +364,7 @@ const ImageUpload = () => {
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div>
-                <h1 className="text-4xl font-bold text-gray-900">Visual Crop Analysis</h1>
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Visual Crop Analysis</h1>
                 <p className="text-gray-600 mt-2">
                   Upload a photo of your crop to detect diseases, pests, or deficiencies instantly
                 </p>
@@ -373,12 +373,12 @@ const ImageUpload = () => {
                 </p>
               </div>
             </div>
-            <div className="flex space-x-4">
-              <Button variant="outline" size="sm">
+            <div className="flex flex-col sm:flex-row gap-2 sm:space-x-4">
+              <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <History className="h-4 w-4 mr-2" />
                 Upload History
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <Database className="h-4 w-4 mr-2" />
                 Disease Database
               </Button>
