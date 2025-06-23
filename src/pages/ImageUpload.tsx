@@ -389,7 +389,7 @@ const ImageUpload = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
             <TabsTrigger value="upload">Upload Image</TabsTrigger>
             <TabsTrigger value="preview" disabled={!preview}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={!analysisResult}>Results</TabsTrigger>
@@ -454,7 +454,7 @@ const ImageUpload = () => {
                         <span className="w-full border-t" />
                       </div>
                       <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-card px-2 text-muted-foreground">
+                        <span className="bg-white px-2 text-muted-foreground">
                           Or upload a file
                         </span>
                       </div>
