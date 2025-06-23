@@ -102,14 +102,14 @@ const YieldPrediction = () => {
       <Navigation />
       <div className="pt-20 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         <div className="w-full max-w-6xl">
-          <Button
-            variant="ghost"
-            className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
+        <Button
+          variant="ghost"
+          className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back
+        </Button>
         </div>
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -124,12 +124,12 @@ const YieldPrediction = () => {
         <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left: Form */}
           <Card className="flex-1 max-w-xl mx-auto lg:mx-0 bg-white">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold flex items-center">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold flex items-center">
                 <Leaf className="mr-2" /> Crop & Climate Information
-              </CardTitle>
+            </CardTitle>
               <p className="text-gray-500 text-base mt-2">Fill in your field's details for accurate yield prediction.</p>
-            </CardHeader>
+          </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
                 {/* Crop Information */}
@@ -138,10 +138,10 @@ const YieldPrediction = () => {
                   <div className="mb-6">
                     <Label htmlFor="crop" className="font-semibold">Crop Type *</Label>
                     <Select name="crop" onValueChange={(value) => handleSelectChange('crop', value)}>
-                      <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select your crop" />
-                      </SelectTrigger>
-                      <SelectContent>
+                  </SelectTrigger>
+                  <SelectContent>
                         <SelectItem value="Arecanut">Arecanut</SelectItem>
                         <SelectItem value="Arhar/Tur">Arhar/Tur</SelectItem>
                         <SelectItem value="Castor seed">Castor seed</SelectItem>
@@ -197,16 +197,16 @@ const YieldPrediction = () => {
                         <SelectItem value="Guar seed">Guar seed</SelectItem>
                         <SelectItem value="Other Summer Pulses">Other Summer Pulses</SelectItem>
                         <SelectItem value="Moth">Moth</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  </SelectContent>
+                </Select>
+              </div>
                   <div className="mb-6">
                     <Label htmlFor="state" className="font-semibold">State *</Label>
                     <Select name="state" onValueChange={(value) => handleSelectChange('state', value)}>
-                      <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select state" />
-                      </SelectTrigger>
-                      <SelectContent>
+                  </SelectTrigger>
+                  <SelectContent>
                         <SelectItem value="Assam">Assam</SelectItem>
                         <SelectItem value="Karnataka">Karnataka</SelectItem>
                         <SelectItem value="Kerala">Kerala</SelectItem>
@@ -237,25 +237,25 @@ const YieldPrediction = () => {
                         <SelectItem value="Telangana">Telangana</SelectItem>
                         <SelectItem value="Arunachal Pradesh">Arunachal Pradesh</SelectItem>
                         <SelectItem value="Sikkim">Sikkim</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  </SelectContent>
+                </Select>
+              </div>
                   <div className="mb-6">
                     <Label htmlFor="season" className="font-semibold">Season *</Label>
                     <Select name="season" onValueChange={(value) => handleSelectChange('season', value)}>
-                      <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select season" />
-                      </SelectTrigger>
-                      <SelectContent>
+                  </SelectTrigger>
+                  <SelectContent>
                         <SelectItem value="Whole Year">Whole Year</SelectItem>
                         <SelectItem value="Kharif">Kharif</SelectItem>
                         <SelectItem value="Rabi">Rabi</SelectItem>
                         <SelectItem value="Autumn">Autumn</SelectItem>
                         <SelectItem value="Summer">Summer</SelectItem>
                         <SelectItem value="Winter">Winter</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  </SelectContent>
+                </Select>
+              </div>
                 </div>
                 {/* Climate & Input Information */}
                 <div className="mb-6">
@@ -270,7 +270,7 @@ const YieldPrediction = () => {
                       step={0.01}
                       className="[&>span:first-child]:bg-gray-200"
                     />
-                  </div>
+              </div>
                   <div className="mb-6">
                     <Label htmlFor="fertilizer">Fertilizer Usage: {formData.fertilizer} kg/ha</Label>
                     <Slider
@@ -281,7 +281,7 @@ const YieldPrediction = () => {
                       step={1}
                       className="[&>span:first-child]:bg-gray-200"
                     />
-                  </div>
+              </div>
                   <div className="mb-6">
                     <Label htmlFor="pesticide">Pesticide Usage: {formData.pesticide} kg/ha</Label>
                     <Slider
@@ -292,8 +292,8 @@ const YieldPrediction = () => {
                       step={0.01}
                       className="[&>span:first-child]:bg-gray-200"
                     />
-                  </div>
-                </div>
+              </div>
+              </div>
                 <div className="flex flex-col md:flex-row gap-2 mt-6">
                   <Button 
                     type="submit" 
@@ -301,19 +301,19 @@ const YieldPrediction = () => {
                     disabled={loading}
                   >
                     {loading ? 'Predicting Yield...' : 'Predict Yield'}
-                  </Button>
+                </Button>
                   <Button 
                     type="button" 
                     variant="outline" 
                     className="w-full md:w-auto"
                     onClick={() => navigate('/services')}
                   >
-                    Back to Services
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+                  Back to Services
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
           {/* Right: Result Panel */}
           <Card className="flex-1 max-w-xl mx-auto lg:mx-0 min-h-[500px] bg-white">
             <CardHeader>
@@ -363,7 +363,7 @@ const YieldPrediction = () => {
                         {result.note || 'Based on your input parameters, this is the expected yield for your crop.'}
                       </p>
                     </div>
-                    <div className="bg-purple-50 rounded-2xl p-6 border border-purple-100">
+                    <div className="bg-purple-50 rounded-2xl p-6 border border-gray-200">
                       <h4 className="text-xl font-semibold text-gray-900 mb-4 pb-2 border-b border-purple-200">Prediction Insights</h4>
                       <div className="space-y-3">
                         <div className="flex items-start space-x-3">

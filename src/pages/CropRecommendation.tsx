@@ -189,7 +189,7 @@ const CropRecommendation = () => {
         </motion.div>
         <div className="flex flex-col lg:flex-row gap-8 bg-white">
           {/* Left: Input Form */}
-          <Card className="flex-1 max-w-xl mx-auto lg:mx-0">
+          <Card className="flex-1 max-w-xl mx-auto lg:mx-0 bg-white border border-gray-200">
             <CardHeader className="flex flex-col space-y-1.5 p-6">
               <CardTitle className="text-2xl font-bold flex items-center tracking-tight">
                 <LandPlot className="h-7 w-7 text-green-700" /> Soil & Climate Information
