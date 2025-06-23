@@ -22,20 +22,20 @@ const Contact = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center mb-16">
-              <Button asChild variant="ghost" className="w-fit">
+            <div className="flex flex-col sm:flex-row items-center mb-16 gap-4 sm:gap-0">
+              <Button asChild variant="ghost" className="w-fit mb-2 sm:mb-0">
                 <Link to="/" className="flex items-center text-black hover:text-gray-700">
                   <ChevronLeft className="w-5 h-5 mr-1" />
                   Back to Home
                 </Link>
               </Button>
               <div className="flex-grow text-center">
-              <h1 className="text-5xl md:text-6xl font-bold text-black mb-8">
-                Get in Touch
-              </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
-                Have questions about SeedSync? We'd love to hear from you.
-              </p>
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-black mb-4 sm:mb-8">
+                  Get in Touch
+                </h1>
+                <p className="text-base sm:text-xl text-gray-600 leading-relaxed">
+                  Have questions about SeedSync? We'd love to hear from you.
+                </p>
               </div>
             </div>
 
