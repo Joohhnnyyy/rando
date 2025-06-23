@@ -169,7 +169,7 @@ const GovernmentSchemes = () => {
                 </div>
           <div className="flex items-center gap-4 w-full md:w-auto">
                   <Select onValueChange={(value) => handleFilterChange('schemeType', value)}>
-              <SelectTrigger className="w-full md:w-[180px]">
+              <SelectTrigger className="w-full md:w-[180px] border-gray-200">
                 <SelectValue placeholder="Scheme Type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -180,7 +180,7 @@ const GovernmentSchemes = () => {
                     </SelectContent>
                   </Select>
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full md:w-[180px]">
+              <SelectTrigger className="w-full md:w-[180px] border-gray-200">
                 <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>
