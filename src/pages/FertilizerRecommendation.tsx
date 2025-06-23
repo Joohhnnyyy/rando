@@ -371,7 +371,7 @@ const FertilizerRecommendation = () => {
               ) : (
                 <div className="flex flex-col items-center">
                   {result.note && (
-                    <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-r-lg" role="alert">
+                    <div className="w-full bg-white border-l-4 border-gray-200 text-gray-700 p-4 mb-6 rounded-r-lg" role="alert">
                       <p className="font-bold">Developer Note</p>
                       <p>{result.note}</p>
                     </div>

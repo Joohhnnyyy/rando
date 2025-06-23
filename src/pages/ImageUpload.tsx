@@ -128,7 +128,7 @@ const ImageUpload = () => {
       case 'Medium':
         return {
           variant: 'secondary' as const,
-          className: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+          className: 'bg-white text-gray-800 border-gray-200',
           icon: Zap
         };
       case 'Low':
