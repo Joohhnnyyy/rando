@@ -17,7 +17,7 @@ const MakerSection = () => {
           </h2>
         </motion.div>
 
-        <Card className="border-0 shadow-2xl bg-gray-50">
+        <Card className="border-0 shadow-2xl bg-white">
           <CardContent className="p-0">
             <div className="grid md:grid-cols-2 gap-0">
               <motion.div 
