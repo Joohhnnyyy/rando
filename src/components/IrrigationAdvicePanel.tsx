@@ -367,7 +367,8 @@ export const IrrigationAdvicePanel = () => {
               onClick={() => navigate(-1)}
               className="mr-0 sm:mr-4 self-start sm:self-auto"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5 mr-1" />
+              Back
             </Button>
             <div className="flex-1">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Irrigation Advice</h1>
