@@ -355,20 +355,20 @@ const ImageUpload = () => {
       <div className="pt-20 pb-8 px-4 sm:px-6 lg:px-8 bg-white border-b">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <div className="flex items-center">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0">
               <Button
                 variant="ghost"
                 onClick={() => navigate(-1)}
-                className="mr-4"
+                className="mr-0 sm:mr-4 self-start sm:self-auto"
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">Visual Crop Analysis</h1>
-                <p className="text-gray-600 mt-2">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Visual Crop Analysis</h1>
+                <p className="text-sm sm:text-base text-gray-600 mt-2">
                   Upload a photo of your crop to detect diseases, pests, or deficiencies instantly
                 </p>
-                <p className="text-sm text-blue-600 mt-1">
+                <p className="text-xs sm:text-sm text-blue-600 mt-1">
                   Get AI-powered insights within seconds
                 </p>
               </div>
@@ -376,11 +376,13 @@ const ImageUpload = () => {
             <div className="flex flex-col sm:flex-row gap-2 sm:space-x-4">
               <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <History className="h-4 w-4 mr-2" />
-                Upload History
+                <span className="hidden sm:inline">Upload History</span>
+                <span className="sm:hidden">History</span>
               </Button>
               <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <Database className="h-4 w-4 mr-2" />
-                Disease Database
+                <span className="hidden sm:inline">Disease Database</span>
+                <span className="sm:hidden">Database</span>
               </Button>
             </div>
           </div>
@@ -412,26 +414,27 @@ const ImageUpload = () => {
                         autoPlay
                         playsInline
                         muted
-                        className="w-full h-96 object-cover"
+                        className="w-full h-64 sm:h-96 object-cover"
                       />
                       <canvas ref={canvasRef} className="hidden" />
-                      <div className="absolute inset-0 flex flex-col justify-between p-4">
+                      <div className="absolute inset-0 flex flex-col justify-between p-3 sm:p-4">
                         <div className="flex justify-between items-start">
-                          <div className="bg-black bg-opacity-50 text-white px-3 py-2 rounded-lg">
-                            <p className="text-sm font-medium">Live Camera</p>
+                          <div className="bg-black bg-opacity-50 text-white px-2 sm:px-3 py-1 sm:py-2 rounded-lg">
+                            <p className="text-xs sm:text-sm font-medium">Live Camera</p>
                           </div>
-                          <Button onClick={() => setIsCameraActive(false)} variant="destructive" size="sm">
-                            <VideoOff className="mr-2 h-4 w-4" />
-                            Stop Camera
+                          <Button onClick={() => setIsCameraActive(false)} variant="destructive" size="sm" className="text-xs sm:text-sm">
+                            <VideoOff className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                            <span className="hidden sm:inline">Stop Camera</span>
+                            <span className="sm:hidden">Stop</span>
                           </Button>
                         </div>
                         <div className="flex justify-center">
                           <Button
                             onClick={capturePhoto}
                             size="lg"
-                            className="h-16 w-16 rounded-full bg-white text-black hover:bg-gray-100 shadow-lg"
+                            className="h-12 w-12 sm:h-16 sm:w-16 rounded-full bg-white text-black hover:bg-gray-100 shadow-lg"
                           >
-                            <Camera className="h-8 w-8" />
+                            <Camera className="h-6 w-6 sm:h-8 sm:w-8" />
                           </Button>
                         </div>
                       </div>
@@ -461,15 +464,15 @@ const ImageUpload = () => {
                     </div>
                     <div
                       {...getRootProps()}
-                      className={`border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-colors
+                      className={`border-2 border-dashed rounded-lg p-6 sm:p-12 text-center cursor-pointer transition-colors
                         ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
                     >
                       <input {...getInputProps()} />
-                      <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                      <p className="text-lg font-medium text-gray-900 mb-2">
+                      <Upload className="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-gray-400 mb-3 sm:mb-4" />
+                      <p className="text-base sm:text-lg font-medium text-gray-900 mb-2">
                         {isDragActive ? 'Drop the image here' : 'Drag & drop an image here'}
                       </p>
-                      <p className="text-sm text-gray-500 mb-4">or click to select a file</p>
+                      <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">or click to select a file</p>
                       <p className="text-xs text-gray-400">Supported formats: JPG, PNG (max 5MB)</p>
                     </div>
                   </div>
@@ -503,9 +506,9 @@ const ImageUpload = () => {
                       <X className="h-4 w-4" />
                     </Button>
                   </div>
-                  <div className="flex space-x-4">
+                  <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                     <Button
-                      className="flex-1"
+                      className="flex-1 w-full sm:w-auto"
                       onClick={handleAnalyze}
                       disabled={isAnalyzing}
                     >
@@ -520,7 +523,7 @@ const ImageUpload = () => {
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1"
+                      className="flex-1 w-full sm:w-auto"
                       onClick={handleReset}
                     >
                       Try Another Image

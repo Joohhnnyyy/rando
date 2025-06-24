@@ -361,28 +361,28 @@ export const IrrigationAdvicePanel = () => {
       <div className="pt-8 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex items-center mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
             <Button
               variant="ghost"
               onClick={() => navigate(-1)}
-              className="mr-4"
+              className="mr-0 sm:mr-4 self-start sm:self-auto"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <div>
-              <h1 className="text-4xl font-bold text-gray-900">Irrigation Advice</h1>
-              <p className="text-gray-600 mt-2">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Irrigation Advice</h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-2">
                 Smart AI-powered water management suggestions based on crop, soil, and weather data
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
             {/* Input Form */}
             <Card className="shadow-lg">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold flex items-center">
-                  <Droplet className="mr-2 h-6 w-6 text-green-500" />
+                <CardTitle className="text-xl sm:text-2xl font-bold flex items-center">
+                  <Droplet className="mr-2 h-5 w-5 sm:h-6 sm:w-6 text-green-500" />
                   Irrigation Parameters
                 </CardTitle>
               </CardHeader>
@@ -518,8 +518,8 @@ export const IrrigationAdvicePanel = () => {
               >
                 <Card className="shadow-lg">
                   <CardHeader>
-                    <CardTitle className="text-2xl font-bold flex items-center">
-                      <Droplet className="mr-2 h-6 w-6 text-green-500" />
+                    <CardTitle className="text-xl sm:text-2xl font-bold flex items-center">
+                      <Droplet className="mr-2 h-5 w-5 sm:h-6 sm:w-6 text-green-500" />
                       AI Recommendation
                     </CardTitle>
                   </CardHeader>
@@ -528,9 +528,9 @@ export const IrrigationAdvicePanel = () => {
                       <h3 className="text-xl font-semibold text-green-800 mb-2">
                         Water Quantity: {recommendation.waterQuantity}
                       </h3>
-                      <div className="flex items-center text-green-700">
-                        <Clock className="h-5 w-5 mr-2" />
-                        <span>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center text-green-700 gap-2 sm:gap-0">
+                        <Clock className="h-5 w-5 mr-0 sm:mr-2 flex-shrink-0" />
+                        <span className="text-sm sm:text-base">
                           Next irrigation: {
                             recommendation.nextIrrigationDate && !isNaN(Date.parse(recommendation.nextIrrigationDate))
                               ? format(new Date(recommendation.nextIrrigationDate), 'PPP')
