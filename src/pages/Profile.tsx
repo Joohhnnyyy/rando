@@ -316,20 +316,21 @@ const Profile = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center mb-12">
-              <Button asChild variant="ghost" className="w-fit">
+            <div className="flex flex-col sm:flex-row items-center mb-8 sm:mb-12 gap-4 sm:gap-0">
+              <Button asChild variant="ghost" className="w-fit order-1 sm:order-none">
                 <Link to="/dashboard" className="flex items-center text-black hover:text-gray-700">
                   <ChevronLeft className="w-5 h-5 mr-1" />
-                  Back to Dashboard
+                  <span className="hidden sm:inline">Back to Dashboard</span>
+                  <span className="sm:hidden">Back</span>
                 </Link>
               </Button>
-              <div className="flex-grow text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-                Your Profile
-              </h1>
-              <p className="text-xl text-gray-600">
-                Manage your account information and preferences.
-              </p>
+              <div className="flex-grow text-center order-2 sm:order-none">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-2 sm:mb-4">
+                  Your Profile
+                </h1>
+                <p className="text-lg sm:text-xl text-gray-600 px-4 sm:px-0">
+                  Manage your account information and preferences.
+                </p>
               </div>
             </div>
 
@@ -356,17 +357,17 @@ const Profile = () => {
               </motion.div>
             )}
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <Card className="shadow-lg text-center bg-white">
-                  <CardContent className="p-8">
-                    <div className="relative w-24 h-24 mx-auto mb-4">
+                  <CardContent className="p-6 sm:p-8">
+                    <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4">
                       {profileImage && !imageLoadError ? (
-                        <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-200">
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-gray-200">
                           <img 
                             src={profileImage} 
                             alt="Profile" 
@@ -375,18 +376,18 @@ const Profile = () => {
                           />
                         </div>
                       ) : (
-                        <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center border-4 border-gray-200">
-                          <User className="w-12 h-12 text-gray-500" />
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-full flex items-center justify-center border-4 border-gray-200">
+                          <User className="w-10 h-10 sm:w-12 sm:h-12 text-gray-500" />
                         </div>
                       )}
                       
                       {/* Upload overlay */}
                       <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                        <Camera className="w-6 h-6 text-white" />
+                        <Camera className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
                     </div>
                     
-                    <h3 className="text-xl font-bold text-black mb-4">
+                    <h3 className="text-lg sm:text-xl font-bold text-black mb-4">
                       Profile Picture
                     </h3>
                     
@@ -453,7 +454,7 @@ const Profile = () => {
                   </CardHeader>
                   
                   <CardContent className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="firstName">First Name *</Label>
                         <Input 
@@ -515,9 +516,9 @@ const Profile = () => {
                       />
                     </div>
                     
-                    <div className="flex space-x-4 pt-4">
+                    <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
                       <Button 
-                        className="bg-black text-white hover:bg-gray-800"
+                        className="bg-black text-white hover:bg-gray-800 w-full sm:w-auto"
                         onClick={handleSaveChanges}
                         disabled={isSaving || !hasChanges()}
                       >
@@ -534,12 +535,13 @@ const Profile = () => {
                         variant="outline"
                         onClick={handleCancel}
                         disabled={isSaving}
+                        className="w-full sm:w-auto"
                       >
                         Cancel
                       </Button>
                       <Button 
                         variant="destructive" 
-                        className="ml-auto"
+                        className="w-full sm:w-auto sm:ml-auto"
                         onClick={confirmLogout}
                         disabled={isSaving}
                       >
