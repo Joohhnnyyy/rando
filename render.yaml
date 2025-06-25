@@ -3,7 +3,7 @@ services:
   - type: web
     name: seedsync-frontend
     env: node
-    rootDir: .              # or src/ if your React code starts there
+    rootDir: rando              # or src/ if your React code starts there
     buildCommand: npm install && npm run build
     startCommand: serve -s dist -l $PORT
     envVars:
