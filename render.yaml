@@ -3,7 +3,7 @@ services:
   - type: web
     name: seedsync-frontend
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: vite preview --host 0.0.0.0 --port $PORT
     envVars:
       - key: NODE_ENV
