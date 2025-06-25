@@ -1,31 +1,37 @@
-# services:
-#   # Frontend React Application
-#   - type: web
-#     name: seedsync-frontend
-#     env: node
-#     rootDir: rando
-#     buildCommand: npm install && npm run build
-#     startCommand: serve -s dist -l $PORT
-#     envVars:
-#       - key: NODE_ENV
-#         value: development
-#       - key: VITE_API_BASE_URL
-#         value: https://mock-backend.onrender.com
-#     healthCheckPath: /
-#     autoDeploy: true
-#     branch: master
-#     plan: free
-#     region: oregon
-
 services:
+  # Frontend React Application
   - type: web
-    name: mock-backend
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    name: seedsync-frontend
+    env: node
+    rootDir: rando
+    buildCommand: npm install && npm run build
+    startCommand: serve -s dist -l $PORT
     envVars:
-      - key: PORT
-        value: 8000
+      - key: NODE_ENV
+        value: development
+      - key: VITE_API_BASE_URL
+        value: https://seedsync-backend.onrender.com
+    healthCheckPath: /
+    autoDeploy: true
     branch: master
     plan: free
-    region: oregon 
+    region: oregon
+
+  # Backend FastAPI Application
+  - type: web
+    name: seedsync-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://seedsync-frontend.onrender.com
+    region: oregon
+    plan: free
+    healthCheckPath: /
+    autoDeploy: true
+    branch: master
+    buildFilter:
+      paths:
+        - rando/backend/** 
