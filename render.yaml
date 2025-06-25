@@ -17,26 +17,7 @@ services:
     plan: free
     region: oregon
 
-  # Backend FastAPI Application
-  - type: web
-    name: seedsync-backend
-    env: python
-    rootDir: backend
-    buildCommand: chmod +x ../build.sh && ../build.sh
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: PORT
-        value: 8000
-      - key: CORS_ORIGINS
-        value: https://seedsync-frontend.onrender.com
-    healthCheckPath: /
-    autoDeploy: true
-    branch: master
-    plan: free
-    region: oregon
-    buildFilter:
-      paths:
-        - rando/backend/**
+
 
   # Mock Backend
   - type: web
