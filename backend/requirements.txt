@@ -1,5 +1,5 @@
 # Build Tools (must be at top)
-setuptools>=61.0
+setuptools>=42
 wheel
 
 # Python Version: 3.11.13 (ensure it's set in runtime.txt if using Render)
