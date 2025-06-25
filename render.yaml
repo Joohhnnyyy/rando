@@ -20,7 +20,6 @@ services:
   - type: web
     name: seedsync-backend
     env: python
-    pythonVersion: "3.10.13"
     buildCommand: chmod +x build.sh && ./build.sh
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
