@@ -10,18 +10,18 @@ pydantic[email]==2.6.1
 python-dotenv==1.0.0
 
 # Data Processing and Analysis
-numpy==1.24.3         # ✅ Downgrade from 2.x to avoid TensorFlow issues
+numpy==1.24.3
 pandas>=1.3.0
-scikit-learn==1.3.2    # ✅ Stick to 1.x as 1.6.1 is not available yet in PyPI
+scikit-learn==1.6.1
 joblib==1.3.2
 
 # Machine Learning and Gemini
-tensorflow==2.15.0     # ✅ Use 2.15.0 for best compatibility (avoid 2.18.0 unless sure)
-google-generativeai==0.3.2  # ✅ Pin to a known version
+tensorflow==2.18.0
+google-generativeai
 
 # Image Processing
-Pillow==10.3.0         # ✅ Always pin version
+Pillow
 
 # Build Tools
-setuptools>=65.5.0
+setuptools>=61.0
 wheel 
