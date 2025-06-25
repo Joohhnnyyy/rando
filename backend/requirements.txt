@@ -23,5 +23,4 @@ google-generativeai==0.3.2
 Pillow==11.2.0
 
 # Build Tools
-setuptools>=61.0
 wheel 
