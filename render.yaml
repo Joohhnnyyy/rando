@@ -10,7 +10,7 @@ services:
       - key: NODE_ENV
         value: development
       - key: VITE_API_BASE_URL
-        value: https://seedsync-backend.onrender.com
+        value: https://mock-backend.onrender.com
     healthCheckPath: /
     autoDeploy: true
     branch: master
@@ -36,4 +36,20 @@ services:
     region: oregon
     buildFilter:
       paths:
-        - rando/backend/** 
+        - rando/backend/**
+
+  # Mock Backend
+  - type: web
+    name: mock-backend
+    env: python
+    rootDir: rando/mock_backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 8000
+    healthCheckPath: /
+    autoDeploy: true
+    branch: master
+    plan: free
+    region: oregon 
