@@ -1,3 +1,7 @@
+# Build Tools (must be at top)
+setuptools>=61.0
+wheel
+
 # Python Version: 3.11.13 (ensure it's set in runtime.txt if using Render)
 
 # Core FastAPI and Server
@@ -20,7 +24,4 @@ tensorflow==2.18.0
 google-generativeai==0.3.2
 
 # Image Processing
-Pillow==11.2.0
-
-# Build Tools
-wheel 
+Pillow==11.2.0 
