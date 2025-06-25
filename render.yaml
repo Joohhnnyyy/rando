@@ -3,7 +3,7 @@ services:
   - type: web
     name: seedsync-frontend
     env: node
-    rootDir: rando
+    rootDir: rando/src
     buildCommand: npm install && npm run build
     startCommand: serve -s dist -l $PORT
     envVars:
@@ -22,6 +22,7 @@ services:
     name: seedsync-backend
     env: docker
     dockerfilePath: rando/backend/Dockerfile
+    rootDir: rando/backend
     plan: free
     region: oregon
     envVars:
