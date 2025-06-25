@@ -22,13 +22,11 @@ services:
     name: seedsync-backend
     env: docker
     dockerfilePath: backend/Dockerfile
-    buildCommand: ""
-    startCommand: ""
+    plan: free
+    region: oregon
     envVars:
       - key: CORS_ORIGINS
         value: https://seedsync-frontend.onrender.com
-    region: oregon
-    plan: free
     healthCheckPath: /
     autoDeploy: true
     branch: master
