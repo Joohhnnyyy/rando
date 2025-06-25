@@ -3,7 +3,7 @@ services:
   - type: web
     name: seedsync-frontend
     env: node
-    rootDir: rando              # or src/ if your React code starts there
+    rootDir: rando
     buildCommand: npm install && npm run build
     startCommand: serve -s dist -l $PORT
     envVars:
@@ -21,7 +21,7 @@ services:
   - type: web
     name: seedsync-backend
     env: python
-    rootDir: backend
+    rootDir: rando/backend
     buildCommand: chmod +x ../../build.sh && ../../build.sh
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
