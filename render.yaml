@@ -12,7 +12,7 @@ services:
         value: https://seedsync-backend.onrender.com
     healthCheckPath: /
     autoDeploy: true
-    branch: main
+    branch: master
     plan: free
     region: oregon
 
@@ -29,6 +29,6 @@ services:
         value: https://seedsync-frontend.onrender.com
     healthCheckPath: /
     autoDeploy: true
-    branch: main
+    branch: master
     plan: free
     region: oregon 
