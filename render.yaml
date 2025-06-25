@@ -1,22 +1,62 @@
 services:
-  - type: web
-    name: seedsync-backend
-    env: python
-    rootDir: backend
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
-    plan: free
-    envVars:
-      - key: VITE_GEMINI_API_KEY
-        sync: false  # Set to true if you want to sync from Render dashboard
-
+  # Frontend React Application
   - type: web
     name: seedsync-frontend
     env: node
-    rootDir: .
     buildCommand: npm install && npm run build
-    startCommand: npm run preview -- --port 3000
-    plan: free
+    startCommand: npm run preview
     envVars:
-      - key: VITE_GEMINI_API_KEY
-        sync: false  # Set to true if you want to sync from Render dashboa
+      - key: NODE_ENV
+        value: production
+      - key: VITE_API_BASE_URL
+        value: https://seedsync-backend.onrender.com
+      - key: VITE_WEATHER_API_KEY
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_API_KEY
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_AUTH_DOMAIN
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_PROJECT_ID
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_STORAGE_BUCKET
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_MESSAGING_SENDER_ID
+        sync: false  # Set this in Render dashboard
+      - key: VITE_FIREBASE_APP_ID
+        sync: false  # Set this in Render dashboard
+    healthCheckPath: /
+    autoDeploy: true
+    branch: main
+    plan: starter
+    region: oregon
+    disk:
+      name: frontend-storage
+      mountPath: /opt/render/project/src/public/uploads
+      sizeGB: 1
+
+  # Backend FastAPI Application
+  - type: web
+    name: seedsync-backend
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.13
+      - key: PORT
+        value: 8000
+      - key: CORS_ORIGINS
+        value: https://seedsync-frontend.onrender.com
+      - key: GOOGLE_GENERATIVEAI_API_KEY
+        sync: false  # Set this in Render dashboard
+      - key: OPENWEATHER_API_KEY
+        sync: false  # Set this in Render dashboard
+    healthCheckPath: /
+    autoDeploy: true
+    branch: main
+    plan: starter
+    region: oregon
+    disk:
+      name: backend-storage
+      mountPath: /opt/render/project/src/backend/uploads
+      sizeGB: 1 

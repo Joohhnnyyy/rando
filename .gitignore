@@ -8,84 +8,18 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
-# Testing
-/coverage
-
-# Production
-/build
-
-# Misc
-.DS_Store
-*.pem
-
-# IDEs
-.vscode/
-.idea/
-
-# Environment variables
-.env
-.env*.local
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Node/Vite/React
-node_modules/
+# Build outputs
 dist/
+dist-ssr/
 build/
 .vite/
-*.log
 
-# Python/FastAPI
-__pycache__/
-*.py[cod]
-*.so
-*.egg-info/
-*.pkl
-*.h5
-
-# Environment variables
-.env
-.env.*
-!.env.example
-
-# OS junk
-.DS_Store
-Thumbs.db
-
-# Editor/IDE
-.vscode/
-.idea/
-*.swp
-
-# Test/coverage
-coverage/
+# Testing
+/coverage
 *.cover
 *.py,cover
 .hypothesis/
@@ -94,25 +28,58 @@ coverage/
 .dmypy.json
 .pyre/
 
+# Environment variables
+.env
+.env*.local
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.pkl
+*.h5
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs and Editors
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
 # Misc
 *.pem
 *.lockb
 
-# Uploaded files (if not tracked)
+# Uploaded files
 backend/uploads/
 uploads/
 public/uploads/
-
-# Supabase migrations (if you want to ignore generated SQL)
-supabase/migrations/*.sql
 
 # Output video/media
 *.mp4
 *.avi
 *.mov
 
-# Ignore local config
+# Local config
 *.local
 
 # Ignore bun
 bun.lockb
+
+# Supabase migrations (if you want to ignore generated SQL)
+supabase/migrations/*.sql

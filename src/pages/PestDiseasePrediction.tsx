@@ -14,20 +14,72 @@ import { cropVarieties, regions } from '@/lib/cropData';
 
 const ResultSection = ({ title, text }: { title: string; text: string }) => {
   const renderLineWithBold = (lineContent: string) => {
-    const boldRegex = /\*\*(.*?)\*\*/;
-    const match = lineContent.match(boldRegex);
-
-    if (match) {
-      const boldText = match[1];
-      const remainingText = lineContent.substring(match[0].length);
+    // Remove asterisks and clean up the text
+    let cleanedContent = lineContent.replace(/\*/g, '');
+    
+    // Handle bold text patterns like **text** or *text*
+    const boldRegex = /\*\*(.*?)\*\*/g;
+    cleanedContent = cleanedContent.replace(boldRegex, '$1');
+    
+    // Handle italic patterns like *text*
+    const italicRegex = /\*(.*?)\*/g;
+    cleanedContent = cleanedContent.replace(italicRegex, '$1');
+    
+    // Split by common separators and format as bullet points
+    const parts = cleanedContent.split(/[;:]/).filter(part => part.trim());
+    
+    if (parts.length > 1) {
       return (
-        <span>
-          <strong className="font-semibold text-gray-800">{boldText}</strong>
-          {remainingText}
+        <div className="space-y-1">
+          {parts.map((part, index) => {
+            const trimmedPart = part.trim();
+            if (!trimmedPart) return null;
+            
+            // Check if this part contains risk level indicators
+            const riskMatch = trimmedPart.match(/(.*?)\s*\((High|Medium|Low)\s*Risk\)/);
+            if (riskMatch) {
+              const [, riskText, riskLevel] = riskMatch;
+              const riskColor = riskLevel === 'High' ? 'text-red-600' : 
+                               riskLevel === 'Medium' ? 'text-yellow-600' : 'text-green-600';
+              
+              return (
+                <div key={index} className="flex items-start">
+                  <span className="w-1.5 h-1.5 mt-2 mr-3 rounded-full bg-emerald-500 flex-shrink-0" />
+                  <span className="text-gray-700">
+                    <strong className="font-semibold">{riskText.trim()}</strong>
+                    <span className={`font-medium ${riskColor}`}> ({riskLevel} Risk)</span>
+                  </span>
+                </div>
+              );
+            }
+            
+            return (
+              <div key={index} className="flex items-start">
+                <span className="w-1.5 h-1.5 mt-2 mr-3 rounded-full bg-emerald-500 flex-shrink-0" />
+                <span className="text-gray-700">{trimmedPart}</span>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+    
+    // If no separators found, check for risk level in the whole line
+    const riskMatch = cleanedContent.match(/(.*?)\s*\((High|Medium|Low)\s*Risk\)/);
+    if (riskMatch) {
+      const [, riskText, riskLevel] = riskMatch;
+      const riskColor = riskLevel === 'High' ? 'text-red-600' : 
+                       riskLevel === 'Medium' ? 'text-yellow-600' : 'text-green-600';
+      
+      return (
+        <span className="text-gray-700">
+          <strong className="font-semibold">{riskText.trim()}</strong>
+          <span className={`font-medium ${riskColor}`}> ({riskLevel} Risk)</span>
         </span>
       );
     }
-    return <span>{lineContent}</span>;
+    
+    return <span className="text-gray-700">{cleanedContent}</span>;
   };
 
   return (
