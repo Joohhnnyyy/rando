@@ -21,7 +21,7 @@ services:
   - type: web
     name: seedsync-backend
     env: docker
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: rando/backend/Dockerfile
     plan: free
     region: oregon
     envVars:
