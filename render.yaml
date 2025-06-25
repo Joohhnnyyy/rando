@@ -20,8 +20,8 @@ services:
   - type: web
     name: seedsync-backend
     env: python
-    buildCommand: cd rando/backend && chmod +x ../../build.sh && ../../build.sh
-    startCommand: cd rando/backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: 8000
@@ -31,4 +31,8 @@ services:
     autoDeploy: true
     branch: master
     plan: free
-    region: oregon 
+    region: oregon
+    buildFilter:
+      paths:
+        - backend/**  # optional: builds only when backend files change
+    rootDir: rando/backend 
